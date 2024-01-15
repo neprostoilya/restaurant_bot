@@ -16,7 +16,7 @@ ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'Users.UserProfile'
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost/']
+CSRF_TRUSTED_ORIGINS = ['http://localhost/', 'https://3947-95-46-65-64.ngrok-free.app/',]
 
 INSTALLED_APPS = [
     'jazzmin',

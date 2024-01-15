@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant Order System</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Restaurant Order System</h1>
+    <form id="registrationForm">
+      <label for="name">Имя:</label>
+      <input type="text" id="name" name="name">
+      <label for="surname">Фамилия:</label>
+      <input type="text" id="surname" name="surname">
+      <label for="username">Ник:</label>
+      <input type="text" id="username" name="username">
+      <label for="phone">Номер:</label>
+      <input type="text" id="phone" name="phone">
+      <button type="submit">Register</button>
+    </form>
+
+    <div id="categories"></div>
+
+    <form id="addToCartForm">
+      <label for="foodItem">Select Food Item:</label>
+      <select id="foodItem" name="foodItem"></select>
+      <button type="submit">Add to Cart</button>
+    </form>
+
+    <!-- <div id="tables"></div>
+
+    <form id="paymentForm">
+      <label for="paymentAmount">Amount to Pay:</label>
+      <input type="text" id="paymentAmount" name="paymentAmount">
+      <button type="submit">Make Payment</button>
+    </form>
+  </div> -->
+
+  <script src="script.js"></script>
+</body>
+</html>

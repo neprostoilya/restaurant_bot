@@ -8,7 +8,7 @@ class UsersSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = UserProfile
-        fields = ('username', 'name', 'surname', 'phone', 'telegram_pk',)
+        fields = ('name', 'surname', 'phone')
 
 class RegistrationSerializer(serializers.ModelSerializer):
     """
@@ -21,40 +21,30 @@ class RegistrationSerializer(serializers.ModelSerializer):
     )
     surname = serializers.CharField(
     )
-    username = serializers.CharField(
-        max_length=150,
-    )
     phone = serializers.CharField(
         max_length=15,
     )
-    telegram_pk = serializers.CharField(
-        max_length=20, 
-    )
 
     def create(self, validated_data):
-        username = validated_data['username']
         name = validated_data['name']
         surname = validated_data['surname']
         phone = validated_data['phone']
-        telegram_pk = validated_data['telegram_pk']
         user = UserProfile.objects.create_user(
             name=name,
             surname=surname,
-            username=username,
             phone=phone,
-            telegram_pk=telegram_pk
         )
         return user
     
     class Meta:
         model = UserProfile
-        fields = ('username', 'name', 'surname', 'phone', 'telegram_pk', 'token')
+        fields = ('name', 'surname', 'phone', 'token')
 
 class LoginSerializer(serializers.Serializer):
     """
     Login User
     """
-    telegram_pk = serializers.CharField(
+    phone = serializers.CharField(
         max_length=20, 
     )
     token = serializers.CharField(
@@ -62,19 +52,17 @@ class LoginSerializer(serializers.Serializer):
     )
 
     def validate(self, attrs):
-        telegram_pk = attrs.get('telegram_pk')
-        if telegram_pk:
+        phone = attrs.get('phone')
+        if phone:
             user = authenticate(
-                telegram_pk=telegram_pk
+                telegram_pk=phone
             )
             if user:
                 print(user)
                 return {
                     'name': user.name,
                     'surname': user.surname,
-                    'username': user.username,
                     'phone': user.phone,
-                    'telegram_pk': user.telegram_pk,
                     'token': user.token
                 }
             raise serializers.ValidationError('User Not Found')

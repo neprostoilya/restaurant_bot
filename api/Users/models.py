@@ -10,54 +10,44 @@ class UserProfileManager(BaseUserManager):
     Defines user creation fields and manages to save user
     """
 
-    def create_user(self, name, surname, username, phone, telegram_pk, password=None):
+    def create_user(self, name, surname, phone, password=None):
         """
         Create User
         """
-        if not username:
-            raise ValueError('The Username must be set')
         if not phone:
             raise ValueError('The Phone number must be set')
-        if not telegram_pk:
-            raise ValueError('The Telegram ID must be set')
 
         user = self.model(
             name=name,
             surname=surname,
-            username=username,
             phone=phone,
-            telegram_pk=telegram_pk,
         )
         user.save(using=self._db)
         return user
 
 
-    def create_staffuser(self, name, surname, username, phone, telegram_pk, password=None):
+    def create_staffuser(self, name, surname, phone, password=None):
         """
         Create Staff User
         """
         user = self.create_user(
             name=name,
             surname=surname,
-            username=username,
             phone=phone,
-            telegram_pk=telegram_pk,
         )
         user.is_staff = True
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, name, surname, username, phone, telegram_pk, password=None):
+    def create_superuser(self, name, surname, phone, password=None):
         """
         Create SUPER MAN User
         """
         user = self.create_user(
             name=name,
             surname=surname,
-            username=username,
             phone=phone,
-            telegram_pk=telegram_pk,
         )
         user.set_password(password)
         user.is_staff = True
@@ -70,24 +60,15 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     Model UserProfile 
     """
     name = models.CharField(
-        verbose_name='Имя'
+        verbose_name='Имя',
     )
     surname = models.CharField(
         verbose_name='Фамилия'
     )
-    username = models.CharField(
-        verbose_name='Ник',
-        unique=True,
-        max_length=150,
-    )
     phone = models.CharField(
         verbose_name='Номер',
         max_length=15,
-    )
-    telegram_pk = models.CharField(
-        verbose_name='Телеграмм ID',
-        max_length=20, 
-        unique=True,
+        unique=True
     )
     is_active = models.BooleanField(
         default=True
@@ -99,9 +80,9 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         default=False
     )
     
-    USERNAME_FIELD = 'username'
+    USERNAME_FIELD = 'phone'
 
-    REQUIRED_FIELDS = ['name', 'surname', 'phone', 'telegram_pk']
+    REQUIRED_FIELDS = ['surname', 'name']
 
     objects = UserProfileManager()
 
@@ -109,7 +90,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         return f'{self.name} {self.surname}'
     
     def __repr__(self) -> str:
-        return f'User: name={self.name}, surname={self.surname}, username={self.username}, phone={self.phone}, telegram_pk={self.telegram_pk}'
+        return f'User: name={self.name}, surname={self.surname}, phone={self.phone}'
 
     def has_perm(self, perm, obj=None):
         return True
