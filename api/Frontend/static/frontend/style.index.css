@@ -1,0 +1,44 @@
+.CardWrapperText {
+    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+    padding-top: 10px;
+}
+
+.Title {
+    font-weight: 400;
+    font-size: var(--font-size-x);
+    line-height: 17px;
+    color: var(--pizza-card-title);
+    margin-bottom: 5px;
+}
+.Description {
+    font-weight: 400;
+    font-size: var(--font-size-s);
+    line-height: 14px;
+    color: #828282;
+}
+.Cardblock {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    background: var(--pizza-card-bg);
+    box-shadow: var(--pizza-card-shadow);
+    border-radius: 14px;
+    width: 100%;
+    height: -moz-max-content;
+    height: max-content;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all .15s ease;
+}
+
+.Container {
+    padding-top: 3px;
+}

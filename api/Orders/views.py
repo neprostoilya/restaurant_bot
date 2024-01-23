@@ -1,4 +1,3 @@
-from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status as status_or_erorr
@@ -22,24 +21,6 @@ class GetOrdersAPIView(APIView):
         else:
             return Response(status=status_or_erorr.HTTP_404_NOT_FOUND)
 
-class GetOrdersByUserAPIView(APIView):
-    """
-    Get Orders By User
-    """
-    serializer_class = OrdersSerializer
-    model = Orders
-
-    def get(self, request, user):
-        order = self.model.objects.filter(
-            user=user, 
-        )
-        if order.exists():
-            serializer = self.serializer_class(order, many=True)
-            serialized_data = serializer.data
-            return Response(data=serialized_data, status=status_or_erorr.HTTP_200_OK)
-        else:
-            return Response(status=status_or_erorr.HTTP_404_NOT_FOUND)
-        
 class CreateOrderAPIView(APIView):
     """
     Create Order

@@ -14,9 +14,7 @@ BOT_PK = os.getenv('BOT_PK')
 
 ALLOWED_HOSTS = ['*']
 
-AUTH_USER_MODEL = 'Users.UserProfile'
-
-CSRF_TRUSTED_ORIGINS = ['http://localhost/', 'https://b9bf-95-46-66-119.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['http://localhost/', 'https://dc04-95-46-65-101.ngrok-free.app']
 
 INSTALLED_APPS = [
     'jazzmin',
@@ -26,10 +24,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Users.apps.UsersConfig',
     'Categories.apps.CategoriesConfig',
     'Dishes.apps.DishesConfig',
     'Orders.apps.OrdersConfig',
+    'Events.apps.EventsConfig',
+    'Frontend.apps.FrontendConfig',
     'rest_framework',
 ]
 
@@ -133,10 +132,12 @@ JAZZMIN_SETTINGS = {
     "icons": {
         "auth": "fas fa-users-cog",
         "auth.Group": "fas fa-users",
-        "Users.UserProfile": "fas fa-user",
-        "Categories.Categories": "fas fa-paperclip",
+        "auth.User": "fas fa-user",
+        "Categories.Categories": "fas fa-tag",
+        "Categories.Subategories": "fas fa-tags",
         "Dishes.Dishes": "fas fa-hamburger",
         "Orders.Orders": "fas fa-shopping-cart",
+        "Events.Events": "fas fa-calendar",
     },
     "related_modal_active": False,
     "use_google_fonts_cdn": True,

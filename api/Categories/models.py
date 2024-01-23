@@ -4,21 +4,41 @@ class Categories(models.Model):
     """
     Model Categories Dish
     """
-    title_ru = models.CharField(
+    title = models.CharField(
         max_length=100,
-        verbose_name='Название категории на русском'
-    )
-    title_uz = models.CharField(
-        max_length=100,
-        verbose_name='Название категории на узбекском'
+        verbose_name='Название категории'
     )
 
-    def __str__(self):
-        return self.title_ru
+    def __str__(self) -> str:
+        return self.title
     
-    def __repr__(self):
-        return f'Category: pk={self.pk}, title_ru={self.title_ru}, title_uz={self.title_uz}'
+    def __repr__(self) -> str:
+        return super().__repr__()
     
     class Meta:
-        verbose_name = 'Категория Блюд'
+        verbose_name = 'Категорию Блюда'
         verbose_name_plural = 'Категории Блюд'
+
+class Subategories(models.Model):
+    """
+    Model Subategories Dish
+    """
+    title = models.CharField(
+        max_length=100,
+        verbose_name='Название подкатегории'
+    )
+    category = models.ForeignKey(
+        Categories,
+        verbose_name='Категория',
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self) -> str:
+        return self.title
+    
+    def __repr__(self) -> str:
+        return super().__repr__()
+    
+    class Meta:
+        verbose_name = 'Подкатегорию Блюда'
+        verbose_name_plural = 'Подкатегории Блюд'
