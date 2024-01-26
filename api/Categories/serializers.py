@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from Categories.models import Categories, Subategories
+from Categories.models import Categories
 
 class CategoriesSerializer(serializers.ModelSerializer):
     """
@@ -9,10 +9,3 @@ class CategoriesSerializer(serializers.ModelSerializer):
         model = Categories
         fields = '__all__'
 
-class SubategoriesSerializer(serializers.ModelSerializer):
-    """
-    Subategories Serializer
-    """
-    class Meta:
-        model = Subategories
-        fields = '__all__'

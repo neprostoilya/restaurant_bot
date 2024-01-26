@@ -5,39 +5,223 @@
 {% endblock title %}
 
 {% block main %}
-<main>
-    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            {% for event in events %}
-            <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                <img src="{{ event.image }}" class="d-block w-100" alt="{{ event.title }}" height="200px">
-            </div>
-            {% endfor %}
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
+<style>
+body {
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	font-size: 23px;
+	color: var(--tg-theme-text-color);
+	background-image: url('https://img.freepik.com/free-vector/hand-drawn-food-elements-sketch-design_1035-20312.jpg?w=700&?h=1000&t=st=1706284566~exp=1706285166~hmac=d29e8702296738371825afc521bb8b3b43d7c569b5f25601a0ade81ba251a92b');
+}
 
-    
-    {% for dish in dishes %}
-    <div class="Cardblock">
-        <div class="CardWrapperImage">
-            <img src="{{ dish.image }}" alt="" width="160px">
-        </div>
-        <div class="CardWrapperText">
-            <div>
-                <h3 class="Title">{{ dish.title}}</h3>
-                <p class="Description">{{ dish.description }}</p>
-            </div>
-            <div class="Price"><p>{{ dish.price }} сумм</p></div>
-        </div>
-    </div>
-    {% endfor %}
-</main>
+.container {
+	max-width: 390px;
+}
+
+.inner {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+.img {
+	width: 100%;
+    height: 100%;
+    padding-bottom: 20px;
+}
+
+.item {
+	text-align: center;
+    padding-top: 30px;
+
+}
+
+.btn {
+	display: inline-block;
+	padding: 10px 20px;
+	border: none;
+	background: rgb(248, 168, 24);
+	border-radius: 10px;
+	color: #fff;
+	text-transform: uppercase;
+	font-weight: 700;
+	transition: background .2s linear;
+}
+
+.btn:hover {
+	background: lightgreen;
+}
+
+.usercard {
+	text-align: center;
+}
+.Cardblock {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start; 
+    justify-content: flex-start;
+    background: var(--pizza-card-bg);
+    box-shadow: var(--pizza-card-shadow);
+    border-radius: 14px;
+    width: 100%;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all .15s ease;
+}
+.CardWrapperText {
+	margin-left: 15px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 100%;
+}
+
+.Title {
+    font-size: 20px;
+    color: var(--pizza-card-title)
+}
+
+.Description {
+    font-weight: 400;
+    font-size: 15px;
+    color: #828282;
+}
+
+.price-text {
+    font-size: 15px;
+    font-weight: 400;
+    color: #828282;
+}
+
+.price {
+    font-size: 20px;
+    color: var(--pizza-card-price);
+}
+
+.carousel-item img {
+    object-fit: cover;
+    height: 300px;
+    width: 100px;
+}
+:root {
+    --max-width: 1180px;
+    --max-wrapper-width: 500px;
+    --main-black: #262a2c;
+    --main-red: #ff002b;
+    --main-green: #006f4c;
+    --main-cream: #dfb793;
+    --main-cream-light: #f5d6a8;
+    --main-yellow: #ffc600;
+    --main-grey: #f4f4f4;
+    --background: #606060;
+    --text-main: #000;
+    --text-grey: #828282;
+    --text-white: #fff;
+    --font-size-s: 11px;
+    --font-size-m: 13px;
+    --font-size-l: 14px;
+    --font-size-x: 16px;
+    --font-size-xl: 17px;
+    --font-size-xxl: 24px;
+    --font-size-xxxl: 28px;
+    --shadow-primary: 0px 3px 15px hsla(0,0%,85%,.3);
+    --button-primary: var(--main-black);
+    --button-primary-pressed: #171a1b;
+    --button-disabled: #d4d4d4;
+    --button-cancel: #eee;
+    --button-cancel-pressed: #d1d1d1;
+    --text-nav-fs: var(--font-size-l);
+    --text-nav-weight: 400;
+    --text-nav-height: 73px;
+    --text-nav-color: #000;
+    --text-product-fs: var(--font-size-x);
+    --text-product-weight: 17px;
+    --text-product-height: 17px;
+    --text-product-color: #000;
+    --text-desc-fs: var(--font-size-s);
+    --text-desc-weight: 400;
+    --text-desc-height: 12px;
+    --text-desc-color: #828282;
+    --text-title-fs: var(--font-size-s);
+    --text-title-weight: 400;
+    --text-title-height: 12px;
+    --text-title-color: #000;
+    --input-radius: 9px;
+    --input-main-text-fs: var(--font-size-x);
+    --input-main-text-fw: 700;
+    --input-main-text-height: 17px;
+    --input-main-text-color: #ffffff;
+    --input-default-label-fs: var(--font-size-m);
+    --input-default-label-fw: 600;
+    --input-default-label-height: 11px;
+    --input-default-label-color: #999;
+    --input-active-label-fs: var(--font-size-m);
+    --input-active-label-fw: 400;
+    --input-active-label-height: 13px;
+    --input-active-label-color: #666;
+    --input-active-shadow: 5px 2px 25px hsla(0,0%,87%,.37);
+    --input-active-radius: 14px;
+    --input-err-text-fs: var(--font-size-m) -1px;
+    --input-err-text-fw: 400;
+    --input-err-text-height: 22px;
+    --input-err-text-color: #df0707;
+    --input-err-text-spacing: 0.05em;
+    --constructor-added-modifier-fs: var(--font-size-x) - 1px;
+    --constructor-added-modifier-fw: 700;
+    --constructor-added-modifier-height: 21px;
+    --constructor-added-modifier-color: var(--text-main);
+    --filter-text-fs: var(--font-size-m) + 1px;
+    --filter-text-fw: 400;
+    --filter-text-height: 13px;
+    --filter-text-color: #00a2ff;
+    --filter-text-active-fs: var(--font-size-x);
+    --filter-text-active-fw: 700;
+    --filter-text-active-height: 17px;
+    --filter-text-active-color: var(--main-green);
+    --half-pizza-width: 314px;
+    --pizza-card-bg: #ffffff;
+    --pizza-card-shadow: 5px 2px 30px hsla(257,8%,83%,.3);
+    --pizza-card-title: #000;
+    --pizza-card-price-btn: #ebebeb;
+    --pizza-card-price: #000;
+    --toggle-btn-bg: #f4f4f4;
+    --toggle-btn-border: 1px solid #f4f4f4;
+    --toggle-btn-active-bg: #fff;
+    --modificator-block-bg: #fff;
+    --people-count-block-bg: #fff1db;
+    --choose-address-active-block-bg: #f1f9f6;
+    --choose-address-active-block-border: 1px solid rgba(0,111,76,.35);
+    --choose-address-active-block-color: #006f4c;
+    --choose-address-block-bg: #fff2f4;
+    --choose-address-block-border: 1px solid rgba(0,30,40,.07);
+    --choose-address-block-color: #ff002b;
+    --choose-address-block-bg-yellow: #fffbee;
+    --choose-address-block-border-yellow: 1px solid var(--main-yellow);
+    --choose-address-block-color-yellow: var(--main-yellow);
+    --choose-address-block-bg-grey: var(--main-grey);
+    --choose-address-block-border-grey: 1px solid var(--text-grey);
+    --choose-address-block-color-grey: var(--text-grey);
+    --popup-decorate-block-bg: #e3e3e3;
+    --input-border: 1px solid #d9d9d9;
+    --nav-el-wrapper: #f6f6f7;
+    --nav-category-block-bg: #f4f4f4;
+    --restaurant-info-wrapper-bg: rgba(0,0,0,.02);
+    --order-history-block-bg: #fff;
+    --order-history-block-shadow: 5px 2px 30px hsla(0,0%,87%,.88);
+    --address-list-block-bg: #fff;
+    --address-list-block-shadow: 5px 2px 30px hsla(257,8%,83%,.25);
+}
+</style>
+{% for dish in dishes %}
+  <div class="Cardblock">
+	  <div class="CardWrapperImage">
+		  <img src="{{ dish.image }}" alt="" width="140px" height="120px">
+	  </div>
+	  <div class="CardWrapperText">
+		  <h1 class="Title"><b>{{ dish.title }}</b></h1>
+		  <p class="Description">{{ dish.description }}</p>
+		  <div class="price-text">от <b class="price">{{ dish.price }}</b> сумм</div>
+	  </div>
+  </div>
+  {% endfor %}
 {% endblock main %}

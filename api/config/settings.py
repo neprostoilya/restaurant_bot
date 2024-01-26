@@ -134,7 +134,6 @@ JAZZMIN_SETTINGS = {
         "auth.Group": "fas fa-users",
         "auth.User": "fas fa-user",
         "Categories.Categories": "fas fa-tag",
-        "Categories.Subategories": "fas fa-tags",
         "Dishes.Dishes": "fas fa-hamburger",
         "Orders.Orders": "fas fa-shopping-cart",
         "Events.Events": "fas fa-calendar",

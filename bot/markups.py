@@ -18,7 +18,7 @@ def open_web_markup():
     Open web markup
     """
     kb = [
-        [types.InlineKeyboardButton(text="Open Web", web_app=types.WebAppInfo(url='https://e29e-95-46-66-119.ngrok-free.app/dishes/dishes/'))],
+        [types.InlineKeyboardButton(text="Open Web", web_app=types.WebAppInfo(url='https://f1ba-95-46-65-42.ngrok-free.app/frontend/'))],
     ]
     
     markup = types.InlineKeyboardMarkup(inline_keyboard=kb)

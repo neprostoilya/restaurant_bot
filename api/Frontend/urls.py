@@ -1,8 +1,9 @@
 from django.urls import path
-from .views import EventsAndDishesView
+from .views import MainView, CategoriesView
 
 app_name = 'Frontend'
 
 urlpatterns = [
-    path('events-and-dishes/', EventsAndDishesView.as_view(), name='events-and-dishes'),
+    path('', MainView.as_view(), name='events_and_dishes_view'),
+    path('<category>/', CategoriesView.as_view(), name='categories_view'),
 ]
