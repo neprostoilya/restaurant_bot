@@ -11,10 +11,9 @@ body {
 	width: 100%;
 	height: 100%;
 	font-size: 23px;
-	color: var(--tg-theme-text-color);
-	background-image: url('https://img.freepik.com/free-vector/hand-drawn-food-elements-sketch-design_1035-20312.jpg?w=700&?h=1000&t=st=1706284566~exp=1706285166~hmac=d29e8702296738371825afc521bb8b3b43d7c569b5f25601a0ade81ba251a92b');
+	color: var(--tg-color-scheme);
+    background-color: #fff;
 }
-
 .container {
 	max-width: 390px;
 }
@@ -22,12 +21,6 @@ body {
 .inner {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-}
-
-.img {
-	width: 100%;
-    height: 100%;
-    padding-bottom: 20px;
 }
 
 .item {
@@ -62,14 +55,14 @@ body {
     justify-content: flex-start;
     background: var(--pizza-card-bg);
     box-shadow: var(--pizza-card-shadow);
-    border-radius: 14px;
-    width: 100%;
-    margin-bottom: 8px;
+    border-radius: 18px;
+    width: 97%;
+    margin-bottom: 8px; 
     cursor: pointer;
     transition: all .15s ease;
 }
-.CardWrapperText {
-	margin-left: 15px;
+.CardWrapperText {  
+	margin-left: 10px;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
@@ -77,7 +70,9 @@ body {
 }
 
 .Title {
+    padding-top: 10px;
     font-size: 20px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     color: var(--pizza-card-title)
 }
 
@@ -87,15 +82,20 @@ body {
     color: #828282;
 }
 
-.price-text {
-    font-size: 15px;
-    font-weight: 400;
-    color: #828282;
+.price p {
+    font-size: 18px;
+    font-family: 'Gilroy','-apple-system','BlinkMacSystemFont','Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans', 'Helvetica Neue', 'sans-serif'!important;
+    color: var(--pizza-card-price);
+    background: var(--pizza-card-price-btn);
+    border-radius: 18px;
+    padding: 2px 6px 2px 6px;
+    width: max-content;
 }
 
-.price {
-    font-size: 20px;
-    color: var(--pizza-card-price);
+.CardWrapperImage img {
+    width: 190px;
+    height: 130px;
+    border-radius: 18px;
 }
 
 .carousel-item img {
@@ -211,17 +211,90 @@ body {
     --address-list-block-bg: #fff;
     --address-list-block-shadow: 5px 2px 30px hsla(257,8%,83%,.25);
 }
+
+.BottomNavigation_mainBlock__eezyS {
+    left: 1px;
+    position: sticky;
+    overflow-x: hidden;
+    background: var(--background);
+    border-radius: 0;
+    width: 100px;
+}
+
+.CategoryBlock {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    margin: 0 auto;
+    position: relative;
+    width: 350px;
+}
+
+.NavigationWrapperLogo {
+    max-width: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all .2s ease;
+}
+
+.NavigationWrapperCategories {
+    max-width: 100%;
+    overflow-x: scroll;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.NavigationLogoImage {
+    position: relative;
+    height: 35px;
+    width: 35px;
+}
+.NavigationLink {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none !important;
+    color: #565656;
+}
+.NavigationTitle {
+    width: max-content;
+    font-size: 20px;
+    font-family: 'Gilroy','-apple-system','BlinkMacSystemFont','Segoe UI',monospace, 'Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans', 'Helvetica Neue', 'sans-serif'!important;
+    padding: 5px 15px;
+    border-radius: 100px;
+    background: var(--main-grey);
+    transition: all .3s ease;
+    margin: 10px 0;
+}
+
 </style>
+<div class="CategoryBlock">
+    <div class="NavigationWrapperLogo">
+        <div class="NavigationLogoImage">
+            <span style="box-sizing: border-box; display: block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; inset: 0px;">
+            </span>
+        </div>
+    </div>
+    <div class="NavigationWrapperCategories">
+        {% for category in categories %}
+        <a class="NavigationLink" href="/frontend/{{ category.id }}/"><span class="NavigationTitle">{{ category.title }}</span></a>
+        {% endfor %}
+    </div>
+</div>
 {% for dish in dishes %}
-  <div class="Cardblock">
-	  <div class="CardWrapperImage">
-		  <img src="{{ dish.image }}" alt="" width="140px" height="120px">
-	  </div>
-	  <div class="CardWrapperText">
-		  <h1 class="Title"><b>{{ dish.title }}</b></h1>
-		  <p class="Description">{{ dish.description }}</p>
-		  <div class="price-text">от <b class="price">{{ dish.price }}</b> сумм</div>
-	  </div>
-  </div>
-  {% endfor %}
+<div class="Cardblock">
+    <div class="CardWrapperImage">
+        <img src="{{ dish.image }}" alt="{{ dish.title }}">
+    </div>
+    <div class="CardWrapperText">
+        <h3 class="Title">{{ dish.title }}</h3>
+        <p class="Description">{{ dish.descriptiontrim }}</p>
+        <div class="price"><p>от {{ dish.price }} сумм</p></div>
+    </div>
+</div>
+{% endfor %}
 {% endblock main %}

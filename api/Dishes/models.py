@@ -14,10 +14,10 @@ class Dishes(models.Model):
     )
     title = models.CharField(
         max_length=155,
-        verbose_name='Название блюда на русском'
+        verbose_name='Название блюда'
     )
     description = models.TextField(
-        verbose_name='Описание на русском'
+        verbose_name='Описание'
     )
     category = models.ForeignKey(
         Categories, 
@@ -37,13 +37,13 @@ class Dishes(models.Model):
          return super().__repr__()
     
     def descriptiontrim(self):
-        return u"%s..." % (self.description[:25],)
+        return u"%s" % (self.description[:25],)
     
     descriptiontrim.allow_tags = True
     descriptiontrim.short_description = 'Описание'
 
     def img_preview(self): 
-            return mark_safe(f'<img src="{self.image.url}" width="75px" height="75px"/>')
+            return mark_safe(f'<img src="{self.image.url}" width="100px" height="75px"/>')
     
     img_preview.allow_tags = True
     img_preview.short_description = 'Миниатюра'
