@@ -14,7 +14,7 @@ BOT_PK = os.getenv('BOT_PK')
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost/', 'https://dc04-95-46-65-101.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['http://localhost/', 'https://496e-92-63-204-73.ngrok-free.app']
 
 INSTALLED_APPS = [
     'jazzmin',
