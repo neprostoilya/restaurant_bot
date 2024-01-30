@@ -58,3 +58,5 @@ class CategoriesView(APIView):
             'dishes': dishes_serializer.data,
             'categories': categories_serializer.data
         })
+
+    

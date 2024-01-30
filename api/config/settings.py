@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'Events.apps.EventsConfig',
     'Frontend.apps.FrontendConfig',
     'rest_framework',
+    'fontawesomefree'
 ]
 
 MIDDLEWARE = [

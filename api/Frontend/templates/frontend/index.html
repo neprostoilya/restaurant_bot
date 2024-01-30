@@ -1,14 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% load static %} 
 {% block title %} 
 {{ title }} 
 {% endblock title %}
 
 {% block main %}
-<!-- Fontawesome v5.7.1 -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<!-- Bootstrap v5.0.2  -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <style>
 body {
 	margin: 0;
@@ -33,50 +31,14 @@ body {
 
 }
 
-.Cart-btn {
-    margin-top: 10px;
-	display: block;
-	padding: 10px 20px;
-	border: none;
-	background: rgb(205, 205, 205);
-	border-radius: 10px;
-	color: #fff;
-	transition: background .2s linear;
-    margin-left: 10%;
-}
-
-.Cart-btn p {
-    font-size: 24px;
-    height: 10px;
-}
-
-.btn:hover {
-	background: rgb(0, 0, 0);
-}
-
-.Events-btn {
-    margin-top: 10px;
-	display: inline-block;
-	padding: 10px 20px;
-	border: none;
-	background: rgb(255, 145, 0);
-	border-radius: 10px;
-	color: #fff;
-	font-weight: 700;
-	transition: background .2s linear;
-}
-
 .ButtonWrapper {
     display: flex;
     flex-direction: row;
-    align-items: flex-start; 
-    justify-content: flex-start;
+    align-items: center; 
+    justify-content: flex-start; 
     width: 100%;
 }
 
-.usercard {
-	text-align: center;
-}
 .Cardblock {
     display: flex;
     flex-direction: row;
@@ -112,18 +74,19 @@ body {
 }
 
 .price p {
-    font-size: 18px;
+    font-size: 17px;
     font-family: 'Gilroy','-apple-system','BlinkMacSystemFont','Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans', 'Helvetica Neue', 'sans-serif'!important;
     color: var(--pizza-card-price);
     background: var(--pizza-card-price-btn);
-    border-radius: 18px;
-    padding: 2px 6px 2px 6px;
+    border-radius: 20px;
+    padding: 8px 10px 8px 10px;
     width: max-content;
 }
 
 .CardWrapperImage img {
-    width: 190px;
-    height: 130px;
+    width: 200px;
+    height: 150px;
+    position: relative;
     border-radius: 18px;
 }
 
@@ -209,7 +172,7 @@ body {
     --filter-text-active-color: var(--main-green);
     --half-pizza-width: 314px;
     --pizza-card-bg: #ffffff;
-    --pizza-card-shadow: 5px 2px 30px hsla(257,8%,83%,.3);
+    --pizza-card-shadow: 5px 2px 30px hsla(240, 1%, 42%, 0.3);
     --pizza-card-title: #000;
     --pizza-card-price-btn: #ebebeb;
     --pizza-card-price: #000;
@@ -251,7 +214,7 @@ body {
 }
 
 .CategoryBlock {
-    height: 80px;
+    height: 100px;
     display: flex;
     flex-direction: row;
     gap: 0;
@@ -275,6 +238,58 @@ body {
     align-items: center;
     justify-content: flex-start;
     gap: 10px;
+}
+
+.btn-solid:link, .btn-solid:visited {
+    background-image: linear-gradient(100deg,#e1e0e0,#b0aeae);
+   color: #ffffff;
+   border-radius: 15px;
+} 
+.btn-solid:focus, .btn-solid:hover, .btn-solid:active  {
+   background-color: darkblue;
+   color: #fff;
+} 
+
+.btn-gradient:link, .btn-gradient:visited {
+   background-image: linear-gradient(90deg,#e052a0,#f15c41);
+   color: #fff;
+   border-radius: 15px;
+} 
+
+.btn-gradient:focus, .btn-gradient:hover, .btn-gradient:active  {
+   background-image: linear-gradient(to right,#3ec7e0,#526bf4);
+   color: #fff;
+
+} 
+
+.btn {
+   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+   text-decoration: none;
+   padding: 1px 22px; 
+   font-size: 22px; 
+   font-weight: bold;
+}
+
+.btn-image {
+    width: 40px;
+    height: 40px;
+}
+
+.container-btn {
+    margin-top: 10px; 
+    display: flex;
+}
+
+.container-btn .btn {
+    align-self: flex-start;
+} 
+
+.container-btn {
+    justify-content: center;
+}
+
+.container-btn .btn {
+    margin: 0 10px;
 }
 
 .NavigationLogoImage {
@@ -304,21 +319,10 @@ body {
 </style>
 
 <div class="ButtonBlock">
-    <div class="ButtonWrapper">
-        <div>
-            <button type="button" class="Events-btn">
-                Акции
-            </button>
-        </div>
-        <div>
-            <button class="Cart-btn">
-                <i class="fa fa-cart"></i>
-                <P>Корзинка</P>
-                0. Шт
-            </button>
-        </div>
-        <button class="btn"><i class="fa-solid fa-cart-shopping"></i> Folder</button>
-    </div>
+    <div class="container-btn">
+        <a href="#" class="btn btn-gradient btn-rounded"><img class="btn-image" src="{% static '/frontend/image/megaphone.png' %}" alt=""> Акции</a>
+        <a href="#" class="btn btn-solid btn-rounded"><img class="btn-image" src="{% static '/frontend/image/cart.png' %}" alt=""> Корзинка</a>   
+     </div>
 </div>
 
 <div class="CategoryBlock">
