@@ -14,9 +14,12 @@ BOT_PK = os.getenv('BOT_PK')
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost/', 'https://496e-92-63-204-73.ngrok-free.app']
+AUTH_USER_MODEL = 'users.UserProfile'
+
+CSRF_TRUSTED_ORIGINS = ['http://localhost/']
 
 INSTALLED_APPS = [
+    'fontawesomefree',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -24,13 +27,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Categories.apps.CategoriesConfig',
-    'Dishes.apps.DishesConfig',
-    'Orders.apps.OrdersConfig',
-    'Events.apps.EventsConfig',
-    'Frontend.apps.FrontendConfig',
+    'users.apps.UsersConfig',
+    'events.apps.EventsConfig',
+    'frontend.apps.FrontendConfig',
+    'carts.apps.CartsConfig',
+    'categories.apps.CategoriesConfig',
+    'dishes.apps.DishesConfig',
+    'orders.apps.OrdersConfig',
     'rest_framework',
-    'fontawesomefree'
 ]
 
 MIDDLEWARE = [
@@ -133,11 +137,12 @@ JAZZMIN_SETTINGS = {
     "icons": {
         "auth": "fas fa-users-cog",
         "auth.Group": "fas fa-users",
-        "auth.User": "fas fa-user",
-        "Categories.Categories": "fas fa-tag",
-        "Dishes.Dishes": "fas fa-hamburger",
-        "Orders.Orders": "fas fa-shopping-cart",
-        "Events.Events": "fas fa-calendar",
+        "users.UserProfile": "fas fa-user",
+        "categories.Categories": "fas fa-paperclip",
+        "dishes.Dishes": "fas fa-hamburger",
+        "orders.Orders": "fas fa-clipboard-list",
+        "events.Events": "fas fa-calendar-day",
+        "carts.Carts": "fas fa-shopping-cart",
     },
     "related_modal_active": False,
     "use_google_fonts_cdn": True,

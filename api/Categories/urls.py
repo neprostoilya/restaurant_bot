@@ -1,7 +1,7 @@
 from django.urls import path
-from Categories.views import GetCategoriesAPIView
+from .views import GetCategoriesAPIView
 
-app_name = 'Categories'
+app_name: str = 'Categories'
 
 urlpatterns = [
     path('get_categories/', GetCategoriesAPIView.as_view()),

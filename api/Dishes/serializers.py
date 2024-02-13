@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from Dishes.models import Dishes
+from .models import Dishes
 
 
 class DishesSerializer(serializers.ModelSerializer):
@@ -8,4 +8,4 @@ class DishesSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Dishes
-        fields = ('pk', 'title', 'category', 'image', 'descriptiontrim', 'price')
+        fields = ('pk', 'title', 'category', 'image', 'descriptiontrim', 'description', 'price')

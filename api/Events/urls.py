@@ -1,5 +1,5 @@
 from django.urls import path
-from Events.views import GetEventsAPIView
+from .views import GetEventsAPIView
 
 
 app_name = 'Events'

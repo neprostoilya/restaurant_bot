@@ -1,10 +1,9 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.renderers import TemplateHTMLRenderer
 
-from Categories.models import Categories
-from Categories.serializers import CategoriesSerializer
+from .models import Categories
+from .serializers import CategoriesSerializer
 
 
 class GetCategoriesAPIView(APIView):

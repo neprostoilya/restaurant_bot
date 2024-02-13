@@ -21,10 +21,13 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('categories/', include('Categories.urls', namespace='Categories')),
-    path('orders/', include('Orders.urls', namespace='Orders')),
-    path('dishes/', include('Dishes.urls', namespace='Dishes')),
-    path('frontend/', include('Frontend.urls', namespace='Frontend')),
+    path('categories/', include('categories.urls', namespace='Categories')),
+    path('orders/', include('orders.urls', namespace='Orders')),
+    path('dishes/', include('dishes.urls', namespace='Dishes')),
+    path('users/', include('users.urls', namespace='Users')),
+    path('frontend/', include('frontend.urls', namespace='Frontend')),
+    path('carts/', include('carts.urls', namespace='Carts')),
+    path('events/', include('events.urls', namespace='Events')),
 ]
 
 if settings.DEBUG:

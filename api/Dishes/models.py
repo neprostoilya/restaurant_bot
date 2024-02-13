@@ -1,5 +1,5 @@
 from django.db import models
-from Categories.models import Categories
+from categories.models import Categories
 
 from django.utils.safestring import mark_safe
 
@@ -34,7 +34,8 @@ class Dishes(models.Model):
          return self.title
 
     def __repr__(self) -> str:
-         return super().__repr__()
+         return (f'Dishes: image={self.image}, title={self.title}, description={self.description},'
+                 f' category={self.category}, pric{self.price}')
     
     def descriptiontrim(self):
         return u"%s" % (self.description[:25],)

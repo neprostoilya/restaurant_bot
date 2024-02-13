@@ -1,8 +1,10 @@
 from django.urls import path
-from Dishes.views import GetDishesAPIView
+from .views import GetDishByIdAPIView, GetDishesByCategoryAPIView
 
-app_name = 'Dishes'
+app_name = 'dishes'
 
 urlpatterns = [
-    path('get_dishes/', GetDishesAPIView.as_view()),
+    path('get_dishes/<category>/', GetDishesByCategoryAPIView.as_view()),
+    path('get_dish/<pk>/', GetDishByIdAPIView.as_view()),
 ]
+

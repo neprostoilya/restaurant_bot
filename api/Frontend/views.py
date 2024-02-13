@@ -2,14 +2,15 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.renderers import TemplateHTMLRenderer
 
-from Events.models import Events
-from Events.serializers import EventsSerializer
+from events.models import Events
+from events.serializers import EventsSerializer
 
-from Dishes.models import Dishes
-from Dishes.serializers import DishesSerializer
+from dishes.models import Dishes
+from dishes.serializers import DishesSerializer
 
-from Categories.models import Categories
-from Categories.serializers import CategoriesSerializer
+from categories.models import Categories
+from categories.serializers import CategoriesSerializer
+
 
 class MainView(APIView):
     """
@@ -31,9 +32,11 @@ class MainView(APIView):
         return Response({
             'events': events_serializer.data,
             'dishes': dishes_serializer.data,
-            'categories': categories_serializer.data
+            'categories': categories_serializer.data,
+            'user': request.user
         })
-    
+
+
 class CategoriesView(APIView):
     """
     View for categories
@@ -42,6 +45,7 @@ class CategoriesView(APIView):
     template_name = 'frontend/index.html'
 
     def get(self, request, category):
+        
         events = Events.objects.all()
         events_serializer = EventsSerializer(events, many=True)
 
@@ -56,7 +60,7 @@ class CategoriesView(APIView):
         return Response({
             'events': events_serializer.data,
             'dishes': dishes_serializer.data,
-            'categories': categories_serializer.data
+            'categories': categories_serializer.data,
+            'user': request.user
         })
 
-    

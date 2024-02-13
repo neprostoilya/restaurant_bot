@@ -1,6 +1,7 @@
 from django.db import models
 
-from Dishes.models import Dishes
+from dishes.models import Dishes
+
 
 class Orders(models.Model):
     """
@@ -26,12 +27,10 @@ class Orders(models.Model):
 
     def __str__(self) -> str:
         return self.dish.title
-    
+
     def __repr__(self) -> str:
         return super().__repr__()
-           
+
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
-
-    
