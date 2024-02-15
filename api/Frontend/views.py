@@ -11,6 +11,8 @@ from dishes.serializers import DishesSerializer
 from categories.models import Categories
 from categories.serializers import CategoriesSerializer
 
+from carts.models import Carts
+from carts.serializers import CartsSerializer
 
 class MainView(APIView):
     """
@@ -62,5 +64,22 @@ class CategoriesView(APIView):
             'dishes': dishes_serializer.data,
             'categories': categories_serializer.data,
             'user': request.user
+        })
+
+class CartView(APIView):
+    """
+    View for cart
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/cart.html'
+
+    def get(self, request):
+        carts = Carts.objects.filter(
+            user=request.user
+        )       
+        carts_serializer = CartsSerializer(carts, many=True)
+
+        return Response({
+            'carts': carts_serializer.data
         })
 

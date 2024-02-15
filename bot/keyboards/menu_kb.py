@@ -44,7 +44,8 @@ def dishes_menu_kb(category):
         resize_keyboard=True
     )
 
-def in_dish_kb():
+
+def in_dish_kb(quantity: int, dish_id: int):
     """
     Dish keyboard
     """
@@ -52,22 +53,22 @@ def in_dish_kb():
 
     builder.button(
         text="➖",
-        callback_data=f"minus_"
+        callback_data=f"minus"
     )
     
     builder.button(
-        text="0",
-        callback_data=f"amount_"
+        text=str(quantity),
+        callback_data=f"ignore"
     )
     
     builder.button(
         text="➕",
-        callback_data=f"plus_"
+        callback_data=f"plus"
     )
 
     builder.button(
         text="🛒 В корзину",
-        callback_data=f"put_into_cart"
+        callback_data=f"put_into_cart_{dish_id}"
     )
      
 

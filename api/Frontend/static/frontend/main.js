@@ -4,14 +4,14 @@ $(document).ready(function() {
       var csrfmiddlewaretoken = $(this).siblings('input[name="csrfmiddlewaretoken"]').val();
       var user = String($(this).siblings('input[name="user"]').val());
       var dish = String($(this).siblings('input[name="dish"]').val());
-      var amount = String($(this).siblings('input[name="amount"]').val());
+      var quantity = String($(this).siblings('input[name="quantity"]').val());
       $.ajax({
         type: 'POST',
         url: '/carts/create_cart/',
         data: {
           dish: String(dish),
           user: String(user),
-          amount: String(amount), 
+          quantity: String(quantity), 
           csrfmiddlewaretoken: csrfmiddlewaretoken
         },
       });

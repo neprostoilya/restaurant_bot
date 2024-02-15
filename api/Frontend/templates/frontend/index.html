@@ -11,8 +11,8 @@
   <a href="#" class="btn-events">
     Акции
   </a>
-  <a href="#" class="btn-cart">
-    Корзинка
+  <a href="{% url 'frontend:carts_view' %}" class="btn-cart">
+    Корзина
   </a>
 </div>
 
@@ -25,10 +25,11 @@
     </div>
     <div class="NavigationWrapperCategories">
         {% for category in categories %}
-        <a class="NavigationLink" href="/frontend/{{ category.id }}/"><span class="NavigationTitle">{{ category.title }}</span></a>
+        <a class="NavigationLink" href="{% url 'frontend:categories_view' category.id %}"><span class="NavigationTitle">{{ category.title }}</span></a>
         {% endfor %}
     </div>
 </div>
+
 {% for dish in dishes %}
 <div class="Cardblock" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
     <div class="CardWrapperImage">
@@ -36,49 +37,44 @@
     </div>
     <div class="CardWrapperText">
         <h3 class="Title">{{ dish.title }}</h3>
-        <p class="Description">{{ dish.descriptiontrim }}</p>
-        <div class="price"><p>{{ dish.price }} сумм</p></div>
+        <p class="Description">{{ dish.description}}</p>
+        <div class="price"><p>{{ dish.price}} сум</p></div>
     </div>
 </div>
 <div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-fullscreen">
     <div class="modal-content">
-      <div class="modal-header">
-        <a href="" data-bs-dismiss="modal"><i class="fa-solid fa-arrow-left">м</i></a>
+      <div class="HeaderWrapper">
+        <button class="BackButton" style="background: transparent; top: 40px; left: 20px; box-shadow: none;">
+          <span style="box-sizing: border-box; display: inline-block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: relative; max-width: 100%;">
+            <span style="box-sizing: border-box; display: block; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; max-width: 100%;">
+            </span>
+            <a href="{% url 'frontend:events_and_dishes_view' %}"><i class="fa-solid fa-chevron-left fa-lg"></i></a>
+          </span>
+        </button>   
+        <div class="HeaderNone"><div style="width: 48px; height: 48px;"></div></div>
       </div>
       <div class="modal-body">
-
         <div class="modal-image">
           <img src="{{ dish.image }}" alt="{{ dish.title }}">
         </div>
-        <h1>{{ dish.title }}</h1>
-        <div class="modal-description">
-          {{ dish.description }}
-        </div>
-        <div class="modal-price"><p>{{ dish.price }} сумм</p></div>
+        <div class="modal-title-description">
+          <div class="modal-title-block">
+              <h1 class="modal-title-h1">{{ dish.title }}</h1>
+          </div>
+          <p class="modal-description">{{ dish.description }}</p>
+          <p class="modal-price" style="white-space: nowrap;">{{ dish.price }} сум</p>
       </div>
-      <div>
-      <form class="add-to-cart-form" action="{% url 'carts:create_cart' %}" method="post" enctype="multipart/form-data">
+      </div>
+      <form class="add-to-cart-form" action="{% url 'carts:create_cart' %}" style='padding: 5px 5px 5px 5px;' method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="hidden" name="dish" value="{{ dish.pk }}">
         <input type="hidden" name="user" value="{{ user.pk }}">
-        <input type="hidden" name="amount" value="2">
-        <button type="submit" class="btn btn-success btn-lg add-to-cart-button" style="border-radius: 0px;">Добавить</button>
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" class="add-to-cart-button" data-bs-dismiss="modal">Добавить в корзину</button>
       </form>
-    </div>
     </div>
   </div>
 </div>
 {% endfor %}
-
-<!-- 
-{% for event in events %}
-<div class="EventBlock ">
-  <div class="EventWrapper">
-    <div class="EventWrapperImage">
-      <img src="{{ event.image }}" alt="{{ event.title }}">
-  </div>
-</div>
-{% endfor %} -->
-
 {% endblock main %}

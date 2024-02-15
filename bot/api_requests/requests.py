@@ -50,7 +50,7 @@ def register_user_api(username: str, phone: str, chat_id: int, language: str) ->
     Register User
     """
     data = {'username': f'{username}', 'phone': f'{phone}', 'telegram_pk': f'{chat_id}', 'language': f'{language}'}
-    return post('/users/register/', data)
+    return post('/users/register/', data=data)
 
 
 def login_user_api(chat_id: int):
@@ -58,7 +58,7 @@ def login_user_api(chat_id: int):
     Login User
     """
     data = {'telegram_pk': f'{chat_id}'}
-    return post('/users/login/', data)
+    return post('/users/login/', data=data)
 
 
 def check_user_api(chat_id: int):
@@ -87,3 +87,11 @@ def get_dish_by_id_api(dish_id):
     Get dish by id menu
     """
     return get(f'/dishes/get_dish/{dish_id}/')
+
+
+def put_into_to_cart_api(user, dish_id, amount):
+    """
+    Put into to cart
+    """
+    data = {'user': user, 'dish': dish_id, 'amount': amount}
+    return post(f'/carts/create_cart/', data=data)

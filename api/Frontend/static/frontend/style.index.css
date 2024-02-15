@@ -37,12 +37,12 @@ body{
   background: var(--pizza-card-bg);
   box-shadow: var(--pizza-card-shadow);
   border-radius: 18px;
-  width: 96%;
+  width: 97%;
   margin-bottom: 8px; 
-  height: 130px ;
   cursor: pointer;
   transition: all .15s ease;
 }
+
 .CardWrapperText {  
 	margin-left: 5px;
   display: flex;
@@ -60,25 +60,30 @@ body{
 
 .Description {
   font-weight: 400;
-  padding-right: 10px;
-  font-size: 13px;
+  font-size: var(--font-size-s);
+  line-height: 14px;
   color: #828282;
 }
 
+.price {
+  background: var(--pizza-card-price-btn);
+  border-radius: 29px;
+  padding: 0px 15px 0px 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 
 .price p {
-  font-size: 16px;
-  font-family: monospace;
+  font-style: normal;
+  font-weight: 600;
+  padding-top: 3px;
+  height: 17px;
   color: var(--pizza-card-price);
-  background: var(--pizza-card-price-btn);
-  border-radius: 16px;
-  padding: 3px 10px 3px 10px;
-  width: max-content;
 }
 
 .CardWrapperImage img {
-  width: 170px;
-  height: 120px;
+  width: 160px;
+  height: 130px;
   position: relative;
   border-radius: 18px;
 }
@@ -103,7 +108,7 @@ body{
   --text-grey: #828282;
   --text-white: #fff;
   --font-size-s: 11px;
-  --font-size-m: 13px;
+  --font-size-m: 15px;
   --font-size-l: 14px;
   --font-size-x: 16px;
   --font-size-xl: 17px;
@@ -165,7 +170,7 @@ body{
   --filter-text-active-color: var(--main-green);
   --half-pizza-width: 314px;
   --pizza-card-bg: #ffffff;
-  --pizza-card-shadow: 5px 2px 30px hsla(240, 1%, 42%, 0.3);
+  --pizza-card-shadow: 5px 2px 30px hsla(240, 4%, 73%, 0.3);
   --pizza-card-title: #000;
   --pizza-card-price-btn: #ebebeb;
   --pizza-card-price: #000;
@@ -205,6 +210,7 @@ body{
   margin: 0 auto;
   position: relative;
   width: 100%;
+  margin-bottom: 10px;
 }
 
 .NavigationWrapperLogo {
@@ -280,62 +286,32 @@ body{
     align-items: center;
     cursor: pointer;
     text-decoration: none !important;
-    color: #565656;
+    color: #020101;
 }
 
 .NavigationTitle {
-    width: max-content;
-    font-size: 18px;
-    font-family: monospace;
-    padding: 5px 15px;
-    border-radius: 100px;
-    background: var(--main-grey);
-    transition: all .3s ease;
-    margin: 10px 0;
+  width: max-content;
+  padding: 5px 15px;
+  border-radius: 100px;
+  background: #f4f4f4;
+  transition: all .3s ease;
+  margin: 10px 0;
 }
 
 .modal-image img {
   width: 100%;
-  height: 50%;
-}
-
-.modal-body h1 {
-  padding-top: 8px;
-  font-size: 30px;
-  font-family: monospace;
-  color: var(--pizza-card-title)
-}
-
-.modal-description {
-  font-weight: 400;
-  padding-right: 2px;
-  font-size: 20px;
-  color: #7d7a7a;
-  text-transform: inherit;
-}
-
-.modal-price p {
-  font-size: 22px;
-  font-family: monospace;
-  color: var(--pizza-card-price);
-  background: var(--pizza-card-price-btn);
-  border-radius: 16px;
-  padding: 3px 10px 3px 10px;
-  width: max-content;
-}
-
-.modal-price {
-  padding-top: 25px;
+  height: 250px;
 }
 
 .modal-header {
   height: 50px;
 }
+
 .modal-header a {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #5c5c5c;
+  color: #211f1f;
 }
 
 .modal-header a i {
@@ -344,4 +320,98 @@ body{
   justify-content: center;
   width: 24px;
   height: 24px;
+}
+
+
+.add-to-cart-button {
+  background: #006f4c;
+  color: #fff;
+  border: none;
+  border-radius: 60px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 15px 25px;
+  margin: 1em 25px;
+  width: calc(100% - 50px);
+  cursor: pointer;
+  display: block;
+  max-width: 400px;
+  transition: .2s ease;
+}
+
+
+.modal-title-description {
+  margin: 25px 0;
+  margin-left: 15px;
+  border-bottom: 1px solid #ececec;
+}
+
+.modal-title-block {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title-h1 {
+  font-size: var(--font-size-xxl);
+  font-weight: 700;
+  line-height: 19px;
+  color: var(--text-main);
+  margin-bottom: 15px;
+}
+
+.modal-description {
+  font-size: var(--font-size-l);
+  font-weight: 400;
+  line-height: 18px;
+  color: var(--text-main);
+}
+
+.modal-price {
+  font-size: var(--font-size-xl);
+}
+
+.modal-header h3 {
+  padding-right: 100px;
+}
+
+.HeaderWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  z-index: 999;
+  width: 100%;
+  background: #ffffff;
+}
+
+.BackButton {
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: #fff;
+}
+
+.HeaderWrapper h1 {
+  font-size: var(--font-size-xl);
+  line-height: 18px;
+  font-size: large;
+  font-weight: 400;
+  text-align: center;
+}
+
+.HeaderNone {
+  min-width: 17px;
+}
+.BackButton span a {
+  text-align: center;
+  color: #000000;
 }
