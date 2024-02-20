@@ -10,7 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ('pk', 'username', 'phone', 'telegram_pk', 'language')
+        fields = ('pk', 'username', 'phone', 'telegram_pk', 'language', 'token')
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -66,6 +66,7 @@ class LoginSerializer(serializers.Serializer):
 
             if user:
                 return {
+                    'pk': user.pk,
                     'phone': user.phone,
                     'username': user.username,
                     'telegram_pk': user.telegram_pk,

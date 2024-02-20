@@ -114,14 +114,17 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     @property
     def token(self):
         return self.generate_jwt_token()
-
+        
     def generate_jwt_token(self):
-        dt = datetime.now() + timedelta(days=45)
+        expiration_time = datetime.now() + timedelta(days=45)
 
-        token = jwt.encode({
-            'id': self.pk,
-            'exp': dt.strftime('%S')
-        },
-            settings.SECRET_KEY, algorithm='HS256').encode().decode('utf-8')
-
+        exp_time_int = int(expiration_time.timestamp())
+        
+        token_payload = {
+            'id': str(self.pk),
+            'exp': exp_time_int
+        }
+        
+        token = jwt.encode(token_payload, settings.SECRET_KEY, algorithm='HS256')
+        
         return token

@@ -30,29 +30,19 @@ class Carts(models.Model):
         return self.dish.price
     
     def get_dish_image(self):
-        return self.dish.image
+        return self.dish.image.url
     
     def get_quantity(self):
         return self.quantity
+
+    def get_total_price(self):
+        return self.dish.price * self.quantity
     
     def __str__(self) -> str:
         return self.user.username
 
     def __repr__(self) -> str:
         return super().__repr__()
-
-    @classmethod
-    def update_or_create_cart_item(cls, user, dish, quantity):
-        cart_item, created = cls.objects.get_or_create(
-            user=user, 
-            dish=dish, 
-            quantity=quantity
-        )
-        if not created:
-            cart_item.quantity += quantity
-            cart_item.save()
-        return cart_item
-
     class Meta:
         verbose_name = 'Корзина'
         verbose_name_plural = 'Корзины'

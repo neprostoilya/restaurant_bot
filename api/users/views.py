@@ -1,6 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from django.contrib.auth import login, authenticate
 
 from .models import UserProfile
 from .serializers import RegistrationSerializer, LoginSerializer, UserSerializer
@@ -44,7 +45,26 @@ class LoginAPIView(APIView):
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
-
-        if serializer.is_valid(raise_exception=True):
-            return Response(status=status.HTTP_201_CREATED, data=serializer.validated_data)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+        if serializer.is_valid():
+            telegram_pk = serializer.validated_data.get('telegram_pk')
+            
+            user = UserProfile.objects.filter(telegram_pk=telegram_pk).first()
+            
+            if user:
+                token = user.generate_jwt_token()
+                
+                response_data = {
+                    'pk': user.pk,
+                    'phone': user.phone,
+                    'username': user.username,
+                    'telegram_pk': user.telegram_pk,
+                    'language': user.language,
+                    'token': token  
+                }
+                
+                return Response(response_data, status=status.HTTP_200_OK)
+            else:
+                return Response({'detail': 'Пользователь не найден'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

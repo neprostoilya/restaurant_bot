@@ -1,6 +1,9 @@
+import jwt
+from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.renderers import TemplateHTMLRenderer
+
 
 from events.models import Events
 from events.serializers import EventsSerializer
@@ -21,7 +24,11 @@ class MainView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'frontend/index.html'
 
-    def get(self, request):
+    def get(self, request, token):
+        token_user: dict = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+        
+        user: int = token_user.get('id')
+        
         events = Events.objects.all()
         events_serializer = EventsSerializer(events, many=True)
 
@@ -35,7 +42,8 @@ class MainView(APIView):
             'events': events_serializer.data,
             'dishes': dishes_serializer.data,
             'categories': categories_serializer.data,
-            'user': request.user
+            'token': token,
+            'user': user
         })
 
 
@@ -46,7 +54,10 @@ class CategoriesView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'frontend/index.html'
 
-    def get(self, request, category):
+    def get(self, request, token, category):
+        token_user: dict = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+        
+        user: int = token_user.get('id')
         
         events = Events.objects.all()
         events_serializer = EventsSerializer(events, many=True)
@@ -63,7 +74,8 @@ class CategoriesView(APIView):
             'events': events_serializer.data,
             'dishes': dishes_serializer.data,
             'categories': categories_serializer.data,
-            'user': request.user
+            'token': token,
+            'user': user
         })
 
 class CartView(APIView):
@@ -73,13 +85,18 @@ class CartView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'frontend/cart.html'
 
-    def get(self, request):
+    def get(self, request, token):  
+        token_user: dict = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+        
+        user: int = token_user.get('id')
+        
         carts = Carts.objects.filter(
-            user=request.user
+            user=user
         )       
         carts_serializer = CartsSerializer(carts, many=True)
-
         return Response({
-            'carts': carts_serializer.data
+            'carts': carts_serializer.data,
+            'token': token,
+            'user': user
         })
 

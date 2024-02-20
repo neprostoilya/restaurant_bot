@@ -28,9 +28,13 @@ def post(point: str, data: json):
     response = requests.post(url, json=data)
 
     if response.status_code != 204:
-        data = response.json()
-        return data
-
+        try:
+            data = response.json()
+            return data
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON response: {e}")
+    else:
+        return None
 
 def put(point: str, data: json):
     """
@@ -75,23 +79,45 @@ def get_categories_api():
     return get(f'/categories/get_categories/')
 
 
-def get_dishes_by_category_api(category):
+def get_dishes_by_category_api(category: int):
     """
     Get dishes by category menu
     """
     return get(f'/dishes/get_dishes/{category}/')
 
 
-def get_dish_by_id_api(dish_id):
+def get_dish_by_id_api(dish_id: int):
     """
     Get dish by id menu
     """
     return get(f'/dishes/get_dish/{dish_id}/')
 
 
-def put_into_to_cart_api(user, dish_id, amount):
+def put_into_to_cart_api(user: int, dish_id: int, quantity: int):
     """
     Put into to cart
     """
-    data = {'user': user, 'dish': dish_id, 'amount': amount}
+    data = {'user': user, 'dish': int(dish_id), 'quantity': quantity,}
+    
     return post(f'/carts/create_cart/', data=data)
+
+
+def get_total_sum_cart_api(user: int):
+    """
+    Get total sum cart of user
+    """
+    carts: dict = get(f'/carts/get_cart/{user}')
+    
+    total_sum: int = 0
+    
+    for _ in carts:
+       total_sum += _.get('get_total_price')
+    
+    return total_sum
+
+
+def get_cart_by_user_api(user: int):
+    """
+    Get cart by user
+    """
+    return get(f'/carts/get_cart/{user}')

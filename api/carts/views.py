@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from .models import Carts
-from .serializers import CartsSerializer
+from .serializers import CartsSerializer, DeleteCartSerializer
 
 from dishes.models import Dishes
 
@@ -27,15 +27,40 @@ class CreateCartAPIView(APIView):
     Create cart
     """
     serializer_class = CartsSerializer
-    model = Carts
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
+        
+        user = serializer
+        
         if serializer.is_valid():
-            user = request.user
+            user = serializer.validated_data['user']
             dish_data = serializer.validated_data['dish']
             quantity = serializer.validated_data['quantity']
-            dish = Dishes.objects.get(pk=dish_data.id)
-            Carts.update_or_create_cart_item(user=user, dish=dish, quantity=quantity)
-            return Response(status=status.HTTP_201_CREATED, data=serializer.data)
+            dish = Dishes.objects.get(pk=dish_data.pk)
+            cart_item = Carts.objects.filter(user=user, dish=dish).first()
+
+            if cart_item:
+                cart_item.quantity += quantity
+                cart_item.save()
+            else:
+                cart_item = Carts.objects.create(user=user, dish=dish, quantity=quantity)
+
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class DeleteCartAPIView(APIView):
+    """
+    Delete cart
+    """
+    serializer_class = DeleteCartSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        
+        if serializer.is_valid():
+            cart_pk = serializer.validated_data['pk']
+            Carts.objects.delete(pk=cart_pk)
+            return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

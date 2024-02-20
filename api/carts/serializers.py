@@ -13,4 +13,14 @@ class CartsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Carts
         fields = ('pk', 'user', 'dish', 'quantity', 'get_dish_title', 'get_dish_price', 'get_quantity',
-                  'get_dish_image')
+                  'get_dish_image', 'get_total_price')
+        
+
+class DeleteCartSerializer(serializers.ModelSerializer):
+    """
+    Delete Cart Serializer
+    """
+    class Meta:
+        model = Carts
+        fields = ('pk',)
+        
