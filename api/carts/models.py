@@ -32,6 +32,9 @@ class Carts(models.Model):
     def get_dish_image(self):
         return self.dish.image.url
     
+    def get_dish_pk(self):
+        return self.dish.pk
+    
     def get_quantity(self):
         return self.quantity
 

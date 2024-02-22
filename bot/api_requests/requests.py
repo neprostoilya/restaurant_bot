@@ -121,3 +121,12 @@ def get_cart_by_user_api(user: int):
     Get cart by user
     """
     return get(f'/carts/get_cart/{user}')
+
+
+def delete_cart(id: int):
+    """ 
+    Delete cart by id(pk)
+    """
+    data: dict = {'pk': id}
+    
+    return post('carts/delete_cart/', data=data)

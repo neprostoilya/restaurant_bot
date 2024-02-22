@@ -61,6 +61,6 @@ class DeleteCartAPIView(APIView):
         
         if serializer.is_valid():
             cart_pk = serializer.validated_data['pk']
-            Carts.objects.delete(pk=cart_pk)
+            Carts.objects.filter(pk=cart_pk).delete()
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

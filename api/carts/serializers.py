@@ -13,14 +13,14 @@ class CartsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Carts
         fields = ('pk', 'user', 'dish', 'quantity', 'get_dish_title', 'get_dish_price', 'get_quantity',
-                  'get_dish_image', 'get_total_price')
+                  'get_dish_image', 'get_total_price', 'get_dish_pk')
         
 
-class DeleteCartSerializer(serializers.ModelSerializer):
+class DeleteCartSerializer(serializers.Serializer):
     """
     Delete Cart Serializer
     """
-    class Meta:
-        model = Carts
-        fields = ('pk',)
-        
+    
+    pk = serializers.CharField(
+    )
+    

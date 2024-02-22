@@ -1,13 +1,12 @@
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery, FSInputFile
 from aiogram.fsm.context import FSMContext
-from aiogram.types import ReplyKeyboardRemove
 from aiogram.utils.markdown import hbold
 
 from keyboards.menu_kb import categories_menu_kb, dishes_menu_kb, in_dish_kb, cart_kb
 from utils.menu_utils import get_text_for_dish, get_text_for_dish_in_cart
 from api_requests.requests import put_into_to_cart_api, check_user_api, get_total_sum_cart_api, \
-                                    get_cart_by_user_api
+                                    get_cart_by_user_api, delete_cart
 from keyboards.basic_kb import back_to_main_menu_kb, open_web_menu_kb
 
 router_menu = Router()
@@ -249,8 +248,6 @@ async def delete_in_cart_handler(call: CallbackQuery, state: FSMContext) -> None
     """
     Reaction on click minus in cart
     """
-    chat_id: int = call.from_user.id
-    
     cart_id: int = int(call.data.split("_")[-2])
     
     await call.message.delete()
@@ -259,3 +256,4 @@ async def delete_in_cart_handler(call: CallbackQuery, state: FSMContext) -> None
         text='Блюдо было удалено.'
     )
     
+    delete_cart(id=cart_id)

@@ -18,16 +18,52 @@
 	<h1>Корзина</h1>
 	<div class="HeaderNone"><div style="width: 48px; height: 48px;"></div></div>
 </div>
-<br>
-{% for dish in carts %}
-<div class="Cardblock">
-    <div class="CardWrapperImage">
-        <img src="/media/{{ dish.get_dish_image }}" alt="{{ dish.title }}">
-    </div>
-    <div class="CardWrapperText">
-        <h3 class="Title">{{ dish.get_dish_title }}</h3>
-        <div class="price"><p>{{ dish.get_dish_price }} сум</p></div>
-    </div>
-</div> 
+{% for cart in carts %}
+<div class="CartBlockWrapper">
+	<div class="CartBlockInfo">
+		<div class="CartBlockImg">
+			<span style="    
+			box-sizing: border-box;
+			display: block;
+			overflow: hidden;
+			height: 100px;
+			background: none;
+			opacity: 1;
+			border: 0px;
+			margin: -2px;
+			padding: 0px;
+			position: absolute; 
+			inset: 1px;
+			">
+                <img src="{{ cart.get_dish_image }}" style="width: 90px; height: 90px;" >
+			</span>
+		</div>
+		<div>
+			<h3 class="CartBlockTitle">{{ cart.get_dish_title }}</h3>
+		</div>
+	</div>
+	<div class="CartBlockCounterWrapper">
+		<div class="CartBlockCounter" style="margin: 0px 0px 8px;">
+			<div>
+				<input type="hidden" name="dish" value="{{ cart.get_dish_pk }}">
+				<input type="hidden" name="user" value="{{ user }}">
+				<input type="hidden" name="quantity" value="-1">
+				<button type="submit" class="CartBlockCounterMinus"><span><i class="fa-solid fa-minus"></i></span></a>
+			</div>
+			<p class="CartBlockCounterQuantity">{{ cart.quantity }}</p>
+			<div>
+				<input type="hidden" name="dish" value="{{ cart.get_dish_pk }}">
+				<input type="hidden" name="user" value="{{ user }}">
+				<input type="hidden" name="quantity" value="1">
+				<div type="submit" class="CartBlockCounterPlus"><span><i class="fa-solid fa-plus"></i></span></div>
+			</div>
+		</div>
+		<p class="CartBlockCounterPrice">{{ cart.get_total_price }} сум</p>
+	</div>
+</div>
+<script>
+	var createCartUrl = "{% url 'carts:create_cart' %}";
+  </script>
+  
 {% endfor %}
 {% endblock main %}

@@ -81,10 +81,10 @@ body{
   height: 17px;
   color: var(--pizza-card-price);
 }
-
+ 
 .CardWrapperImage img {
-  width: 160px;
-  height: 130px;
+  width: 130px;
+  height: 120px;
   position: relative;
   border-radius: 18px;
 }
@@ -301,7 +301,7 @@ body{
 
 .modal-image img {
   width: 100%;
-  height: 250px;
+  height: 270px;
 }
 
 .modal-header {
@@ -322,7 +322,6 @@ body{
   width: 24px;
   height: 24px;
 }
-
 
 .add-to-cart-button {
   background: #006f4c;
@@ -412,7 +411,88 @@ body{
 .HeaderNone {
   min-width: 17px;
 }
+
 .BackButton span a {
   text-align: center;
   color: #000000;
+}
+
+.CartBlockWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 7px;
+  justify-content: space-between;
+  padding: 15px 25px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.CartBlockInfo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.CartBlockCounterWrapper {
+  width: -moz-max-content;
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.CartBlockImg {
+  min-width: 95px;
+  height: 95px;
+  position: relative;
+  margin-right: 10px;
+  overflow: hidden;
+}
+
+.CartBlockTitle {
+  font-weight: 400;
+  font-size: calc(var(--font-size-l) + 1px);
+  line-height: 19px;
+}
+
+.CartBlockCounter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 10px;
+  width: max-content;
+  background-color: #efefef;
+}
+
+.CartBlockCounterPrice {
+  font-weight: 600;
+  font-size: var(--font-size-l);
+  line-height: 14px;
+  text-align: right;
+  color: var(--text-main);
+}
+
+.CartBlockCounterQuantity {
+  font-weight: 600;
+  font-size: var(--font-size-l);
+  line-height: 15px;
+  text-align: center;
+  color: var(--text-main);
+  width: 15px;
+  padding-top: 15px;
+}
+
+.CartBlockCounterMinus, .CartBlockCounterPlus {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  border: none;
+  background: none;
 }

@@ -38,13 +38,13 @@ class Dishes(models.Model):
                  f' category={self.category}, pric{self.price}')
     
     def descriptiontrim(self):
-        return u"%s" % (self.description[:25],)
+        return u"%s" % (self.description[:35],) + '...'
     
     descriptiontrim.allow_tags = True
     descriptiontrim.short_description = 'Описание'
 
     def img_preview(self): 
-            return mark_safe(f'<img src="{self.image.url}" width="100px" height="75px"/>')
+            return mark_safe(f'<img src="{self.image.url}" width="100px" height="100px"/>')
     
     img_preview.allow_tags = True
     img_preview.short_description = 'Миниатюра'
