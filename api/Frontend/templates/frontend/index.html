@@ -9,9 +9,11 @@
 {% block main %}
 <div class="ButtonBlock">
   <a href="#" class="btn-events">
+    🎊
     Акции
   </a>
   <a href="{% url 'frontend:carts_view' token %}" class="btn-cart">
+    🛒
     Корзина
   </a>
 </div>
@@ -70,7 +72,7 @@
         {% csrf_token %}
         <input type="hidden" name="dish" value="{{ dish.pk }}">
         <input type="hidden" name="user" value="{{ user }}">
-        <input type="hidden" name="quantity" value="1">
+        <input type="hidden" name="num" value="1">
         <button type="submit" class="add-to-cart-button" data-bs-dismiss="modal">Добавить в корзину</button>
       </form>
     </div>

@@ -17,10 +17,3 @@ def get_text_for_dish(dish_id: int):
     return text, image
 
 
-def get_text_for_dish_in_cart(cart: dict):
-    """
-    Get text for dish in cart user
-    """
-    text: str = f"{hbold('Название')}: {hbold(cart.get('get_dish_title'))}\n\n{hbold('Цена')}: " \
-        f"{hitalic(cart.get('get_dish_price'))} сум" 
-    return text

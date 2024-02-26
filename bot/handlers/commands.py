@@ -43,7 +43,7 @@ async def command_about_handler(message: Message) -> None:
     Reaction on command '/about'
     """
     await message.answer(
-        text=f'Этот бот создан для кафешки...'
+        text=f'Этот бот создан для ресторана...'
     )
 
 

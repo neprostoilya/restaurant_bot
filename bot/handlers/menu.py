@@ -3,10 +3,9 @@ from aiogram.types import Message, CallbackQuery, FSInputFile
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.markdown import hbold
 
-from keyboards.menu_kb import categories_menu_kb, dishes_menu_kb, in_dish_kb, cart_kb
-from utils.menu_utils import get_text_for_dish, get_text_for_dish_in_cart
-from api_requests.requests import put_into_to_cart_api, check_user_api, get_total_sum_cart_api, \
-                                    get_cart_by_user_api, delete_cart
+from keyboards.menu_kb import categories_menu_kb, dishes_menu_kb, in_dish_kb
+from utils.menu_utils import get_text_for_dish
+from api_requests.requests import put_into_to_cart_api, check_user_api, get_total_sum_cart_api
 from keyboards.basic_kb import back_to_main_menu_kb, open_web_menu_kb
 
 router_menu = Router()
@@ -155,105 +154,3 @@ async def put_into_cart_handler(call: CallbackQuery, state: FSMContext) -> None:
     )
 
     await state.clear()
-
-
-@router_menu.callback_query(F.data.startswith("cart"))
-async def cart_handler(call: CallbackQuery, state: FSMContext) -> None:
-    """
-    Get dishes in cart
-    """
-    chat_id: int = call.from_user.id
-    
-    await call.message.delete()
-    
-    carts: dict = get_cart_by_user_api(
-        user=check_user_api(chat_id=chat_id)[0].get('pk')
-    )
-    
-    messages_id_list: list = [] 
-    
-    for cart in carts:
-        messages_id_list.append(call.message.message_id)
-        await call.message.answer(
-            text=get_text_for_dish_in_cart(cart=cart),
-            reply_markup=cart_kb(
-                quantity=cart.get('quantity'),
-                dish_id=cart.get('dish')
-            )
-        )
-    
-    await state.update_data(
-        messages_id_list=messages_id_list
-    )
-
-@router_menu.callback_query(F.data.startswith("plus_in_cart_"))
-async def plus_quantity_in_cart_handler(call: CallbackQuery, state: FSMContext) -> None:
-    """
-    Reaction on click plus in cart
-    """
-    chat_id: int = call.from_user.id
-    
-    quantity: int = int(call.data.split("_")[-1]) + 1
-    
-    dish_id: int = int(call.data.split("_")[-2])
-    
-    await call.message.edit_reply_markup(
-        reply_markup=cart_kb(
-            quantity=quantity,
-            dish_id=dish_id
-        ),
-    )
-
-    await call.answer(
-        text='Колличество увеличено!'
-    )
-
-    put_into_to_cart_api(
-        user=check_user_api(chat_id=chat_id)[0].get('pk'),
-        dish_id=dish_id,
-        quantity=1
-    )
-    
-
-@router_menu.callback_query(F.data.startswith("minus_in_cart_"))
-async def minus_quantity_in_cart_handler(call: CallbackQuery, state: FSMContext) -> None:
-    """
-    Reaction on click minus in cart
-    """
-    chat_id: int = call.from_user.id
-    
-    quantity: int = int(call.data.split("_")[-1]) - 1
-    
-    dish_id: int = int(call.data.split("_")[-2])
-    
-    await call.message.edit_reply_markup(
-        reply_markup=cart_kb(
-            quantity=quantity,
-            dish_id=dish_id
-        ),
-    )
-    
-    await call.answer(
-        text='Колличество уменьшено'
-    )
-    
-    put_into_to_cart_api(
-        user=check_user_api(chat_id=chat_id)[0].get('pk'),
-        dish_id=dish_id,
-        quantity=-1
-    )
-    
-@router_menu.callback_query(F.data.startswith("delete_in_cart_"))
-async def delete_in_cart_handler(call: CallbackQuery, state: FSMContext) -> None:
-    """
-    Reaction on click minus in cart
-    """
-    cart_id: int = int(call.data.split("_")[-2])
-    
-    await call.message.delete()
-    
-    await call.answer(
-        text='Блюдо было удалено.'
-    )
-    
-    delete_cart(id=cart_id)

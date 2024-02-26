@@ -21,6 +21,7 @@ class DeleteCartSerializer(serializers.Serializer):
     Delete Cart Serializer
     """
     
-    pk = serializers.CharField(
-    )
+    pk = serializers.CharField()
+    user = serializers.CharField()
+    
     

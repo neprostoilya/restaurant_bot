@@ -46,7 +46,23 @@ class CreateCartAPIView(APIView):
             else:
                 cart_item = Carts.objects.create(user=user, dish=dish, quantity=quantity)
 
-            return Response(status=status.HTTP_201_CREATED)
+            new_cart = Carts.objects.filter(user=user, dish=dish).first()
+            
+            total_price = new_cart.get_total_price()
+            
+            get_quantity = new_cart.get_quantity()
+            
+            carts = Carts.objects.filter(
+                user=user
+            )       
+        
+            total_price_all_cart_user: int = 0  
+        
+            for cart in carts:
+                total_price_all_cart_user += cart.get_total_price()
+            
+            return Response({'total_price': total_price, 'get_quantity': get_quantity, 'dish': dish.pk, 'total_price_all_cart_user': total_price_all_cart_user},
+                            status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
@@ -61,6 +77,20 @@ class DeleteCartAPIView(APIView):
         
         if serializer.is_valid():
             cart_pk = serializer.validated_data['pk']
+            
+            user = serializer.validated_data['user']
+            
             Carts.objects.filter(pk=cart_pk).delete()
-            return Response(status=status.HTTP_201_CREATED)
+            
+            
+            carts = Carts.objects.filter(
+                user=user
+            )       
+        
+            total_price_all_cart_user: int = 0  
+        
+            for cart in carts:
+                total_price_all_cart_user += cart.get_total_price()
+                
+            return Response({'total_price_all_cart_user': total_price_all_cart_user}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

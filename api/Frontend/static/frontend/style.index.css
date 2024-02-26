@@ -83,8 +83,8 @@ body{
 }
  
 .CardWrapperImage img {
-  width: 130px;
-  height: 120px;
+  width: 110px;
+  height: 100px;
   position: relative;
   border-radius: 18px;
 }
@@ -329,7 +329,7 @@ body{
   border: none;
   border-radius: 60px;
   text-align: center;
-  font-weight: 700;
+  font-weight: 650;
   font-size: 16px;
   padding: 15px 25px;
   margin: 1em 25px;
@@ -417,7 +417,7 @@ body{
   color: #000000;
 }
 
-.CartBlockWrapper {
+[class^="CartBlockWrapper_"] {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -466,7 +466,7 @@ body{
   background-color: #efefef;
 }
 
-.CartBlockCounterPrice {
+[class^="CartBlockCounterPrice_"] {
   font-weight: 600;
   font-size: var(--font-size-l);
   line-height: 14px;
@@ -474,7 +474,7 @@ body{
   color: var(--text-main);
 }
 
-.CartBlockCounterQuantity {
+[class^="CartBlockCounterQuantity_"] {
   font-weight: 600;
   font-size: var(--font-size-l);
   line-height: 15px;
@@ -495,4 +495,113 @@ body{
   padding: 0;
   border: none;
   background: none;
+}
+
+.TextBlockWrapper {
+  margin-top: 25px;
+  padding: 10px 25px 80px;
+}
+
+.TextWrapper:last-child {
+  margin-bottom: 0;
+}
+
+.TextWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.ButtonBlockWrapper {
+  background: #ffffff;
+  mix-blend-mode: normal;
+  box-shadow: 0 -7px 10px rgba(0,0,0,.06);
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 15px 25px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.ButtonWrapper {
+  background: #006f4c;
+  color: #fff;
+  border: none;
+  border-radius: 60px;
+  text-align: center;
+  font-weight: 650;
+  margin: 1em 25px;
+  cursor: pointer;
+  display: block;
+  max-width: 400px;
+  transition: .2s ease;
+}
+
+.TextTotalPrice p {
+  font-weight: 600;
+  gap: 10px;
+  font-size: calc(var(--font-size-xl) + 1px);
+  line-height: 23px;
+  color: var(--text-main);
+}
+
+.ButtonWrapperDiv {
+  position: relative;
+}
+
+.TextButtonWrapper.TextButtonWrapperP {
+  width: 100%;
+}
+
+.ButtonWrapperDiv p {
+  font-weight: 650;
+  font-size: 16px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  padding-top: 10px;
+}
+
+.TextButtonWrapper {
+  position: relative;
+  background: transparent;
+}
+
+.TimePicker {
+  margin-top: 10%;
+  width: 82%;
+}
+
+.RestourantMap {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  background-color: #f6f4f4;
+  width: 80%;
+  margin-top: 10px;
+  margin-bottom: 25px;
+}
+
+.Table {
+  cursor: pointer;
+}
+
+.Table img {
+  width: 125px; 
+  height: 100px;
+  padding: 2px 2px 2px 2px;
+}
+
+.TextBottom p {
+  font-weight: 600;
+  gap: 10px;
+  font-size: calc(var(--font-size-xl) + 1px);
+  line-height: 23px;
+  color: var(--text-main);
 }

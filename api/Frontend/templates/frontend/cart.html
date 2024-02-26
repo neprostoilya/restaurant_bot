@@ -19,7 +19,7 @@
 	<div class="HeaderNone"><div style="width: 48px; height: 48px;"></div></div>
 </div>
 {% for cart in carts %}
-<div class="CartBlockWrapper">
+<div class="CartBlockWrapper_{{ cart.dish }}">
 	<div class="CartBlockInfo">
 		<div class="CartBlockImg">
 			<span style="    
@@ -46,24 +46,42 @@
 		<div class="CartBlockCounter" style="margin: 0px 0px 8px;">
 			<div>
 				<input type="hidden" name="dish" value="{{ cart.get_dish_pk }}">
+				<input type="hidden" name="cart_pk" value="{{ cart.pk }}">
 				<input type="hidden" name="user" value="{{ user }}">
-				<input type="hidden" name="quantity" value="-1">
+				<input type="hidden" name="num" value="-1">
 				<button type="submit" class="CartBlockCounterMinus"><span><i class="fa-solid fa-minus"></i></span></a>
 			</div>
-			<p class="CartBlockCounterQuantity">{{ cart.quantity }}</p>
+			<p class="CartBlockCounterQuantity_{{ cart.dish }}">{{ cart.quantity }}</p>	
 			<div>
 				<input type="hidden" name="dish" value="{{ cart.get_dish_pk }}">
+				<input type="hidden" name="cart_pk" value="{{ cart.pk }}">
 				<input type="hidden" name="user" value="{{ user }}">
-				<input type="hidden" name="quantity" value="1">
+				<input type="hidden" name="num" value="1">
 				<div type="submit" class="CartBlockCounterPlus"><span><i class="fa-solid fa-plus"></i></span></div>
 			</div>
 		</div>
-		<p class="CartBlockCounterPrice">{{ cart.get_total_price }} сум</p>
+		<p class="CartBlockCounterPrice_{{ cart.dish }}">{{ cart.get_total_price }} сум</p>
 	</div>
 </div>
+{% endfor %}
+
+<div>
+	<div class="TextBlockWrapper">
+		<div class="TextWrapper TextTotalPrice">
+			<p class="TextTotalPriceP">К оплате {{ total_price_all_cart_user }} сум</p>
+		</div>
+	</div>
+	<a href="{% url 'frontend:select_time_view' token %}">
+		<div class="ButtonBlockWrapper">
+			<button class="ButtonWrapper" style="margin: 0px; width: 100%;">
+				<div class="ButtonWrapperDiv"><p class="TextButtonWrapper TextButtonWrapperP">Заказать</p></div>
+			</button>
+		</div>
+	</a>
+</div>
+	
 <script>
 	var createCartUrl = "{% url 'carts:create_cart' %}";
-  </script>
+</script>
   
-{% endfor %}
 {% endblock main %}

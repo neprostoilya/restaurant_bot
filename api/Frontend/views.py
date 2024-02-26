@@ -93,10 +93,44 @@ class CartView(APIView):
         carts = Carts.objects.filter(
             user=user
         )       
+        
         carts_serializer = CartsSerializer(carts, many=True)
+        
+        total_price_all_cart_user: int = 0  
+        
+        for cart in carts:
+            total_price_all_cart_user += cart.get_total_price()
+        
         return Response({
             'carts': carts_serializer.data,
             'token': token,
-            'user': user
+            'user': user,
+            'total_price_all_cart_user': total_price_all_cart_user
+        })
+
+
+class SelectTimeForOrderView(APIView):
+    """
+    Select DateTime for order
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/select_time.html'
+
+    def get(self, request, token):  
+        return Response({
+            'token': token,
+        })
+
+
+class SelectTableForOrderView(APIView):
+    """
+    Select Table for order
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/select_table.html'
+
+    def get(self, request, token):  
+        return Response({
+            'token': token,
         })
 
