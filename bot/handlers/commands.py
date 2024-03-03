@@ -20,6 +20,10 @@ async def command_start_handler(message: Message, state: FSMContext) -> None:
     chat_id: int = message.from_user.id
     nickname: str = message.from_user.full_name
 
+    await state.set_data(
+        test_username=nickname
+    )
+
     await message.answer(
         text=f"Здравствуйте, {hbold(nickname)}!"
     )

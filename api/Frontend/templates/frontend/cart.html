@@ -20,59 +20,6 @@
 </div>
 
 <div id="cartItemsList">
-	<div class="CartBlockWrapper_{{ cart.dish }}">
-		<div class="CartBlockInfo">
-			<div class="CartBlockImg">
-				<span style="    
-				box-sizing: border-box;
-				display: block;
-				overflow: hidden;
-				height: 100px;
-				background: none;
-				opacity: 1;
-				border: 0px;
-				margin: -2px;
-				padding: 0px;
-				position: absolute; 
-				inset: 1px;
-				">
-					<img src="{{ cart.get_dish_image }}" style="width: 90px; height: 90px;" >
-				</span>
-			</div>
-			<div>
-				<h3 class="CartBlockTitle">{{ cart.get_dish_title }}</h3>
-			</div>
-		</div>
-		<div class="CartBlockCounterWrapper">
-			<div class="CartBlockCounter" style="margin: 0px 0px 8px;">
-				<div>
-          <input type="hidden" name="dish_pk" value="{{ cart.pk }}">
-          <input type="hidden" name="image" value="{{ cart.image }}">
-          <input type="hidden" name="title" value="{{ cart.title }}">
-          <input type="hidden" name="description" value="{{ cart.description }}">
-          <input type="hidden" name="price" value="{{ cart.price }}">
-          <input type="hidden" name="category" value="{{ cart.category }}">
-          <input type="hidden" name="quantity" value="{{ cart.quantity }}">
-          <input type="hidden" name="total_price" value="{{ cart.total_price }}">
-					<button type="submit" class="CartBlockCounterMinus"><span><i class="fa-solid fa-minus"></i></span></a>
-				</div>
-				<p class="CartBlockCounterQuantity_{{ cart.dish }}">{{ cart.quantity }}</p>	
-				<div>
-          <input type="hidden" name="dish_pk" value="{{ cart.pk }}">
-          <input type="hidden" name="image" value="{{ cart.image }}">
-          <input type="hidden" name="title" value="{{ cart.title }}">
-          <input type="hidden" name="description" value="{{ dish.description }}">
-          <input type="hidden" name="price" value="{{ cart.price }}">
-          <input type="hidden" name="category" value="{{ cart.category }}">
-          <input type="hidden" name="quantity" value="{{ cart.quantity }}">
-          <input type="hidden" name="total_price" value="{{ cart.total_price }}">
-					<input type="hidden" name="num" value="1">
-					<div type="submit" class="CartBlockCounterPlus"><span><i class="fa-solid fa-plus"></i></span></div>
-				</div>
-			</div>
-			<p class="CartBlockCounterPrice_{{ cart.dish }}">{{ cart.get_total_price }} сум</p>
-		</div>
-	</div>
 </div>
 
 <div>
@@ -82,10 +29,12 @@
 		</div>
 	</div>
 	<a href="{% url 'frontend:select_time_view' token %}">
-		<div class="ButtonBlockWrapper">
-			<button class="ButtonWrapper" style="width: 100%;">
-				<div class="ButtonWrapperDiv"><p class="TextButtonWrapper TextButtonWrapperP">Заказать</p></div>
-			</button>
+		<div class="ButtonWrapperA">
+			<div class="ButtonBlockWrapper">
+				<button class="ButtonWrapper" style="margin: 0px; width: 100%;">
+					<div class="ButtonWrapperDiv"><p class="TextButtonWrapper TextButtonWrapperP">Далее</p></div>
+				</button>
+			</div>
 		</div>
 	</a>
 </div>

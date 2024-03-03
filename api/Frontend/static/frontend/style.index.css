@@ -486,7 +486,7 @@ body{
   padding-top: 15px;
 }
 
-.CartBlockCounterMinus, .CartBlockCounterPlus {
+.plus-to-cart-button, .minus-to-cart-button {
   position: relative;
   width: 36px;
   height: 36px;
