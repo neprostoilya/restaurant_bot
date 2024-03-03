@@ -22,7 +22,7 @@ def categories_menu_kb(total_sum_cart):
             callback_data=f'category_{category['id']}'
         )
 
-    builder.adjust(1, 2, 1)
+    builder.adjust(1, 2)
 
     return builder.as_markup(
         resize_keyboard=True

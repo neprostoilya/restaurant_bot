@@ -4,5 +4,6 @@ from .models import Orders
 
 @admin.register(Orders)
 class OrdersAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'name', 'surname', 'phone', 'dish', 'datetime')
+    list_display = ('pk', 'user', 'datetime_created', 'datetime_selected',
+                    'table', 'total_price', 'total_quantity')
     

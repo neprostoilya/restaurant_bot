@@ -26,7 +26,6 @@ urlpatterns = [
     path('dishes/', include('dishes.urls', namespace='Dishes')),
     path('users/', include('users.urls', namespace='Users')),
     path('frontend/', include('frontend.urls', namespace='Frontend')),
-    path('carts/', include('carts.urls', namespace='Carts')),
     path('events/', include('events.urls', namespace='Events')),
 ]
 

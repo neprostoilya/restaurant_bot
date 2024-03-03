@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import MainView, CategoriesView, CartView, SelectTimeForOrderView, \
-    SelectTableForOrderView
+from .views import MainView, CategoriesView, SelectTimeForOrderView, \
+    SelectTableForOrderView, CartView
 
 app_name = 'frontend'
 

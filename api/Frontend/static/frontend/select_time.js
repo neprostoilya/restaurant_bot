@@ -2,7 +2,7 @@ $(document).ready(function() {
     function checkInput() {
       var timeInput = $('#floatingInputTime').val();
       
-      if (timeInput.trim()) {
+      if (timeInput) {
         $('.ButtonWrapper').removeAttr('disabled', 'disabled');
       } else {
         $('.ButtonWrapper').attr('disabled', 'disabled');

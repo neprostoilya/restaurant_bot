@@ -19,6 +19,7 @@ class Dishes(models.Model):
     description = models.TextField(
         verbose_name='Описание'
     )
+    
     category = models.ForeignKey(
         Categories, 
         on_delete=models.CASCADE, 

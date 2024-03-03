@@ -30,14 +30,14 @@ async def categories_menu_handler(message: Message) -> None:
         )     
     )  
       
-    total_sum_cart: int = get_total_sum_cart_api(
-        user=check_user_api(chat_id=chat_id)[0].get('pk')
-    )
+    # total_sum_cart: int = get_total_sum_cart_api(
+    #     user=check_user_api(chat_id=chat_id)[0].get('pk')
+    # )
     
-    await message.answer(
-        text='Выберите категорию:',
-        reply_markup=categories_menu_kb(total_sum_cart)
-    )
+    # await message.answer(
+    #     text='Выберите категорию:',
+    #     reply_markup=categories_menu_kb(total_sum_cart)
+    # )
 
 
 @router_menu.callback_query(F.data.startswith("category_"))
@@ -154,3 +154,4 @@ async def put_into_cart_handler(call: CallbackQuery, state: FSMContext) -> None:
     )
 
     await state.clear()
+

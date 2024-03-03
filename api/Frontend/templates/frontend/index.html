@@ -43,6 +43,7 @@
         <div class="price"><p>{{ dish.price}} сум</p></div>
     </div>
 </div>
+
 <div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-fullscreen">
     <div class="modal-content">
@@ -68,12 +69,16 @@
           <p class="modal-price" style="white-space: nowrap;">{{ dish.price }} сум</p>
       </div>
       </div>
-      <form class="add-to-cart-form" action="{% url 'carts:create_cart' %}" style='padding: 5px 5px 5px 5px;' method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="hidden" name="dish" value="{{ dish.pk }}">
-        <input type="hidden" name="user" value="{{ user }}">
-        <input type="hidden" name="num" value="1">
-        <button type="submit" class="add-to-cart-button" data-bs-dismiss="modal">Добавить в корзину</button>
+      <form class="card-form">
+        <input type="hidden" name="dish_pk" value="{{ dish.pk }}">
+        <input type="hidden" name="image" value="{{ dish.image }}">
+        <input type="hidden" name="title" value="{{ dish.title }}">
+        <input type="hidden" name="description" value="{{ dish.description }}">
+        <input type="hidden" name="price" value="{{ dish.price }}">
+        <input type="hidden" name="category" value="{{ dish.category }}">
+        <input type="hidden" name="quantity" value="{{ dish.quantity }}">
+        <input type="hidden" name="total_price" value="{{ dish.total_price }}">
+        <button type="submit" class="add-to-cart-button" id="addToCartButton" data-bs-dismiss="modal">Добавить в корзину</button>
       </form>
     </div>
   </div>

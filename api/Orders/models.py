@@ -1,33 +1,39 @@
 from django.db import models
 
-from dishes.models import Dishes
+from users.models import UserProfile
 
 
 class Orders(models.Model):
     """
     Order of user
     """
-    name = models.CharField(
-        verbose_name='Имя'
-    )
-    surname = models.CharField(
-        verbose_name='Фамилия'
-    )
-    phone = models.CharField(
-        verbose_name='Номер'
-    )
-    dish = models.ForeignKey(
-        Dishes,
+    user = models.ForeignKey(
+        UserProfile,
         on_delete=models.CASCADE,
-        verbose_name='Блюдо',
+        verbose_name='Покупатель',
     )
-    datetime = models.DateTimeField(
-        verbose_name='Дата'
+    table = models.IntegerField(
+        verbose_name='Номер стола'
     )
-
+    total_price = models.IntegerField(
+        default=0,
+        verbose_name='Общая стоимость'
+    )
+    total_quantity = models.IntegerField(
+        default=0,
+        verbose_name='Общее кол-во'
+    )
+    datetime_created = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Время создания'
+    )
+    datetime_selected = models.DateTimeField(
+        verbose_name='Указанное время'
+    )
+    
     def __str__(self) -> str:
-        return self.dish.title
-
+        return self.user.username
+    
     def __repr__(self) -> str:
         return super().__repr__()
 

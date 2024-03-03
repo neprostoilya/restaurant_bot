@@ -22,11 +22,6 @@ def cart_kb(quantity: int, dish_id: int):
         callback_data=f"plus_in_cart_{dish_id}_{quantity}"
     )
     
-    builder.button(
-        text="❌ Удалить",
-        callback_data=f"delete_in_cart_{dish_id}_{quantity}"
-    )
-    
     builder.adjust(3, 1)
 
     return builder.as_markup(
