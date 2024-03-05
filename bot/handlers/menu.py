@@ -5,7 +5,7 @@ from aiogram.utils.markdown import hbold
 
 from keyboards.menu_kb import categories_menu_kb, dishes_menu_kb, in_dish_kb
 from utils.menu_utils import get_text_for_dish
-from api_requests.requests import put_into_to_cart_api, check_user_api, get_total_sum_cart_api
+from api_requests.requests import put_into_to_cart_api, check_user_api, get_total_sum_cart_api, get_dish_by_id_api
 from keyboards.basic_kb import back_to_main_menu_kb, open_web_menu_kb
 
 router_menu = Router()
@@ -61,8 +61,6 @@ async def dish_handler(call: CallbackQuery, state: FSMContext) -> None:
     quantity: int = 0
     
     text, image = get_text_for_dish(dish_id=dish_id)
-    
-    await state.clear()
     
     await state.update_data(
         dish_id=dish_id,
@@ -130,12 +128,17 @@ async def put_into_cart_handler(call: CallbackQuery, state: FSMContext) -> None:
     
     quantity: int = data.get('quantity') 
     
-    chat_id: int = call.from_user.id
-    
     dish_id: int = data.get('dish_id')
     
-    await state.set_data(
-        
+    carts: list = data.get('carts')
+    
+    if carts is None:
+        carts: list = []
+         
+    carts_new: list = carts.append([dish_id, quantity])
+    
+    await state.update_data(
+        carts=carts_new
     )
     
     await call.message.delete()
@@ -147,5 +150,4 @@ async def put_into_cart_handler(call: CallbackQuery, state: FSMContext) -> None:
         reply_markup=categories_menu_kb(total_sum_cart)
     )
 
-    await state.clear()
 
