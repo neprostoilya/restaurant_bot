@@ -26,7 +26,7 @@ async def command_start_handler(message: Message, state: FSMContext) -> None:
 
     if check_user_api(chat_id):
         await message.answer(
-            text='Выберите направление',
+            text='Выберите направление:',
             reply_markup=main_menu_kb()
         )
     else:

@@ -7,36 +7,37 @@
 {% endblock title %}
 
 {% block main %}
+
 <div class="HeaderWrapper">
 	<button class="BackButton" style="background: transparent; top: 40px; left: 20px; box-shadow: none;">
 		<span style="box-sizing: border-box; display: inline-block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: relative; max-width: 100%;">
 			<span style="box-sizing: border-box; display: block; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; max-width: 100%;">
 			</span>
-      <a href="{% url 'frontend:events_and_dishes_view' token %}"><i class="fa-solid fa-chevron-left fa-lg"></i></a>
+			<a href="{% url 'frontend:select_table_view' token %}"><i class="fa-solid fa-chevron-left fa-lg"></i></a>
 		</span>
 	</button>   
-	<h1>Корзина</h1>
+	<h1>Выбор колл-во людей</h1>
 	<div class="HeaderNone"><div style="width: 48px; height: 48px;"></div></div>
 </div>
 
-<div id="cartItemsList">
+<div class="TimePicker">
+	<div class="form-floating">
+		<input value="1" type="number" id="typeNumber" class="form-control"/>
+		<label class="form-label" for="typeNumber">Колл-во</label>
+	</div>
+	<div id="TimeBlock" class="form-text TextInputTime">
+		Колл-во людей для столика.
 </div>
 
 <div>
-	<div class="TextBlockWrapper">
-		<div class="TextWrapper TextTotalPrice">
-			<p class="TextTotalPriceP">К оплате {{ total_price }} сум</p>
+	<a href='№'>
+		<div class="ButtonBlockWrapper">
+			<button class="ButtonWrapper" style="margin: 0px; width: 100%;">
+				<div class="ButtonWrapperDiv"><p class="TextButtonWrapper TextButtonWrapperP">Перейти к оплате</p></div>
+			</button>
 		</div>
-	</div>
-  <a href="{% url 'frontend:select_time_view' token %}">
-		<div class="ButtonWrapperAcart">
-			<div class="ButtonBlockWrappercart">
-				<button class="ButtonWrappercart" style="margin: 0px; width: 100%;">
-					<div class="ButtonWrapperDivcart"><p class="TextButtonWrapper TextButtonWrapperP">Далее</p></div>
-				</button>
-			</div>
-		</div>
-  </a>
+	</a>
 </div>
-  
+
+
 {% endblock main %}

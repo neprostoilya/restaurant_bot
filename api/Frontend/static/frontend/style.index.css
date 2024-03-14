@@ -372,6 +372,7 @@ body{
 
 .modal-price {
   font-size: var(--font-size-xl);
+  font-weight: 700;
 }
 
 .modal-header h3 {
@@ -606,4 +607,88 @@ body{
   font-size: calc(var(--font-size-xl) + 1px);
   line-height: 23px;
   color: var(--text-main);
+}
+
+.ButtonBlockWrappercart {
+  background: #ffffff;
+  mix-blend-mode: normal;
+  box-shadow: 0 -7px 10px rgba(0,0,0,.06);
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 15px 25px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.ButtonWrappercart {
+  background: #006f4c;
+  color: #fff;
+  border: none;
+  border-radius: 60px;
+  text-align: center;
+  font-weight: 650;
+  margin: 1em 25px;
+  cursor: pointer;
+  display: block;
+  max-width: 400px;
+  transition: .2s ease;
+}
+
+.ButtonWrapperDivcart {
+  position: relative;
+}
+
+.ButtonWrapperDivcart p {
+  font-weight: 650;
+  font-size: 16px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  padding-top: 10px;
+}
+
+.ButtonBlockWrapperTable {
+  background: #ffffff;
+  mix-blend-mode: normal;
+  box-shadow: 0 -7px 10px rgba(0,0,0,.06);
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 15px 25px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.ButtonWrapperTable {
+  background: #006f4c;
+  color: #fff;
+  border: none;
+  border-radius: 60px;
+  text-align: center;
+  font-weight: 650;
+  margin: 1em 25px;
+  cursor: pointer;
+  display: block;
+  max-width: 400px;
+  transition: .2s ease;
+}
+
+.ButtonWrapperDivTable {
+  position: relative;
+}
+
+.ButtonWrapperDivTable p {
+  font-weight: 650;
+  font-size: 16px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  padding-top: 10px;
 }

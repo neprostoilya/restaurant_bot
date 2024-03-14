@@ -100,6 +100,7 @@ class SelectTableForOrderView(APIView):
             'token': token,
         })
 
+
 class CartView(APIView):
     """
     Cart view
@@ -112,3 +113,15 @@ class CartView(APIView):
             'token': token,
         })
  
+
+class SelectQuantityOfPeopleForOrderView(APIView):
+    """
+    Select quantity of people for order
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/select_quantity_of_people.html'
+
+    def get(self, request, token):  
+        return Response({
+            'token': token,
+        })

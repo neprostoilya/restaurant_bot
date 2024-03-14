@@ -8,6 +8,9 @@ class Dishes(models.Model):
     """
     Model Dishes
     """
+    jovy_dish_pk = models.IntegerField(
+        verbose_name='Айди блюда в Jovy'
+    )
     image = models.ImageField(
         upload_to='dishes/', 
         verbose_name='Изображение'

@@ -17,23 +17,29 @@ def create_order_btn_kb():
     )
     
     
-# def select_time_btn_kb():
-#     """ 
-#     Create order button
-#     """
-#     builder = ReplyKeyboardBuilder()
+def select_time_btn_kb():
+    """ 
+    Create order button
+    """
+    builder = ReplyKeyboardBuilder()
     
-#     builder.button(
-#         text="🕛 Ближайшее время",
-#         callback_data=f"create_order"
-#     )
+    builder.button(
+        text="✅ Ближайшее время",
+        callback_data=f"create_order"
+    )
     
-#     builder.button(
-#         text="⬅️ Назад",
-#         callback_data=f"create_order"
-#     )
+    builder.button(
+        text="🕛 Указать время",
+        callback_data=f"create_order"
+    )
     
-#     return builder.as_markup(
-#         resize_keyboard=True
-#     )
+    builder.button(
+        text="⬅️ Назад",
+        callback_data=f"create_order"
+    )
+    builder.adjust(2, 1)
+    
+    return builder.as_markup(
+        resize_keyboard=True
+    )
     

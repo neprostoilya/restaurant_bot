@@ -55,7 +55,7 @@ def dishes_menu_kb(category):
     )
 
 
-def in_dish_kb(quantity: int):
+def in_dish_kb(quantity: int, category: int):
     """
     Dish keyboard
     """
@@ -83,7 +83,7 @@ def in_dish_kb(quantity: int):
     
     builder.button(
         text='⬅️ Назад',
-        callback_data='bact_to_dishes'
+        callback_data=f'bact_to_dishes_{category}'
     )
 
     builder.adjust(3, 1, 1)

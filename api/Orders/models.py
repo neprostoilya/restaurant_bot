@@ -15,6 +15,10 @@ class Orders(models.Model):
     table = models.IntegerField(
         verbose_name='Номер стола'
     )
+    people_quantity = models.IntegerField(
+        default=1,
+        verbose_name='Кол-во людей'
+    )
     total_price = models.IntegerField(
         default=0,
         verbose_name='Общая стоимость'
