@@ -8,9 +8,6 @@ class Dishes(models.Model):
     """
     Model Dishes
     """
-    jovy_dish_pk = models.IntegerField(
-        verbose_name='Айди блюда в Jovy'
-    )
     image = models.ImageField(
         upload_to='dishes/', 
         verbose_name='Изображение'
@@ -22,7 +19,6 @@ class Dishes(models.Model):
     description = models.TextField(
         verbose_name='Описание'
     )
-    
     category = models.ForeignKey(
         Categories, 
         on_delete=models.CASCADE, 

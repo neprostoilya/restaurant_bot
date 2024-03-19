@@ -17,8 +17,6 @@ async def categories_menu_handler(message: Message, state: FSMContext) -> None:
     """
     Get categories menu handler
     """
-    chat_id: int = message.from_user.id
-    
     data: dict = await state.get_data()
     
     await message.answer(
@@ -28,12 +26,13 @@ async def categories_menu_handler(message: Message, state: FSMContext) -> None:
     
     web_menu = await message.answer(
         text='Попробуйте заказать в интерактивном меню 🤖',
-        reply_markup=open_web_menu_kb(
-            token=check_user_api(chat_id=chat_id)[0].get('token')
-        )     
+        reply_markup=open_web_menu_kb()
     )  
-      
-    total_sum_cart: int = data.get('total_price')
+    
+    if data.get('total_price'):
+        total_sum_cart: int = data.get('total_price') 
+    else: 
+        total_sum_cart: int = 0
     
     categories_menu = await message.answer(
         text='Выберите категорию:',
@@ -62,10 +61,11 @@ async def back_to_main_menu_handler(message: Message, state: FSMContext) -> None
     
     menu_mesages_ids: list = data.get('menu_mesages_ids')
     
-    await message.bot.delete_messages(
-        chat_id=chat_id,
-        message_ids=menu_mesages_ids
-    )    
+    if menu_mesages_ids:
+        await message.bot.delete_messages(
+            chat_id=chat_id,
+            message_ids=menu_mesages_ids
+        )    
 
     await message.answer(
         text='Выберите направление:',

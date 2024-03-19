@@ -6,26 +6,6 @@ from .models import Orders
 from .serializers import OrdersSerializer
 
 
-class GetOrdersAPIView(APIView):
-    """
-    Get Orders
-    """
-    serializer_class = OrdersSerializer
-    model = Orders
-
-    def get(self, request, cart):
-        orders = self.model.objects.filter(
-            cart=cart
-        )
-        
-        if orders.exists():
-            serializer = self.serializer_class(orders, many=True)
-            serialized_data = serializer.data
-            return Response(data=serialized_data, status=status.HTTP_200_OK)
-        else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-
 class CreateOrderAPIView(APIView):
     """
     Create Order
@@ -39,6 +19,6 @@ class CreateOrderAPIView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        print(serializer.errors)
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

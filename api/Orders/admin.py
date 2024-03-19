@@ -6,4 +6,4 @@ from .models import Orders
 class OrdersAdmin(admin.ModelAdmin):
     list_display = ('pk', 'user', 'datetime_created', 'datetime_selected',
                     'table', 'total_price', 'total_quantity')
-    
+        

@@ -1,22 +1,28 @@
 import re
 from datetime import datetime, timedelta
 
-
 from aiogram import Router, F
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message, CallbackQuery, FSInputFile, LabeledPrice, PreCheckoutQuery
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
+from aiogram.types import ContentType
 
-from keyboards.order_kb import select_time_btn_kb
+from api_requests.requests import check_user_api, create_order_api
+from keyboards.basic_kb import main_menu_kb
+from keyboards.order_kb import select_time_kb, select_table_kb, select_payment_type_kb, \
+    order_approval_kb
+from config.configuration import CLICK, PAYME, GROUP_ID
+from utils.order_utils import get_text_for_order
 
 router_order = Router()
-
 
 class CreateOrder(StatesGroup):
     type_select_time = State()
     time = State()
     table = State()
     quantity_people = State()
+    send_order_to_manager = State()
+    final_order = State()
 
 
 @router_order.callback_query(F.data.startswith("create_order"))
@@ -37,7 +43,7 @@ async def create_order_handler(call: CallbackQuery, state: FSMContext) -> None:
     
     await call.message.answer(
         text='Укажите удобное для вас время для брони столика:',
-        reply_markup=select_time_btn_kb()
+        reply_markup=select_time_kb()
     )
     
     await state.set_state(CreateOrder.type_select_time)
@@ -55,6 +61,12 @@ async def selected_nearest_time_handler(message: Message, state: FSMContext) -> 
     )
     await state.update_data(
         time_order=f'{time.hour} - {time.minute}'
+    )
+    
+    await message.answer_photo(
+        caption='Хорошо, теперь выберите столик на миникарте.',
+        photo=FSInputFile('bot/images/map.png'),
+        reply_markup=select_table_kb(6) # TODO Change it quantity
     )
     
     await state.set_state(CreateOrder.table)
@@ -84,9 +96,12 @@ async def selected_time_handler(message: Message, state: FSMContext) -> None:
     if re.match(time_pattern, text):
         hours, minutes = map(int, text.split(':'))
         if hours <= 23 and minutes <= 59:
-            await message.answer(
-                text='Хорошо, теперь выберите столик на миникарте.'
+            await message.answer_photo(
+                caption='Хорошо, теперь выберите столик на миникарте.',
+                photo=FSInputFile('bot/images/map.png'),
+                reply_markup=select_table_kb(6) # TODO Change it quantity
             )
+            
             await state.update_data(
                 time_order=f'{hours} {minutes}'
             )
@@ -102,12 +117,172 @@ async def selected_time_handler(message: Message, state: FSMContext) -> None:
         )
         
         
-@router_order.message(CreateOrder.table)
-async def selected_table_handler(message: Message, state: FSMContext) -> None:
+@router_order.callback_query(CreateOrder.table, F.data.startswith("table_"))
+async def selected_table_handler(call: CallbackQuery, state: FSMContext) -> None:
     """
     Selected table for order handler
     """
+    table: int = int(call.data.split("_")[-1])
+    
+    await state.update_data(
+        table_order=table
+    )
+    
+    await call.message.answer(
+        'Отлично, теперь введите колл-во людей:'
+    )
     
     await state.set_state(CreateOrder.quantity_people)
 
 
+@router_order.message(CreateOrder.quantity_people)
+async def selected_quantity_people_handler(message: Message, state: FSMContext) -> None:
+    """
+    Selected quantity people for order handler
+    """
+    quantity: str = message.text
+    
+    quantity_pattern = r"\d"
+    
+    if re.match(quantity_pattern, quantity):
+        # try:
+            if 0 < int(quantity) < 50:
+                chat_id: int = message.from_user.id
+                
+                username: int = message.from_user.username
+                
+                data: dict = await state.get_data()
+                
+                carts: tuple = data.get('carts')
+                                
+                total_price: int = data.get('total_price')
+    
+                total_quantity: int = data.get('total_quantity')
+                
+                time_order: str = data.get('time_order')
+                
+                table_order: int = data.get('table_order')
+                
+                create_order_api(
+                    carts=carts,
+                    user=check_user_api(chat_id=chat_id),
+                    total_price=total_price,
+                    total_quantity=total_quantity,
+                    time_order=time_order,
+                    table_order=table_order
+                )
+                
+                await message.answer(
+                    text='Отлично, заявка создана, ждите одобрение от мененджера.',
+                )
+                
+                await message.answer(
+                    text='Выберите направление:',
+                    reply_markup=main_menu_kb()
+                )
+                
+                await message.bot.send_message(
+                    chat_id=-4112391046,
+                    text=get_text_for_order(
+                        carts=carts,
+                        username=username,
+                        total_price=total_price,
+                        total_quantity=total_quantity,
+                        time_order=time_order,
+                        table_order=table_order
+                    ),
+                    reply_markup=order_approval_kb(1)
+                )
+                
+                await state.set_state(CreateOrder.send_order_to_manager)
+            else:
+                await message.answer(
+                    text='Ошибка указано неправильное колл-во! Повторите еще раз.'
+                )
+        # except:
+        #     await message.answer(
+        #         text='Ошибка указано было не колл-во! Повторите еще раз.'
+        #     )
+            
+
+@router_order.callback_query(CreateOrder.final_order, F.data.startswith("type_click"))
+async def payment_with_click_handler(call: CallbackQuery, state: FSMContext) -> None:
+    """
+    Payment with click handler
+    """
+    chat_id: int = call.from_user.id
+    
+    data: dict = await state.get_data()
+    
+    total_price: int = data.get('total_price')
+    
+    total_quantity: int = data.get('total_quantity')
+    
+    time_order: str = data.get('time_order')
+    
+    table_order: int = data.get('table_order')
+    
+    # quantity_people_order: int = data.get('quantity_people_order')
+    
+    await call.message.answer_invoice(
+        title=f"Ваш заказ",
+        description='Вы заказали блюда в боте',
+        payload="bot-defined invoice payload",
+        provider_token=CLICK,
+        currency='UZS',
+        prices=[
+            LabeledPrice(
+                label="Общая стоимость",
+                amount=total_price * 100
+            ),
+        ]
+    )
+
+
+@router_order.callback_query(CreateOrder.final_order, F.data.startswith("type_payme"))
+async def payment_with_payme_handler(call: CallbackQuery, state: FSMContext) -> None:
+    """
+    Payment with payme handler
+    """
+    chat_id: int = call.from_user.id
+    
+    data: dict = await state.get_data()
+    
+    total_price: int = data.get('total_price')
+    
+    total_quantity: int = data.get('total_quantity')
+    
+    time_order: str = data.get('time_order')
+    
+    table_order: int = data.get('table_order')
+    
+    # quantity_people_order: int = data.get('quantity_people_order')
+    
+    await call.message.answer_invoice(
+        title=f"Ваш заказ",
+        description='Вы заказали блюда в боте',
+        payload="bot-defined invoice payload",
+        provider_token=PAYME,
+        currency='UZS',
+        prices=[
+            LabeledPrice(
+                label="Общая стоимость",
+                amount=total_price * 100
+            ),
+        ]
+    )
+
+    
+@router_order.pre_checkout_query(lambda query: True)
+async def process_pre_checkout_query(pre_checkout_query: PreCheckoutQuery):
+    print('order_info')
+    print(pre_checkout_query.order_info)
+    await pre_checkout_query.answer(True)
+
+
+@router_order.message(F.content_type == ContentType.SUCCESSFUL_PAYMENT)
+async def successful_payment_handler(message: Message):
+    print('successful_payment:')
+    pmnt = message.successful_payment.to_python()
+    for key, val in pmnt.items():
+        print(f'{key} = {val}')

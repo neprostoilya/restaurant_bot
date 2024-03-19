@@ -2,7 +2,7 @@ from aiogram.utils.keyboard import ReplyKeyboardBuilder, WebAppInfo, InlineKeybo
 from config.configuration import URL
 
 
-def open_web_menu_kb(token):
+def open_web_menu_kb():
     """
     Open web menu keyboard
     """
@@ -10,7 +10,7 @@ def open_web_menu_kb(token):
 
     builder.button(
         text='Интерактивное меню',
-        web_app=WebAppInfo(url=URL + '/frontend/' + str(token)),
+        web_app=WebAppInfo(url=URL + '/frontend/'),
         url=''
     )
 
@@ -28,7 +28,7 @@ def main_menu_kb():
     builder.button(text='🛒 Корзина')
     builder.button(text='📖 Мои заказы')
     builder.button(text='🎊 Акции')
-    builder.button(text='☎️ Обратная связь')
+    builder.button(text='ℹ️ Информация')
     builder.button(text='⚙️ Настройки')
 
     builder.adjust(1, 2, 2, 1)

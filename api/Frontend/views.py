@@ -21,11 +21,7 @@ class MainView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'frontend/index.html'
 
-    def get(self, request, token):
-        token_user: dict = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
-        
-        user: int = token_user.get('id')
-        
+    def get(self, request):
         events = Events.objects.all()
         events_serializer = EventsSerializer(events, many=True)
 
@@ -39,8 +35,6 @@ class MainView(APIView):
             'events': events_serializer.data,
             'dishes': dishes_serializer.data,
             'categories': categories_serializer.data,
-            'token': token,
-            'user': user,
         })
 
 
@@ -51,11 +45,7 @@ class CategoriesView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'frontend/index.html'
 
-    def get(self, request, token, category):
-        token_user: dict = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
-        
-        user: int = token_user.get('id')
-        
+    def get(self, request, category):
         events = Events.objects.all()
         events_serializer = EventsSerializer(events, many=True)
 
@@ -71,8 +61,6 @@ class CategoriesView(APIView):
             'events': events_serializer.data,
             'dishes': dishes_serializer.data,
             'categories': categories_serializer.data,
-            'token': token,
-            'user': user,
         })
 
 class SelectTimeForOrderView(APIView):
@@ -82,10 +70,8 @@ class SelectTimeForOrderView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'frontend/select_time.html'
 
-    def get(self, request, token):  
-        return Response({
-            'token': token,
-        })
+    def get(self, request):  
+        return Response({})
 
 
 class SelectTableForOrderView(APIView):
@@ -95,10 +81,8 @@ class SelectTableForOrderView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'frontend/select_table.html'
 
-    def get(self, request, token):  
-        return Response({
-            'token': token,
-        })
+    def get(self, request):  
+        return Response({})
 
 
 class CartView(APIView):
@@ -108,10 +92,8 @@ class CartView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'frontend/cart.html'
 
-    def get(self, request, token):  
-        return Response({
-            'token': token,
-        })
+    def get(self, request):  
+        return Response({})
  
 
 class SelectQuantityOfPeopleForOrderView(APIView):
@@ -121,7 +103,5 @@ class SelectQuantityOfPeopleForOrderView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'frontend/select_quantity_of_people.html'
 
-    def get(self, request, token):  
-        return Response({
-            'token': token,
-        })
+    def get(self, request):  
+        return Response({})

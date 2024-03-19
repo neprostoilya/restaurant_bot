@@ -1,6 +1,7 @@
 from django.db import models
 
 from users.models import UserProfile
+from dishes.models import Dishes
 
 
 class Orders(models.Model):
@@ -11,6 +12,10 @@ class Orders(models.Model):
         UserProfile,
         on_delete=models.CASCADE,
         verbose_name='Покупатель',
+    )
+    dishes = models.ManyToManyField(
+        Dishes,
+        verbose_name='Блюда'
     )
     table = models.IntegerField(
         verbose_name='Номер стола'
@@ -31,7 +36,7 @@ class Orders(models.Model):
         auto_now=True,
         verbose_name='Время создания'
     )
-    datetime_selected = models.DateTimeField(
+    datetime_selected = models.TimeField(
         verbose_name='Указанное время'
     )
     

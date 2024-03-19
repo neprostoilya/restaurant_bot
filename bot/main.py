@@ -5,7 +5,7 @@ import sys
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 
-from handlers import commands, register, menu, cart, order
+from handlers import commands, register, menu, cart, order, information
 from config.configuration import TOKEN
 
 
@@ -21,6 +21,7 @@ async def main():
     dp.include_routers(menu.router_menu)
     dp.include_routers(cart.router_cart)
     dp.include_routers(order.router_order)
+    dp.include_routers(information.router_info)
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)

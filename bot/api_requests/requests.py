@@ -67,7 +67,7 @@ def login_user_api(chat_id: int):
 
 def check_user_api(chat_id: int):
     """
-    Check User
+    Check Or Get User
     """
     return get(f'/users/users/{chat_id}')
 
@@ -92,3 +92,13 @@ def get_dish_by_id_api(dish_id: int):
     """
     return get(f'/dishes/get_dish/{dish_id}/')
 
+
+def create_order_api(carts: dict, user: int, total_price: int,
+                    total_quantity: int, time_order: str, table_order: int):
+    """
+    Create order 
+    """
+    data: dict = {'dishes': carts, 'user': user[0], 'total_price': total_price,  
+                  'total_quantity': total_quantity, 'datetime_selected': time_order, 'table': table_order}
+        
+    return post('/orders/create_order/', data=data)
