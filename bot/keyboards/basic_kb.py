@@ -24,14 +24,12 @@ def main_menu_kb():
     """
     builder = ReplyKeyboardBuilder()
 
-    builder.button(text='🍽 Меню')
-    builder.button(text='🛒 Корзина')
+    builder.button(text='🛒 Начать заказ')
+    builder.button(text='ℹ️ О нас')
     builder.button(text='📖 Мои заказы')
-    builder.button(text='🎊 Акции')
-    builder.button(text='ℹ️ Информация')
     builder.button(text='⚙️ Настройки')
 
-    builder.adjust(1, 2, 2, 1)
+    builder.adjust(1, 2, 1)
 
     return builder.as_markup(
         resize_keyboard=True

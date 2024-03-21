@@ -25,17 +25,14 @@ def select_time_kb():
     
     builder.button(
         text="✅ Ближайшее время",
-        callback_data=f"create_order"
     )
     
     builder.button(
         text="🕛 Указать время",
-        callback_data=f"create_order"
     )
     
     builder.button(
         text="⬅️ Назад",
-        callback_data=f"create_order"
     )
     builder.adjust(2, 1)
     
@@ -108,6 +105,40 @@ def order_approval_kb(order_id: int):
     )
     
     builder.adjust(2)
+    
+    return builder.as_markup(
+        resize_keyboard=True
+    )
+    
+    
+def review_order_kb(order_id: int):
+    """ 
+    Review order keyboard
+    """
+    builder = InlineKeyboardBuilder()
+
+    builder.button(
+        text=f"📝 Оставить отзыв",
+        callback_data=f"to_review_order_{order_id}"
+    )
+    
+    builder.adjust(1)
+    
+    return builder.as_markup(
+        resize_keyboard=True
+    )
+
+
+def back_btn_kb():
+    """ 
+    Back btn button
+    """
+    builder = ReplyKeyboardBuilder()
+    
+    builder.button(
+        text="⬅️ Назад",
+    )
+    builder.adjust(2, 1)
     
     return builder.as_markup(
         resize_keyboard=True

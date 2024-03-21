@@ -98,7 +98,14 @@ def create_order_api(carts: dict, user: int, total_price: int,
     """
     Create order 
     """
-    data: dict = {'dishes': carts, 'user': user[0], 'total_price': total_price,  
+    data: dict = {'dishes': carts, 'user': user, 'total_price': total_price,  
                   'total_quantity': total_quantity, 'datetime_selected': time_order, 'table': table_order}
         
     return post('/orders/create_order/', data=data)
+
+
+def get_orders_by_user_api(user: int):
+    """
+    Get orders by user
+    """
+    return get(f'/orders/get_orders_by_user/{user}/')

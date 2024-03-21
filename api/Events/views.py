@@ -14,9 +14,9 @@ class GetEventsAPIView(APIView):
     model = Events
 
     def get(self, request):
-        orders = self.model.objects.all()
-        if orders.exists():
-            serializer = self.serializer_class(orders, many=True)
+        events = self.model.objects.all()
+        if events.exists():
+            serializer = self.serializer_class(events, many=True)
             serialized_data = serializer.data
             return Response(data=serialized_data, status=status.HTTP_200_OK)
         else:

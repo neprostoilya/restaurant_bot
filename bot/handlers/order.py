@@ -7,10 +7,11 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import ContentType
 
-from api_requests.requests import check_user_api, create_order_api
+from api_requests.requests import check_user_api, create_order_api, \
+    get_orders_by_user_api
 from keyboards.basic_kb import main_menu_kb
 from keyboards.order_kb import select_time_kb, select_table_kb, select_payment_type_kb, \
-    order_approval_kb
+    order_approval_kb, review_order_kb, back_btn_kb
 from config.configuration import CLICK, PAYME, GROUP_ID
 from utils.order_utils import get_text_for_order
 
@@ -103,7 +104,7 @@ async def selected_time_handler(message: Message, state: FSMContext) -> None:
             )
             
             await state.update_data(
-                time_order=f'{hours} {minutes}'
+                time_order=f'{hours}:{minutes}'
             )
             
             await state.set_state(CreateOrder.table)
@@ -145,66 +146,73 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
     quantity_pattern = r"\d"
     
     if re.match(quantity_pattern, quantity):
-        # try:
-            if 0 < int(quantity) < 50:
-                chat_id: int = message.from_user.id
-                
-                username: int = message.from_user.username
-                
-                data: dict = await state.get_data()
-                
-                carts: tuple = data.get('carts')
-                                
-                total_price: int = data.get('total_price')
-    
-                total_quantity: int = data.get('total_quantity')
-                
-                time_order: str = data.get('time_order')
-                
-                table_order: int = data.get('table_order')
-                
-                create_order_api(
+        if 0 < int(quantity) < 50:
+            await message.answer(
+                text='Отлично, заявка создана, ждите одобрение от мененджера.',
+            )
+            
+            await message.answer(
+                text='Выберите направление:',
+                reply_markup=main_menu_kb()
+            )
+            
+            chat_id: int = message.from_user.id
+            
+            username: int = message.from_user.username
+            
+            user: dict = check_user_api(chat_id=chat_id)[0]
+            
+            data: dict = await state.get_data()
+            
+            carts: list = data.get('carts')
+                            
+            total_price: int = data.get('total_price')
+
+            total_quantity: int = data.get('total_quantity')
+            
+            time_order: str = data.get('time_order')
+            
+            table_order: int = data.get('table_order')
+            
+            dishes: list = []
+            
+            for dish_id, _ in carts:
+                dishes.append(dish_id)
+            
+            order: dict = create_order_api(
+                carts=dishes,
+                user=user.get('pk'),
+                total_price=total_price,
+                total_quantity=total_quantity,
+                time_order=time_order,
+                table_order=table_order
+            )
+            
+            await message.bot.send_message(
+                chat_id=GROUP_ID,
+                text=get_text_for_order(
+                    phone=user.get('phone'),
                     carts=carts,
-                    user=check_user_api(chat_id=chat_id),
+                    username=username,
                     total_price=total_price,
                     total_quantity=total_quantity,
                     time_order=time_order,
                     table_order=table_order
-                )
-                
-                await message.answer(
-                    text='Отлично, заявка создана, ждите одобрение от мененджера.',
-                )
-                
-                await message.answer(
-                    text='Выберите направление:',
-                    reply_markup=main_menu_kb()
-                )
-                
-                await message.bot.send_message(
-                    chat_id=-4112391046,
-                    text=get_text_for_order(
-                        carts=carts,
-                        username=username,
-                        total_price=total_price,
-                        total_quantity=total_quantity,
-                        time_order=time_order,
-                        table_order=table_order
-                    ),
-                    reply_markup=order_approval_kb(1)
-                )
-                
-                await state.set_state(CreateOrder.send_order_to_manager)
-            else:
+                ),
+                reply_markup=order_approval_kb(order.get('id'))
+            )
+            
+            await state.set_state(CreateOrder.send_order_to_manager)
+        else:
                 await message.answer(
                     text='Ошибка указано неправильное колл-во! Повторите еще раз.'
                 )
-        # except:
-        #     await message.answer(
-        #         text='Ошибка указано было не колл-во! Повторите еще раз.'
-        #     )
-            
+    else:
+        await message.answer(
+            text='Ошибка указано было не колл-во! Повторите еще раз.'
+        )
 
+            
 @router_order.callback_query(CreateOrder.final_order, F.data.startswith("type_click"))
 async def payment_with_click_handler(call: CallbackQuery, state: FSMContext) -> None:
     """
@@ -286,3 +294,28 @@ async def successful_payment_handler(message: Message):
     pmnt = message.successful_payment.to_python()
     for key, val in pmnt.items():
         print(f'{key} = {val}')
+        
+        
+@router_order.message(F.text == '📖 Мои заказы')
+async def get_all_orders_handler(message: Message) -> None:
+    """
+    Get all orders
+    """
+    chat_id: int = message.from_user.id
+    
+    await message.answer(
+        text='Ваши последние 5 заказов:',
+        reply_markup=back_btn_kb()
+    )
+    
+    user: dict = check_user_api(chat_id=chat_id).get('pk')
+    
+    orders: dict = get_orders_by_user_api(user=user)
+    
+    if orders:
+        for order in orders:
+            
+    else:
+        await message.answer(
+            text='У вас нету ни одного заказа. 😅'
+        )

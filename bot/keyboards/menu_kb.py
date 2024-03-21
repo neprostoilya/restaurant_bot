@@ -1,6 +1,25 @@
-from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram.utils.keyboard import InlineKeyboardBuilder, \
+    ReplyKeyboardBuilder
 
-from api_requests.requests import get_categories_api, get_dish_by_id_api, get_dishes_by_category_api
+from api_requests.requests import get_categories_api, \
+    get_dishes_by_category_api
+
+
+def choose_type_order_kb():
+    """
+    Choose type order keyboard
+    """
+    builder = ReplyKeyboardBuilder()
+
+    builder.button(text='🍽️ Бронирование стола')
+    builder.button(text='🚶 Самовывоз')
+    builder.button(text='⬅️ Назад')
+
+    builder.adjust(2, 1)
+
+    return builder.as_markup(
+        resize_keyboard=True
+    )
 
 
 def categories_menu_kb(total_sum_cart):

@@ -3,13 +3,13 @@ from aiogram.utils.markdown import hbold, hitalic
 from api_requests.requests import get_dish_by_id_api
 
 
-def get_text_for_order(carts: dict, username: str, total_price: int,
+def get_text_for_order(phone: str, carts: dict, username: str, total_price: int,
                        total_quantity: int, time_order: str, table_order: int):
     """ 
     Get text for order
     """ 
     
-    text: str = f'Заказ от @{username}\n\n'
+    text: str = f'Заказ от @{username}\nНомер: {hbold(phone)}\n\n'
     
     for cart in enumerate(carts):
         dish: dict = get_dish_by_id_api(dish_id=cart[1][0])[0]
@@ -24,4 +24,12 @@ def get_text_for_order(carts: dict, username: str, total_price: int,
     
     return text
 
+
+def get_text_for_view_orders():
+    """ 
+    Get text for view orders
+    """        
+    text: str = f''
+    
+    return text
 

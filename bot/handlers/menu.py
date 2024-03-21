@@ -3,24 +3,46 @@ from aiogram.types import Message, CallbackQuery, FSInputFile
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.markdown import hbold
 
-from keyboards.menu_kb import categories_menu_kb, dishes_menu_kb, in_dish_kb
+from keyboards.menu_kb import categories_menu_kb, dishes_menu_kb, \
+    choose_type_order_kb, in_dish_kb
 from utils.menu_utils import get_text_for_dish
-from api_requests.requests import check_user_api, get_dish_by_id_api
-from keyboards.basic_kb import back_to_main_menu_kb, open_web_menu_kb, main_menu_kb
+from api_requests.requests import get_dish_by_id_api
+from keyboards.basic_kb import back_to_main_menu_kb, open_web_menu_kb, main_menu_kb,c
 
 
 router_menu = Router()
 
 
-@router_menu.message(F.text == "🍽 Меню")
-async def categories_menu_handler(message: Message, state: FSMContext) -> None:
+@router_menu.message(F.text == "🛒 Начать заказ")
+async def choose_type_order_handler(message: Message, state: FSMContext) -> None:
     """
-    Get categories menu handler
+    Choose type order
+    """
+    await message.answer(
+        text='Выберите тип заказа.',
+        reply_markup=choose_type_order_kb()
+    )
+
+
+@router_menu.message(F.text == "🚶 Самовывоз")
+async def pickup_order_handler(message: Message, state: FSMContext) -> None:
+    """
+    Pickup Order
+    """
+    await message.answer(
+        text='В данный момент находиться в разработке. 🙃',
+    )
+
+
+@router_menu.message(F.text == "🍽️ Бронирование стола")
+async def booking_order_handler(message: Message, state: FSMContext) -> None:
+    """
+    Booking Order
     """
     data: dict = await state.get_data()
     
     await message.answer(
-        text=f'Вы выбрали {hbold("Меню")}',
+        text=f'Вы выбрали тип: {hbold('Бронирование')}',
         reply_markup=back_to_main_menu_kb()
     )
     
@@ -29,10 +51,7 @@ async def categories_menu_handler(message: Message, state: FSMContext) -> None:
         reply_markup=open_web_menu_kb()
     )  
     
-    if data.get('total_price'):
-        total_sum_cart: int = data.get('total_price') 
-    else: 
-        total_sum_cart: int = 0
+    total_sum_cart: int = data.get('total_price', 0) 
     
     categories_menu = await message.answer(
         text='Выберите категорию:',
@@ -46,7 +65,8 @@ async def categories_menu_handler(message: Message, state: FSMContext) -> None:
     menu_mesages_ids.append(categories_menu.message_id)
     
     await state.update_data(
-        menu_mesages_ids=menu_mesages_ids
+        menu_mesages_ids=menu_mesages_ids,
+        type_order='booking'
     )
     
 
@@ -74,11 +94,16 @@ async def back_to_main_menu_handler(message: Message, state: FSMContext) -> None
 
 
 @router_menu.callback_query(F.data.startswith("bact_to_categories"))
-async def back_to_categories_menu_handler(call: CallbackQuery) -> None:
+async def back_to_categories_menu_handler(call: CallbackQuery, state: FSMContext) -> None:
     """
     Back to categories menu 
     """
-    total_sum_cart: int = 1000
+    data: dict = await state.get_data()
+    
+    if data.get('total_price'):
+        total_sum_cart: int = data.get('total_price') 
+    else: 
+        total_sum_cart: int = 0
     
     await call.message.edit_text(
         text='Выберите категорию:',
@@ -105,18 +130,32 @@ async def dish_handler(call: CallbackQuery, state: FSMContext) -> None:
     """
     dish_id: int = int(call.data.split("_")[-1])
 
-    quantity: int = 0
-    
     dish: dict = get_dish_by_id_api(dish_id)[0]
     
-    text, image = get_text_for_dish(dish=dish)
+    title: str = dish.get('title')
+    
+    description: str = dish.get('description')
+    
+    price: int = dish.get('price')
+    
+    image: str = dish.get('image')
+    
+    quantity: int = 1
     
     await state.update_data(
         dish_id=dish_id,
-        quantity=quantity,
-        price_dish=dish.get('price')
+        title_dish=title,
+        description_dish=description,
+        quantity_dish=quantity,
+        price_dish=price,
     )
-    
+
+    text: str = get_text_for_dish(
+        title=title,
+        description=description,
+        price=price
+    )
+
     await call.message.delete()
 
     await call.message.answer_photo(
@@ -148,13 +187,26 @@ async def plus_quantity_handler(call: CallbackQuery, state: FSMContext) -> None:
     """
     data: dict = await state.get_data()
     
-    quantity: int = data.get('quantity') + 1
+    title: str = data.get('title_dish')
+    
+    description: str = data.get('description_dish')
+        
+    quantity: int = data.get('quantity_dish') + 1
+    
+    price: int = data.get('price_dish') * quantity 
     
     await state.update_data(
-        quantity=quantity
+        quantity_dish=quantity
     )
     
-    await call.message.edit_reply_markup(
+    text: str = get_text_for_dish(
+        title=title,
+        description=description,
+        price=price
+    )
+    
+    await call.message.edit_caption(
+        caption=text,
         reply_markup=in_dish_kb(quantity=quantity, category=data.get('category')),
     )
 
@@ -170,13 +222,26 @@ async def plus_quantity_handler(call: CallbackQuery, state: FSMContext) -> None:
     """
     data: dict = await state.get_data()
     
-    quantity: int = data.get('quantity') - 1
+    title: str = data.get('title_dish')
+    
+    description: str = data.get('description_dish')
+        
+    quantity: int = data.get('quantity_dish') - 1
+    
+    price: int = data.get('price_dish') * quantity 
     
     await state.update_data(
-        quantity=quantity,
+        quantity_dish=quantity
     )
     
-    await call.message.edit_reply_markup(
+    text: str = get_text_for_dish(
+        title=title,
+        description=description,
+        price=price
+    )
+    
+    await call.message.edit_caption(
+        caption=text,
         reply_markup=in_dish_kb(quantity=quantity, category=data.get('category')),
     )
     
@@ -192,18 +257,36 @@ async def put_into_cart_handler(call: CallbackQuery, state: FSMContext) -> None:
     """
     data: dict = await state.get_data()
     
-    quantity: int = data.get('quantity') 
+    quantity: int = data.get('quantity_dish') 
     
     dish_id: int = data.get('dish_id')
     
     carts: list = data.get('carts', [])
+
+    total_price: int = data.get('total_price', 0)
     
+    total_quantity: int = data.get('total_quantity', 0)
+    print(total_quantity, total_price)
+    
+    for cart in carts[:]:
+        if cart[0] == dish_id:
+            total_price: int = total_price - data.get('price_dish') * cart[1]
+            
+            total_quantity: int = total_quantity - cart[1]
+            
+            print(total_quantity, total_price)
+            
+            carts.remove(cart)
+
+
     carts.append([dish_id, quantity])
     
-    total_price_all_cart: int = data.get('total_price', 0) + (data.get('price_dish') * quantity)
+    total_price_all_cart: int = total_price + data.get('price_dish') * quantity
     
-    total_quantity_all_cart: int = data.get('total_quantity', 0) + quantity
+    total_quantity_all_cart: int = total_quantity + quantity
     
+    print(total_price_all_cart, total_quantity_all_cart)
+
     await state.update_data(
         carts=carts,
         total_price=total_price_all_cart,
@@ -218,3 +301,4 @@ async def put_into_cart_handler(call: CallbackQuery, state: FSMContext) -> None:
     )
 
 
+   

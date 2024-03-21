@@ -1,15 +1,13 @@
 from aiogram.utils.markdown import hbold, hitalic
 
 
-def get_text_for_dish(dish: dict):
+def get_text_for_dish(title: str, description: str, price: int) -> str:
     """ 
     Get text for dish 
     """ 
-    text: str = f"{hbold('Название')}: {hbold(dish.get('title'))}\n\n{hbold('Описание')}:" \
-        f"\n{hitalic(dish.get('description'))}\n\n{hbold('Цена')}: {hitalic(dish.get('price'))} сум"
+    text: str = f"{hbold('Название')}: {hbold(title)}\n\n{hbold('Описание')}:" \
+        f"\n{hitalic(description)}\n\n{hbold('Цена')}: {hitalic(price)} сум"
     
-    image: str = dish.get('image')
-    
-    return text, image
+    return text
 
 

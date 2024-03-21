@@ -3,7 +3,7 @@ from aiogram.types import Message
 from aiogram.utils.markdown import hbold
 
 from keyboards.basic_kb import back_to_main_menu_kb
-
+from utils.information_utils import get_text_for_info
 
 router_info = Router()
 
@@ -14,9 +14,9 @@ async def information_handler(message: Message) -> None:
     Get information about restourant
     """
     await message.answer(
-        text=f'{hbold('Кафе 7я')}\n\n{hbold('Режим работы')}:\nПн-Вс: 10:00 - 21:30\n\nМененджер: +998 706 14 09 59\nНаш адрес: г. Алмалык ул.Наследова Парк Маяковского'
+        text=get_text_for_info()
     )
-    
+        
     await message.answer_location(
         latitude=40.835763,
         longitude=69.616893,
