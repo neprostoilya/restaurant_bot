@@ -1,13 +1,14 @@
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery, FSInputFile
 from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import StatesGroup, State
 from aiogram.utils.markdown import hbold
 
 from keyboards.menu_kb import categories_menu_kb, dishes_menu_kb, \
     choose_type_order_kb, in_dish_kb
 from utils.menu_utils import get_text_for_dish
 from api_requests.requests import get_dish_by_id_api
-from keyboards.basic_kb import back_to_main_menu_kb, open_web_menu_kb, main_menu_kb,c
+from keyboards.basic_kb import back_to_main_menu_kb, open_web_menu_kb, main_menu_kb
 
 
 router_menu = Router()
@@ -266,15 +267,12 @@ async def put_into_cart_handler(call: CallbackQuery, state: FSMContext) -> None:
     total_price: int = data.get('total_price', 0)
     
     total_quantity: int = data.get('total_quantity', 0)
-    print(total_quantity, total_price)
     
     for cart in carts[:]:
         if cart[0] == dish_id:
             total_price: int = total_price - data.get('price_dish') * cart[1]
             
             total_quantity: int = total_quantity - cart[1]
-            
-            print(total_quantity, total_price)
             
             carts.remove(cart)
 
@@ -285,8 +283,6 @@ async def put_into_cart_handler(call: CallbackQuery, state: FSMContext) -> None:
     
     total_quantity_all_cart: int = total_quantity + quantity
     
-    print(total_price_all_cart, total_quantity_all_cart)
-
     await state.update_data(
         carts=carts,
         total_price=total_price_all_cart,

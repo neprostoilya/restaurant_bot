@@ -181,6 +181,7 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
             
             order: dict = create_order_api(
                 carts=dishes,
+                status='Ожидание',
                 user=user.get('pk'),
                 total_price=total_price,
                 total_quantity=total_quantity,
@@ -204,9 +205,9 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
             
             await state.set_state(CreateOrder.send_order_to_manager)
         else:
-                await message.answer(
-                    text='Ошибка указано неправильное колл-во! Повторите еще раз.'
-                )
+            await message.answer(
+                text='Ошибка указано неправильное колл-во! Повторите еще раз.'
+            )
     else:
         await message.answer(
             text='Ошибка указано было не колл-во! Повторите еще раз.'
@@ -314,7 +315,7 @@ async def get_all_orders_handler(message: Message) -> None:
     
     if orders:
         for order in orders:
-            
+            pass
     else:
         await message.answer(
             text='У вас нету ни одного заказа. 😅'

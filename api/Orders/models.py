@@ -4,6 +4,9 @@ from users.models import UserProfile
 from dishes.models import Dishes
 
 
+status = (('Ожидание', 'Ожидание'), ('Принят', 'Принят'), ('Закончен', 'Закончен'))
+
+
 class Orders(models.Model):
     """
     Order of user
@@ -38,6 +41,9 @@ class Orders(models.Model):
     )
     datetime_selected = models.TimeField(
         verbose_name='Указанное время'
+    )
+    status = models.CharField(
+        choices=status,
     )
     
     def __str__(self) -> str:

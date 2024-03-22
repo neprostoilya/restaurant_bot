@@ -93,12 +93,12 @@ def get_dish_by_id_api(dish_id: int):
     return get(f'/dishes/get_dish/{dish_id}/')
 
 
-def create_order_api(carts: dict, user: int, total_price: int,
+def create_order_api(carts: dict, user: int, total_price: int, status: str,
                     total_quantity: int, time_order: str, table_order: int):
     """
     Create order 
     """
-    data: dict = {'dishes': carts, 'user': user, 'total_price': total_price,  
+    data: dict = {'dishes': carts, 'user': user, 'total_price': total_price, 'status': status,
                   'total_quantity': total_quantity, 'datetime_selected': time_order, 'table': table_order}
         
     return post('/orders/create_order/', data=data)

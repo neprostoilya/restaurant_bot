@@ -25,7 +25,7 @@ def main_menu_kb():
     builder = ReplyKeyboardBuilder()
 
     builder.button(text='🛒 Начать заказ')
-    builder.button(text='ℹ️ О нас')
+    builder.button(text='ℹ️ Информация')
     builder.button(text='📖 Мои заказы')
     builder.button(text='⚙️ Настройки')
 

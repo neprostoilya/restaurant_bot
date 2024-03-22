@@ -25,11 +25,11 @@ def get_text_for_order(phone: str, carts: dict, username: str, total_price: int,
     return text
 
 
-def get_text_for_view_orders():
+def get_text_for_view_orders(dish_id: int):
     """ 
     Get text for view orders
     """        
-    text: str = f''
+    text: str = f'Заказ №{hbold(dish_id)}\n\n' 
     
     return text
 
