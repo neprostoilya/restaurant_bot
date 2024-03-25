@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from aiogram.utils.markdown import hbold, hitalic
 
 from api_requests.requests import get_dish_by_id_api
@@ -16,7 +18,9 @@ def get_text_for_order(phone: str, carts: dict, username: str, total_price: int,
         
         price: int = dish.get('price') * cart[1][1]
         
-        text += f'{hbold(f'Блюдо №{cart[0]+1}')}\nКолл-во: {hbold(cart[1][1])}\nЦена: {hbold(price)}\n\n'
+        text += f'Блюдо №{hbold(int(cart[0])+1)}.\nНазвание: {dish.get('title')},\n'
+
+        text += f'Колл-во: {hbold(cart[1][1])},\nЦена: {hbold(price)} сум\n\n'
         
     text += f'Забронированное время: {hbold(time_order)}\n\nНомер столика: {hbold(table_order)}\n\n'
     
@@ -25,11 +29,47 @@ def get_text_for_order(phone: str, carts: dict, username: str, total_price: int,
     return text
 
 
-def get_text_for_view_orders(dish_id: int):
+def get_text_for_view_orders(order: dict):
     """ 
     Get text for view orders
     """        
-    text: str = f'Заказ №{hbold(dish_id)}\n\n' 
+    text: str = f'Заказ №{hbold(order.get('id'))}\n\n' 
+    
+    for cart in enumerate(order.get('dishes')):
+        dish: dict = get_dish_by_id_api(dish_id=cart[1])[0]
+        
+        price: int = dish.get('price') * cart[1]
+        
+        text += f'Блюдо №{hbold(int(cart[0])+1)}.\nНазвание: {dish.get('title')},\n'
+        
+        text += f'Колл-во: {hbold(cart[1])},\nЦена: {hbold(price)} сум\n\n'
+    
+    text += f'Забронированное время: {hbold(order.get('datetime_selected'))}'
+    
+    text += f'\n\nНомер столика: {hbold(order.get('table'))}\n\n'
+    
+    text += f'Общая цена: {hbold(order.get('total_price'))}\n'
+    
+    text += f'\nОбщее колл-во: {hbold(order.get('total_quantity'))}\n\n'
+    
+    text += f'Статус: {hbold(order.get('status'))}'
     
     return text
 
+
+def get_text_for_accepted_order(order: dict):
+    """ 
+    Get text for accepted order
+    """        
+    text: str = f'Ваш заказ №{hbold(order.get('id'))} был принят! 😀' 
+    
+    return text
+
+
+def get_text_for_rejected_order(order: dict):
+    """ 
+    Get text for rejected order
+    """        
+    text: str = f'Ваш заказ №{hbold(order.get('id'))} был отклонен! 😥' 
+    
+    return text

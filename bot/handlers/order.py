@@ -7,13 +7,15 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import ContentType
 
+from keyboards.basic_kb import back_to_main_menu_kb
 from api_requests.requests import check_user_api, create_order_api, \
-    get_orders_by_user_api
+    get_orders_by_user_api, update_order_status_api, get_order_by_order_id_api
 from keyboards.basic_kb import main_menu_kb
 from keyboards.order_kb import select_time_kb, select_table_kb, select_payment_type_kb, \
-    order_approval_kb, review_order_kb, back_btn_kb
+    order_approval_kb, review_order_kb, back_btn_kb, pay_order_kb
 from config.configuration import CLICK, PAYME, GROUP_ID
-from utils.order_utils import get_text_for_order
+from utils.order_utils import get_text_for_order, get_text_for_accepted_order, \
+    get_text_for_view_orders, get_text_for_rejected_order
 
 router_order = Router()
 
@@ -22,9 +24,10 @@ class CreateOrder(StatesGroup):
     time = State()
     table = State()
     quantity_people = State()
-    send_order_to_manager = State()
-    final_order = State()
 
+
+class PayOrder(StatesGroup):
+    finish_order = State()
 
 @router_order.callback_query(F.data.startswith("create_order"))
 async def create_order_handler(call: CallbackQuery, state: FSMContext) -> None:
@@ -61,7 +64,7 @@ async def selected_nearest_time_handler(message: Message, state: FSMContext) -> 
         text='Хорошо, теперь выберите столик на миникарте.',
     )
     await state.update_data(
-        time_order=f'{time.hour} - {time.minute}'
+        time_order=f'{time.hour}:{time.minute}'
     )
     
     await message.answer_photo(
@@ -156,7 +159,7 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
                 reply_markup=main_menu_kb()
             )
             
-            chat_id: int = message.from_user.id
+            chat_id: int = message.chat.id
             
             username: int = message.from_user.username
             
@@ -179,6 +182,8 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
             for dish_id, _ in carts:
                 dishes.append(dish_id)
             
+            print(time_order)
+            
             order: dict = create_order_api(
                 carts=dishes,
                 status='Ожидание',
@@ -188,7 +193,7 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
                 time_order=time_order,
                 table_order=table_order
             )
-            
+
             await message.bot.send_message(
                 chat_id=GROUP_ID,
                 text=get_text_for_order(
@@ -200,10 +205,11 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
                     time_order=time_order,
                     table_order=table_order
                 ),
-                reply_markup=order_approval_kb(order.get('id'))
+                reply_markup=order_approval_kb(
+                    order_id=order.get('id'), 
+                    chat_id=chat_id,
+                )
             )
-            
-            await state.set_state(CreateOrder.send_order_to_manager)
         else:
             await message.answer(
                 text='Ошибка указано неправильное колл-во! Повторите еще раз.'
@@ -213,25 +219,85 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
             text='Ошибка указано было не колл-во! Повторите еще раз.'
         )
 
-            
-@router_order.callback_query(CreateOrder.final_order, F.data.startswith("type_click"))
+
+@router_order.callback_query(F.data.startswith("accept_order"))
+async def accept_order_handler(call: CallbackQuery) -> None:
+    """
+    Accept order 
+    """
+    chat_id_user: int = int(call.data.split("_")[-1])
+    
+    order_id: int = int(call.data.split("_")[-2])
+    
+    order: dict = update_order_status_api(
+        order_id=order_id,
+        status='Принят'
+    )
+    
+    await call.bot.send_message(
+        chat_id=chat_id_user,
+        text=get_text_for_accepted_order(
+            order=order
+        ),
+        reply_markup=pay_order_kb(order.get('id'))
+    )
+    
+
+@router_order.callback_query(F.data.startswith("reject_order"))
+async def reject_order_handler(call: CallbackQuery) -> None:
+    """
+    Reject order 
+    """
+    chat_id_user: int = int(call.data.split("_")[-1])
+    
+    order_id: int = int(call.data.split("_")[-2])
+    
+    order: dict = update_order_status_api(
+        order_id=order_id,
+        status='Отклонен'
+    )
+    
+    await call.bot.send_message(
+        chat_id=chat_id_user,
+        text=get_text_for_rejected_order(
+            order=order
+        )
+    )
+
+
+@router_order.callback_query(F.data.startswith("pay_order"))
+async def select_payment_type_handler(call: CallbackQuery, state: FSMContext) -> None:
+    """
+    Select payment type 
+    """
+    order_id: int = int(call.data.split("_")[-1])
+
+    await state.update_data(
+        order_id=order_id
+    )
+
+    await call.message.answer(
+        text='Отлично, теперь выберите тип оплаты:',
+        reply_markup=select_payment_type_kb()
+    )
+
+    await state.set_state(PayOrder.finish_order)
+
+
+@router_order.callback_query(PayOrder.finish_order, F.data.startswith("type_click"))
 async def payment_with_click_handler(call: CallbackQuery, state: FSMContext) -> None:
     """
     Payment with click handler
     """
-    chat_id: int = call.from_user.id
-    
     data: dict = await state.get_data()
     
-    total_price: int = data.get('total_price')
+    order_id: int = data.get('order_id')
     
-    total_quantity: int = data.get('total_quantity')
+    order: dict = get_order_by_order_id_api(
+        order_id=order_id
+    )[0]
     
-    time_order: str = data.get('time_order')
-    
-    table_order: int = data.get('table_order')
-    
-    # quantity_people_order: int = data.get('quantity_people_order')
+    total_price: int = order.get('total_price')
     
     await call.message.answer_invoice(
         title=f"Ваш заказ",
@@ -248,24 +314,20 @@ async def payment_with_click_handler(call: CallbackQuery, state: FSMContext) -> 
     )
 
 
-@router_order.callback_query(CreateOrder.final_order, F.data.startswith("type_payme"))
+@router_order.callback_query(PayOrder.finish_order, F.data.startswith("type_payme"))
 async def payment_with_payme_handler(call: CallbackQuery, state: FSMContext) -> None:
     """
     Payment with payme handler
     """
-    chat_id: int = call.from_user.id
-    
     data: dict = await state.get_data()
     
-    total_price: int = data.get('total_price')
+    order_id: int = data.get('order_id')
     
-    total_quantity: int = data.get('total_quantity')
+    order: dict = get_order_by_order_id_api(
+        order_id=order_id
+    )[0]
     
-    time_order: str = data.get('time_order')
-    
-    table_order: int = data.get('table_order')
-    
-    # quantity_people_order: int = data.get('quantity_people_order')
+    total_price: int = order.get('total_price')
     
     await call.message.answer_invoice(
         title=f"Ваш заказ",
@@ -279,6 +341,10 @@ async def payment_with_payme_handler(call: CallbackQuery, state: FSMContext) -> 
                 amount=total_price * 100
             ),
         ]
+    )
+    
+    await call.message.answer(
+        
     )
 
     
@@ -302,21 +368,34 @@ async def get_all_orders_handler(message: Message) -> None:
     """
     Get all orders
     """
-    chat_id: int = message.from_user.id
+    chat_id: int = message.from_user.id 
     
-    await message.answer(
-        text='Ваши последние 5 заказов:',
-        reply_markup=back_btn_kb()
-    )
-    
-    user: dict = check_user_api(chat_id=chat_id).get('pk')
+    user: dict = check_user_api(chat_id=chat_id)[0].get('pk')
     
     orders: dict = get_orders_by_user_api(user=user)
     
     if orders:
-        for order in orders:
-            pass
+        await message.answer(
+            text='Ваши последние 3 заказа:',
+            reply_markup=back_to_main_menu_kb()
+        )
+        
+        for order in orders[::4]:
+            await message.answer(
+                text=get_text_for_view_orders(order=order),
+                reply_markup=review_order_kb(order_id=order.get('id'))
+            )
     else:
         await message.answer(
             text='У вас нету ни одного заказа. 😅'
         )
+
+
+@router_order.message(F.web_app_data)
+async def create_order_with_web_app_handler(message: Message, state: FSMContext) -> None:
+    """
+    Create order with web app handler
+    """
+    await message.answer(
+        text='22'
+    )

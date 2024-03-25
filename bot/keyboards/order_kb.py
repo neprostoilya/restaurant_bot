@@ -81,14 +81,14 @@ def select_payment_type_kb():
         callback_data=f"back_to_select_table"
     )
     
-    builder.adjust(1, 1)
+    builder.adjust(2, 1)
     
     return builder.as_markup(
         resize_keyboard=True
     )
 
 
-def order_approval_kb(order_id: int):
+def order_approval_kb(order_id: int, chat_id: int):
     """ 
     Order approval keyboard
     """
@@ -96,12 +96,12 @@ def order_approval_kb(order_id: int):
 
     builder.button(
         text=f"✔️ Принять",
-        callback_data=f"accept_order_{order_id}"
+        callback_data=f"accept_order_{order_id}_{chat_id}"
     )
     
     builder.button(
         text=f"✖️ Отклонить",
-        callback_data=f"reject_order_{order_id}"
+        callback_data=f"reject_order_{order_id}_{chat_id}"
     )
     
     builder.adjust(2)
@@ -144,3 +144,20 @@ def back_btn_kb():
         resize_keyboard=True
     )
     
+
+def pay_order_kb(order_id: int):
+    """ 
+    Pay order keyboard
+    """
+    builder = InlineKeyboardBuilder()
+
+    builder.button(
+        text=f"💳 Оплатить",
+        callback_data=f"pay_order_{order_id}"
+    )
+     
+    builder.adjust(1)
+    
+    return builder.as_markup(
+        resize_keyboard=True
+    )

@@ -9,7 +9,16 @@ class Events(models.Model):
     image = models.ImageField(
         verbose_name='Фотокарточка'
     )
-
+    description = models.TextField(
+        verbose_name='Описание'
+    )
+    
+    def descriptiontrim(self):
+        return u"%s" % (self.description[:35],) + '...'
+    
+    descriptiontrim.allow_tags = True
+    descriptiontrim.short_description = 'Описание'
+    
     def __str__(self) -> str:
         return self.image.url
     

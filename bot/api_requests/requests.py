@@ -69,7 +69,7 @@ def check_user_api(chat_id: int):
     """
     Check Or Get User
     """
-    return get(f'/users/users/{chat_id}')
+    return get(f'/users/users/{chat_id}/')
 
 
 def get_categories_api():
@@ -108,4 +108,47 @@ def get_orders_by_user_api(user: int):
     """
     Get orders by user
     """
-    return get(f'/orders/get_orders_by_user/{user}/')
+    try:
+        return get(f'/orders/get_orders_by_user/{user}/')
+    except:
+        return None
+
+def update_order_status_api(order_id: int, status: str):
+    """
+    Update status order 
+    """
+    data = {'status': status}
+    
+    return put(f'/orders/update_order_status/{order_id}/', data=data)
+
+
+def get_order_by_order_id_api(order_id: int):
+    """
+    Get order by order id
+    """
+    return get(f'/orders/get_order_by_order_id/{order_id}/')
+
+
+def get_events_api() -> dict:
+    """
+    Get events of restourant
+    """
+    return get(f'/events/get_events/')
+
+
+def update_user_phone_api(chat_id: id, phone: str) -> dict:
+    """
+    Update user phone
+    """
+    data = {'phone': phone}
+    
+    return put(f'/users/update/{chat_id}/', data=data)
+
+
+def update_user_language_api(chat_id: id, language: str) -> dict:
+    """
+    Update user language
+    """
+    data = {'language': language}
+    
+    return put(f'/users/update/{chat_id}/', data=data)

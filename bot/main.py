@@ -2,18 +2,17 @@ import asyncio
 import logging
 import sys
 
-from aiogram import Bot, Dispatcher
-from aiogram.enums import ParseMode
+from aiogram import Dispatcher
 
-from handlers import commands, register, menu, cart, order, information
-from config.configuration import TOKEN
+from handlers import commands, register, menu, cart, order, \
+    information, events, settings
+from config.instance import bot
 
 
 async def main():
     """ 
     Main 
     """
-    bot = Bot(token=TOKEN, parse_mode=ParseMode.HTML)
     dp = Dispatcher()
 
     dp.include_routers(commands.router_commands)
@@ -22,6 +21,8 @@ async def main():
     dp.include_routers(cart.router_cart)
     dp.include_routers(order.router_order)
     dp.include_routers(information.router_info)
+    dp.include_routers(events.router_events)
+    dp.include_routers(settings.router_settings)
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)

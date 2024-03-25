@@ -22,6 +22,40 @@ class UserAPIView(APIView):
         return Response(serializer.data)
 
 
+class UpdateUserAPIView(APIView):
+    """
+    Update User
+    """
+    model = UserProfile
+    serializer_class = UserSerializer
+
+    def put(self, request, telegram_pk):
+        data = request.data
+        
+        try:
+            order = self.model.objects.get(
+                telegram_pk=telegram_pk
+            )
+            
+            if 'phone' in data:
+                order.phone = data['phone']
+                order.save()
+                serializer = self.serializer_class(order)
+                
+                return Response(data=serializer.data, status=status.HTTP_200_OK)
+            elif 'language' in data:
+                order.language = data['language']
+                order.save()
+                serializer = self.serializer_class(order)
+                
+                return Response(data=serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(data={'error': 'Поле "status" обязательно'}, status=status.HTTP_400_BAD_REQUEST)
+            
+        except self.model.DoesNotExist:
+            return Response(data={'error': 'Пользователь не найден не найден'}, status=status.HTTP_404_NOT_FOUND)
+
+
 class RegisterAPIView(APIView):
     """
     Create User
