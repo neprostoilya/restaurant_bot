@@ -18,6 +18,7 @@ def open_web_menu_kb():
         resize_keyboard=True
     )
 
+
 def main_menu_kb():
     """
     Main menu keyboard

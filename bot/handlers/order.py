@@ -2,7 +2,8 @@ import re
 from datetime import datetime, timedelta
 
 from aiogram import Router, F
-from aiogram.types import Message, CallbackQuery, FSInputFile, LabeledPrice, PreCheckoutQuery
+from aiogram.types import Message, CallbackQuery, FSInputFile, LabeledPrice, \
+    PreCheckoutQuery, WebAppData
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import ContentType
@@ -16,6 +17,7 @@ from keyboards.order_kb import select_time_kb, select_table_kb, select_payment_t
 from config.configuration import CLICK, PAYME, GROUP_ID
 from utils.order_utils import get_text_for_order, get_text_for_accepted_order, \
     get_text_for_view_orders, get_text_for_rejected_order
+from config.instance import bot
 
 router_order = Router()
 
@@ -392,10 +394,7 @@ async def get_all_orders_handler(message: Message) -> None:
 
 
 @router_order.message(F.web_app_data)
-async def create_order_with_web_app_handler(message: Message, state: FSMContext) -> None:
-    """
-    Create order with web app handler
-    """
-    await message.answer(
-        text='22'
-    )
+async def handle_web_app_data(message: Message):
+    print(message) #вся информация о сообщении
+    print(message.web_app_data.data) #конкретно то что мы передали в бота
+    await message.answer(f"получили инофрмацию из веб-приложения: {message.web_app_data.data}") 
