@@ -21,6 +21,7 @@ from config.instance import bot
 
 router_order = Router()
 
+
 class CreateOrder(StatesGroup):
     type_select_time = State()
     time = State()
@@ -30,6 +31,7 @@ class CreateOrder(StatesGroup):
 
 class PayOrder(StatesGroup):
     finish_order = State()
+
 
 @router_order.callback_query(F.data.startswith("create_order"))
 async def create_order_handler(call: CallbackQuery, state: FSMContext) -> None:
@@ -64,6 +66,7 @@ async def selected_nearest_time_handler(message: Message, state: FSMContext) -> 
     
     await message.answer(
         text='Хорошо, теперь выберите столик на миникарте.',
+        reply_markup=back_btn_kb()
     )
     await state.update_data(
         time_order=f'{time.hour}:{time.minute}'
@@ -84,7 +87,8 @@ async def selected_type_time_handler(message: Message, state: FSMContext) -> Non
     Selected time for order handler
     """
     await message.answer(
-        text='Для брони столика отправьте время в виде "##:##"'
+        text='Для брони столика отправьте время в виде "##:##"',
+        reply_markup=back_btn_kb()
     )
     
     await state.set_state(CreateOrder.time)
@@ -135,7 +139,8 @@ async def selected_table_handler(call: CallbackQuery, state: FSMContext) -> None
     )
     
     await call.message.answer(
-        'Отлично, теперь введите колл-во людей:'
+        'Отлично, теперь введите колл-во людей:',
+        reply_markup=back_btn_kb()
     )
     
     await state.set_state(CreateOrder.quantity_people)
@@ -153,7 +158,7 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
     if re.match(quantity_pattern, quantity):
         if 0 < int(quantity) < 50:
             await message.answer(
-                text='Отлично, заявка создана, ждите одобрение от мененджера.',
+                text='Отлично, заявка создана, ждите одобрение от мененджера. 😊',
             )
             
             await message.answer(
@@ -346,7 +351,12 @@ async def payment_with_payme_handler(call: CallbackQuery, state: FSMContext) -> 
     )
     
     await call.message.answer(
-        
+        text='Ваш заказ в процессе! ☺️\nСтатус заказа обновлен.\nТекущие заказы вы можете посмотреть в "Мои заказы"',
+    )
+    
+    await call.message.answer(
+        text='Выберите направление:',
+        reply_markup=main_menu_kb()
     )
 
     
@@ -391,10 +401,3 @@ async def get_all_orders_handler(message: Message) -> None:
         await message.answer(
             text='У вас нету ни одного заказа. 😅'
         )
-
-
-@router_order.message(F.web_app_data)
-async def handle_web_app_data(message: Message):
-    print(message) #вся информация о сообщении
-    print(message.web_app_data.data) #конкретно то что мы передали в бота
-    await message.answer(f"получили инофрмацию из веб-приложения: {message.web_app_data.data}") 

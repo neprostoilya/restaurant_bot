@@ -102,3 +102,18 @@ class LoginAPIView(APIView):
                 return Response({'detail': 'Пользователь не найден'}, status=status.HTTP_404_NOT_FOUND)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GetUserLanguageAPIView(APIView):
+    """
+    Get User Language
+    """
+    model = UserProfile
+    serializer_class = UserSerializer
+
+    def get(self, request, telegram_pk):
+        users = self.model.objects.filter(
+            telegram_pk=telegram_pk
+        )
+        serializer = self.serializer_class(users, many=True)
+        return Response(data={'language': serializer.data[0].get('language')})

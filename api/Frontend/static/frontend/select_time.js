@@ -6,7 +6,7 @@ $(document).ready(function() {
             $('.ButtonWrapper').removeAttr('disabled');
             localStorage.setItem('selectedTime', timeInput);
         } else {
-            $('.ButtonWrapper').attr('disabl    ed', 'disabled');
+            $('.ButtonWrapper').attr('disabled', 'disabled');
         }
     }
 

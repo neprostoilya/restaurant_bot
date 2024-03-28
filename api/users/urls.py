@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import RegisterAPIView, LoginAPIView, \
-    UserAPIView, UpdateUserAPIView
+    UserAPIView, UpdateUserAPIView, GetUserLanguageAPIView
     
 
 app_name: str = 'users'
@@ -11,4 +11,5 @@ urlpatterns = [
     path('register/', RegisterAPIView.as_view()),
     path('login/', LoginAPIView.as_view()),
     path('update/<telegram_pk>/', UpdateUserAPIView.as_view()),
+    path('get_user_language/<telegram_pk>/', GetUserLanguageAPIView.as_view()),
 ]

@@ -13,117 +13,165 @@ jQuery(document).ready(function($) {
     $('.ButtonWrapperAtable').on('click', function(e) {
         e.preventDefault();
 
-        // let tg = window.Telegram.WebApp;
+        const tg = Telegram.WebApp;
 
-        var user = $.ajax({
-            type: "GET",
-            url: "http://127.0.0.1:8000/users/users/" + '5974014808/',
-            data: {
-            },
-            success: function(response) {
-                var user = response.data;
-            },
-            error: function(err) {
-                var user = 'None';
-            }
-        });
+        var userData; 
 
-        console.log(user.responseJSON)
-
-        var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-
-        var total_price_all_dishes = 0;
-
-        var total_quantity_all_dishes = 0;
-
-        var dishes = [];
+        function GetUser(callback) {
+            $.ajax({
+                type: "GET",
+                url: "https://f16d-95-46-67-138.ngrok-free.app/users/users/" + tg.initDataUnsafe.user.id + "/",
+                success: function(data) {
+                    userData = data; 
+                    callback(userData); 
+                },
+                error: function(err) {
+                    tg.showPopup(
+                    {
+                        title: "Ошибка", 
+                        message: "Вы не зарегистрированы в системе!",
+                        buttons: [{ type: "destructive", text: "Закрыть" }], // Optional
+                    },
+                    callback
+                    );
+                }
+            });
+        }
         
-        var text_dishes = '';
-
-        cartItems.forEach(function(item, i) {
-          dishes.push(item.dish_pk)
-          text_dishes += `Блюдо №${i+1}\nНазвание: ${item.title},\nКолл-во: ${item.quantity}, Цена: ${item.total_price} сум\n\n`;
-          total_price_all_dishes += item.total_price;
-          total_quantity_all_dishes += item.quantity;
+        GetUser(function(userData) {
+            processData(userData); 
         });
-
-        var storedPeopleCount = localStorage.getItem('selectedPeopleCount');
-
-        var storedTable = localStorage.getItem('selectedTable');
-
-        var storedTime = localStorage.getItem('selectedTime');
         
-        var order = $.ajax({
-            type: "POST",
-            url: "http://127.0.0.1:8000/orders/create_order/",
-            data: {
-                user: user.pk,
-                dishes: dishes,
-                table: storedTable,
-                people_quantity: storedPeopleCount,
-                total_price: total_price_all_dishes, 
-                total_quantity: total_quantity_all_dishes,
-                datetime_selected: storedTime + ':00',
-                status: 'Ожидание'
-            },
-            success: function(response) {
-                var order = response.data;
-            },
-            error: function(err) {
-                var order = 'None';
-            }
-        });
+        function processData(userData) {
+            var userData = JSON.parse(JSON.stringify(userData));
 
-       
+            var userPk = userData[0].pk
 
-        var text = `
-Заказ №${order.id}
+            var userPhone = userData[0].phone
 
-От @кто то
+            var username= userData[0].username
 
-Номер: +999999999
+            var userTelegramId= userData[0].telegram_pk
 
-Забронированное время: ${storedTime}
+            var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+            var total_price_all_dishes = 0;
+
+            var total_quantity_all_dishes = 0;
+
+            var dishes = [];
+            
+            var text_dishes = '';
+
+            cartItems.forEach(function(item, i) {
+                dishes.push(item.dish_pk)
+                text_dishes += `<b>Блюдо</b> <code>#${i+1}</code>\n<b>Название:</b> <code>${item.title}</code>\n<b>Колл-во:</b> <code>${item.quantity}</code>\n<b>Цена:</b> <code>${item.total_price}</code> <b>сум</b>\n\n`;
+                total_price_all_dishes += item.total_price;
+                total_quantity_all_dishes += item.quantity;
+            });
+
+            var storedPeopleCount = localStorage.getItem('selectedPeopleCount');
+
+            var storedTable = localStorage.getItem('selectedTable');
+
+            var storedTime = localStorage.getItem('selectedTime');
+            
+            localStorage.clear();
+
+            $.ajax({
+                type: "POST",
+                url: "https://f16d-95-46-67-138.ngrok-free.app/orders/create_order/",
+                data: JSON.stringify({
+                    user: userPk,
+                    table: storedTable,
+                    people_quantity: storedPeopleCount,
+                    total_price: total_price_all_dishes, 
+                    total_quantity: total_quantity_all_dishes,
+                    dishes: dishes, 
+                    datetime_selected: storedTime + ':00',
+                    status: 'Ожидание'
+                }),
+                contentType: 'application/json', 
+                success: function(data) {
+                    var order = data;
+
+                    const date = new Date(data.datetime_created);
+
+                    const formattedDateTime = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')};`
+
+                    sendTelegramOrderNotification(formattedDateTime, userPhone, username, userTelegramId, order, storedTime,
+                         storedTable, storedPeopleCount, total_price_all_dishes, total_quantity_all_dishes, text_dishes);
+                },
+                error: function(err) {
+                    var order = 'None';
+                }
+            });
+            
+        
+            function sendTelegramOrderNotification(datetimeCreated, userPhone, username, userTelegramId, 
+                order, storedTime, storedTable, storedPeopleCount, total_price_all_dishes, total_quantity_all_dishes, text_dishes) {
+                var text = `
+<b>Заказ</b> <code>#${order.id}</code>
+
+<b>От Пользователя:</b> <code>@${username}</code>
+
+<b>Номер:</b> <code>${userPhone}</code>
+
+<b>Дата и время создания:</b>   
+<code>${datetimeCreated}</code>
+
+<b>Забронированное время:</b> <code>${storedTime}</code>
 
 
 ${text_dishes}
-Номер столика: ${storedTable}
+<b>Номер столика:</b> <code>${storedTable}</code>
 
-Колл-во людей: ${storedPeopleCount}
+<b>Колл-во людей:</b> <code>${storedPeopleCount}</code>
 
-Общая цена: ${total_price_all_dishes} сум
+<b>Общая цена:</b> <code>${total_price_all_dishes}</code> <b>сум</b> 
 
-Общее колл-во: ${total_quantity_all_dishes}`;
-
-        var chatid = '-4112391046';
-        var token = '6898947200:AAGcnJRBEw2E_I0p4Mey4jcMXNJSGML3s_g';
-        
-        var buttons = JSON.stringify({
-            inline_keyboard: [
-                [
-                    { text: '✔️ Принять', callback_data: `accept_order_${order.id}_${chatid}` },
-                    { text: '✖️ Отклонить', callback_data: `reject_orde_${order.id}_${chatid}` }
-                ]
-            ]
-        });
-    
-        $.ajax({
-            type: "POST",
-            url: "https://api.telegram.org/bot" + token + "/sendMessage",
-            data: {
-                chat_id: chatid,
-                text: text,
-                reply_markup: buttons,
-                parse_mode: 'HTML'
-            },
-            success: function(response) {
-                console.log('Message sent successfully!');
-                // tg.close()
-            },
-            error: function(err) {
-                console.error('Error sending message:', err);
-                // tg.close()
+<b>Общее колл-во:</b> <code>${total_quantity_all_dishes}</code>`;
+                
+                var chatid = '-4112391046';
+                var token = '6898947200:AAGcnJRBEw2E_I0p4Mey4jcMXNJSGML3s_g';
+                
+                var buttons = JSON.stringify({
+                    inline_keyboard: [
+                        [
+                            { text: '✔️ Принять', callback_data: `accept_order_${order.id}_${userTelegramId} `},
+                            { text: '✖️ Отклонить', callback_data: `reject_order_${order.id}_${userTelegramId} `}
+                        ]
+                    ]
+                });
+                
+                $.ajax({
+                    type: "POST",
+                    url: "https://api.telegram.org/bot" + token + "/sendMessage",
+                    data: {
+                        chat_id: chatid,
+                        text: text,
+                        reply_markup: buttons,
+                        parse_mode: 'HTML'
+                    },
+                    success: function(response) {
+                        console.log('Message sent to manager successfully!');
+                    },
+                });
+                
+                $.ajax({
+                    type: "POST",
+                    url: "https://api.telegram.org/bot" + token + "/sendMessage",
+                    data: {
+                        chat_id: userTelegramId,
+                        text: 'Отлично, заявка создана, ждите одобрение от мененджера.😊',
+                        parse_mode: 'HTML'
+                    },
+                    success: function(response) {
+                        const tg = Telegram.WebApp;
+                        tg.close()
+                    }
+                });
             }
-        });
+        }
     });
 });

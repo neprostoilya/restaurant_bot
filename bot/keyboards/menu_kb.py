@@ -3,17 +3,18 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder, \
 
 from api_requests.requests import get_categories_api, \
     get_dishes_by_category_api
+from utils.basic_utils import get_text
 
 
-def choose_type_order_kb():
+def choose_type_order_kb(lang: str):
     """
     Choose type order keyboard
     """
     builder = ReplyKeyboardBuilder()
 
-    builder.button(text='🍽️ Бронирование стола')
-    builder.button(text='🚶 Самовывоз')
-    builder.button(text='⬅️ Назад')
+    builder.button(text=get_text(lang, 'booking_btn'))
+    builder.button(text=get_text(lang, 'pickup_btn'))
+    builder.button(text=get_text(lang, 'back_btn'))
 
     builder.adjust(2, 1)
 

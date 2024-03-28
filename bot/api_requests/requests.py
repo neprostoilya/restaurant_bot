@@ -152,3 +152,10 @@ def update_user_language_api(chat_id: id, language: str) -> dict:
     data = {'language': language}
     
     return put(f'/users/update/{chat_id}/', data=data)
+
+
+def get_user_language_api(chat_id: id) -> dict:
+    """
+    Get user language
+    """
+    return get(f'/users/get_user_language/{chat_id}/')

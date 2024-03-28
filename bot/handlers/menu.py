@@ -6,9 +6,10 @@ from aiogram.utils.markdown import hbold
 from keyboards.menu_kb import categories_menu_kb, dishes_menu_kb, \
     choose_type_order_kb, in_dish_kb
 from utils.menu_utils import get_text_for_dish
+from utils.basic_utils import get_text, get_lang
 from api_requests.requests import get_dish_by_id_api
-from keyboards.basic_kb import back_to_main_menu_kb, open_web_menu_kb, main_menu_kb
-
+from keyboards.basic_kb import back_to_main_menu_kb, open_web_menu_kb, \
+    main_menu_kb
 
 router_menu = Router()
 
@@ -18,9 +19,13 @@ async def choose_type_order_handler(message: Message, state: FSMContext) -> None
     """
     Choose type order
     """
+    chat_id: int = message.chat.id
+    
+    lang: str = get_lang(chat_id=chat_id)
+    
     await message.answer(
-        text='Выберите тип заказа.',
-        reply_markup=choose_type_order_kb()
+        text=get_text(lang, 'choose_type_order'),
+        reply_markup=choose_type_order_kb(lang=lang)
     )
 
 
@@ -109,6 +114,7 @@ async def back_to_categories_menu_handler(call: CallbackQuery, state: FSMContext
         text='Выберите категорию:',
         reply_markup=categories_menu_kb(total_sum_cart)
     )
+
 
 @router_menu.callback_query(F.data.startswith("category_"))
 async def dishes_menu_handler(call: CallbackQuery) -> None:
