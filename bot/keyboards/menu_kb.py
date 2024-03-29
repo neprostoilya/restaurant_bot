@@ -23,7 +23,7 @@ def choose_type_order_kb(lang: str):
     )
 
 
-def categories_menu_kb(total_sum_cart):
+def categories_menu_kb(lang: str, total_sum_cart: int):
     """
     Categories menu keyboard
     """
@@ -32,7 +32,7 @@ def categories_menu_kb(total_sum_cart):
     builder = InlineKeyboardBuilder()
 
     builder.button(
-        text=f'🛒 Корзина ({total_sum_cart} сум)',
+        text=get_text(lang, 'cart_btn_in_menu') + f' ({total_sum_cart} сум)',
         callback_data='cart'
     )
 
@@ -49,7 +49,7 @@ def categories_menu_kb(total_sum_cart):
     )
 
 
-def dishes_menu_kb(category):
+def dishes_menu_kb(lang: str, category: int):
     """
     Dishes menu keyboard
     """
@@ -64,7 +64,7 @@ def dishes_menu_kb(category):
         )
         
     builder.button(
-        text='⬅️ Назад',
+        text=get_text(lang, 'back_btn'),
         callback_data='bact_to_categories'
     )
     
@@ -75,7 +75,7 @@ def dishes_menu_kb(category):
     )
 
 
-def in_dish_kb(quantity: int, category: int):
+def in_dish_kb(lang: str, quantity: int, category: int):
     """
     Dish keyboard
     """
@@ -97,12 +97,12 @@ def in_dish_kb(quantity: int, category: int):
     )
 
     builder.button(
-        text="🛒 В корзину",
+        text=get_text(lang, 'into_cart_btn'),
         callback_data=f"put_into_cart"
     )
     
     builder.button(
-        text='⬅️ Назад',
+        text=get_text(lang, 'back_btn'),
         callback_data=f'bact_to_dishes_{category}'
     )
 

@@ -57,19 +57,25 @@ def get_text_for_view_orders(order: dict):
     return text
 
 
-def get_text_for_accepted_order(order: dict):
+def get_text_for_accepted_order(language: str, order: dict):
     """ 
     Get text for accepted order
-    """        
-    text: str = f'Ваш заказ №{hbold(order.get('id'))} был принят! 😀' 
-    
+    """
+    if language == 'ru':
+        text: str = f'Ваш заказ №{hbold(order.get('id'))} был принят! 😀' 
+    else:
+        text: str = f'Sizning buyurtmangiz №{hbold(order.get('id'))} qabul qilindi! 😀' 
+        
     return text
 
 
-def get_text_for_rejected_order(order: dict):
+def get_text_for_rejected_order(language: str, order: dict):
     """ 
     Get text for rejected order
-    """        
-    text: str = f'Ваш заказ №{hbold(order.get('id'))} был отклонен! 😥' 
-    
+    """
+    if language == 'ru':    
+        text: str = f'Ваш заказ №{hbold(order.get('id'))} был отклонен! 😥' 
+    else:
+        text: str = f'Sizning buyurtmangiz №{hbold(order.get('id'))} rad etildi! 😥'
+        
     return text

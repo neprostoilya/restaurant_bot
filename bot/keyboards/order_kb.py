@@ -1,14 +1,16 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder, ReplyKeyboardBuilder
 
+from utils.basic_utils import get_text, get_lang
 
-def create_order_btn_kb():
+
+def create_order_btn_kb(language: str):
     """ 
     Create order button
     """
     builder = InlineKeyboardBuilder()
     
     builder.button(
-        text="✅ Заказать",
+        text=get_text(language, 'create_order_btn'),
         callback_data=f"create_order"
     )
     
@@ -17,22 +19,22 @@ def create_order_btn_kb():
     )
     
     
-def select_time_kb():
+def select_time_kb(language: str):
     """ 
     Create order button
     """
     builder = ReplyKeyboardBuilder()
     
     builder.button(
-        text="✅ Ближайшее время",
+        text=get_text(language, 'near_soon_btn'),
     )
     
     builder.button(
-        text="🕛 Указать время",
+        text=get_text(language, 'set_time_btn'),
     )
     
     builder.button(
-        text="⬅️ Назад",
+        text=get_text(language, 'back_btn'),
     )
     builder.adjust(2, 1)
     
@@ -60,7 +62,7 @@ def select_table_kb(quantity_tables: int):
     )
     
 
-def select_payment_type_kb():
+def select_payment_type_kb(language: str):
     """ 
     Select payment type
     """
@@ -77,7 +79,7 @@ def select_payment_type_kb():
     )
     
     builder.button(
-        text=f"⬅️ Назад",
+        text=get_text(language, 'back_btn'),
         callback_data=f"back_to_select_table"
     )
     
@@ -111,14 +113,14 @@ def order_approval_kb(order_id: int, chat_id: int):
     )
     
     
-def review_order_kb(order_id: int):
+def review_order_kb(language: str, order_id: int):
     """ 
     Review order keyboard
     """
     builder = InlineKeyboardBuilder()
 
     builder.button(
-        text=f"📝 Оставить отзыв",
+        text=get_text(language, 'to_review_btn'),
         callback_data=f"to_review_order_{order_id}"
     )
     
@@ -129,14 +131,14 @@ def review_order_kb(order_id: int):
     )
 
 
-def back_btn_kb():
+def back_btn_kb(language: str):
     """ 
     Back btn button
     """
     builder = ReplyKeyboardBuilder()
     
     builder.button(
-        text="⬅️ Назад",
+        text=get_text(language, 'back_btn'),
     )
     builder.adjust(2, 1)
     
@@ -145,14 +147,14 @@ def back_btn_kb():
     )
     
 
-def pay_order_kb(order_id: int):
+def pay_order_kb(language: str, order_id: int):
     """ 
     Pay order keyboard
     """
     builder = InlineKeyboardBuilder()
 
     builder.button(
-        text=f"💳 Оплатить",
+        text=get_text(language, 'pay_order'),
         callback_data=f"pay_order_{order_id}"
     )
      

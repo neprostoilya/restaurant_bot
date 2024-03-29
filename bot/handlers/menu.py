@@ -13,54 +13,70 @@ from keyboards.basic_kb import back_to_main_menu_kb, open_web_menu_kb, \
 
 router_menu = Router()
 
+START_ORDER = ["🛒 Начать заказ", "🛒 Buyurtmani boshlang"] 
 
-@router_menu.message(F.text == "🛒 Начать заказ")
+TYPE_ORDER_PICKUP = ["🚶 Olib ketish", "🚶 Самовывоз"] 
+
+TYPE_ORDER_BOOKING = ["🍽️ Бронирование стола", "🍽️ Jadvalni bron qilish"] 
+
+BACK_TO_MAIN = ["⬅️ Главное меню", "⬅️ Asosiy menyu"] 
+
+@router_menu.message(F.text.in_(START_ORDER))
 async def choose_type_order_handler(message: Message, state: FSMContext) -> None:
     """
     Choose type order
     """
     chat_id: int = message.chat.id
     
-    lang: str = get_lang(chat_id=chat_id)
+    lang: str = await get_lang(chat_id=chat_id, state=state)
     
     await message.answer(
         text=get_text(lang, 'choose_type_order'),
-        reply_markup=choose_type_order_kb(lang=lang)
+        reply_markup=choose_type_order_kb(lang)
     )
 
 
-@router_menu.message(F.text == "🚶 Самовывоз")
+@router_menu.message(F.text.in_(TYPE_ORDER_PICKUP))
 async def pickup_order_handler(message: Message, state: FSMContext) -> None:
     """
-    Pickup Order
+    Pickup Order Handler
     """
+    chat_id: int = message.chat.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
     await message.answer(
-        text='В данный момент находиться в разработке. 🙃',
+        text=get_text(lang, 'pickup_text'),
+    
     )
 
 
-@router_menu.message(F.text == "🍽️ Бронирование стола")
+@router_menu.message(F.text.in_(TYPE_ORDER_BOOKING))
 async def booking_order_handler(message: Message, state: FSMContext) -> None:
     """
     Booking Order
     """
+    chat_id: int = message.chat.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
     data: dict = await state.get_data()
     
     await message.answer(
-        text=f'Вы выбрали тип: {hbold('Бронирование')}',
-        reply_markup=back_to_main_menu_kb()
+        text=get_text(lang, 'booking_text'),
+        reply_markup=back_to_main_menu_kb(lang)
     )
     
     web_menu = await message.answer(
-        text='Попробуйте заказать в интерактивном меню 🤖',
-        reply_markup=open_web_menu_kb()
+        text=get_text(lang, 'interact_menu_text'),
+        reply_markup=open_web_menu_kb(lang)
     )  
     
     total_sum_cart: int = data.get('total_price', 0) 
     
     categories_menu = await message.answer(
-        text='Выберите категорию:',
-        reply_markup=categories_menu_kb(total_sum_cart)
+        text=get_text(lang, 'choose_category'),
+        reply_markup=categories_menu_kb(lang, total_sum_cart)
     )
     
     menu_mesages_ids: list = []
@@ -75,12 +91,14 @@ async def booking_order_handler(message: Message, state: FSMContext) -> None:
     )
     
 
-@router_menu.message(F.text == "⬅️ Главное меню")
+@router_menu.message(F.text.in_(BACK_TO_MAIN))
 async def back_to_main_menu_handler(message: Message, state: FSMContext) -> None:
     """
     Back to main menu 
     """
     chat_id: int = message.from_user.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
     
     data: dict = await state.get_data()
     
@@ -93,8 +111,8 @@ async def back_to_main_menu_handler(message: Message, state: FSMContext) -> None
         )    
 
     await message.answer(
-        text='Выберите направление:',
-        reply_markup=main_menu_kb()
+        text=get_text(lang, 'choose_direction'),
+        reply_markup=main_menu_kb(lang)
     )
 
 
@@ -103,29 +121,34 @@ async def back_to_categories_menu_handler(call: CallbackQuery, state: FSMContext
     """
     Back to categories menu 
     """
+    chat_id: int = call.from_user.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
     data: dict = await state.get_data()
     
-    if data.get('total_price'):
-        total_sum_cart: int = data.get('total_price') 
-    else: 
-        total_sum_cart: int = 0
+    total_sum_cart: int = data.get('total_price', 0) 
     
     await call.message.edit_text(
-        text='Выберите категорию:',
-        reply_markup=categories_menu_kb(total_sum_cart)
+        text=get_text(lang, 'choose_category'),
+        reply_markup=categories_menu_kb(lang, total_sum_cart)
     )
 
 
-@router_menu.callback_query(F.data.startswith("category_"))
-async def dishes_menu_handler(call: CallbackQuery) -> None:
+@router_menu.callback_query(F.data.startswith("category"))
+async def dishes_menu_handler(call: CallbackQuery, state: FSMContext) -> None:
     """
     Get dishes menu handler
     """
+    chat_id: int = call.from_user.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
     category: int = int(call.data.split("_")[-1])
 
     await call.message.edit_text(
-        text='Выберите блюдо:',
-        reply_markup=dishes_menu_kb(category)
+        text=get_text(lang, 'choose_dish'),
+        reply_markup=dishes_menu_kb(lang, category)
     )
 
 
@@ -134,6 +157,10 @@ async def dish_handler(call: CallbackQuery, state: FSMContext) -> None:
     """
     Inside Dish
     """
+    chat_id: int = call.from_user.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
     dish_id: int = int(call.data.split("_")[-1])
 
     dish: dict = get_dish_by_id_api(dish_id)[0]
@@ -157,6 +184,7 @@ async def dish_handler(call: CallbackQuery, state: FSMContext) -> None:
     )
 
     text: str = get_text_for_dish(
+        language=lang,
         title=title,
         description=description,
         price=price
@@ -167,22 +195,26 @@ async def dish_handler(call: CallbackQuery, state: FSMContext) -> None:
     await call.message.answer_photo(
         photo=FSInputFile(f'api{image}'),
         caption=text,
-        reply_markup=in_dish_kb(quantity=quantity, category=dish.get('category')),
+        reply_markup=in_dish_kb(lang, quantity=quantity, category=dish.get('category')),
     )
 
 
 @router_menu.callback_query(F.data.startswith("bact_to_dishes"))
-async def back_to_dishes_menu_handler(call: CallbackQuery) -> None:
+async def back_to_dishes_menu_handler(call: CallbackQuery, state: FSMContext) -> None:
     """
     Back to dishes menu 
     """
+    chat_id: int = call.from_user.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
     category: int = int(call.data.split("_")[-1])
 
     await call.message.delete()
 
     await call.message.answer(
-        text='Выберите блюдо:',
-        reply_markup=dishes_menu_kb(category=category)
+        text=get_text(lang, 'choose_dish'),
+        reply_markup=dishes_menu_kb(lang, category)
     )
 
 
@@ -191,6 +223,10 @@ async def plus_quantity_handler(call: CallbackQuery, state: FSMContext) -> None:
     """
     Reaction on click plus
     """
+    chat_id: int = call.from_user.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
     data: dict = await state.get_data()
     
     title: str = data.get('title_dish')
@@ -206,6 +242,7 @@ async def plus_quantity_handler(call: CallbackQuery, state: FSMContext) -> None:
     )
     
     text: str = get_text_for_dish(
+        language=lang,
         title=title,
         description=description,
         price=price
@@ -213,11 +250,11 @@ async def plus_quantity_handler(call: CallbackQuery, state: FSMContext) -> None:
     
     await call.message.edit_caption(
         caption=text,
-        reply_markup=in_dish_kb(quantity=quantity, category=data.get('category')),
+        reply_markup=in_dish_kb(lang, quantity=quantity, category=data.get('category')),
     )
 
     await call.answer(
-        text='Колличество увеличено'
+        text=get_text(lang, 'plus_quantity_text')
     )
 
 
@@ -226,6 +263,10 @@ async def plus_quantity_handler(call: CallbackQuery, state: FSMContext) -> None:
     """
     Reaction on click minus
     """
+    chat_id: int = call.from_user.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
     data: dict = await state.get_data()
     
     title: str = data.get('title_dish')
@@ -241,6 +282,7 @@ async def plus_quantity_handler(call: CallbackQuery, state: FSMContext) -> None:
     )
     
     text: str = get_text_for_dish(
+        language=lang,
         title=title,
         description=description,
         price=price
@@ -248,11 +290,11 @@ async def plus_quantity_handler(call: CallbackQuery, state: FSMContext) -> None:
     
     await call.message.edit_caption(
         caption=text,
-        reply_markup=in_dish_kb(quantity=quantity, category=data.get('category')),
+        reply_markup=in_dish_kb(lang, quantity=quantity, category=data.get('category')),
     )
     
     await call.answer(
-        text='Колличество уменьшено'
+        text=get_text(lang, 'minus_quantity_text')
     )
     
     
@@ -261,6 +303,10 @@ async def put_into_cart_handler(call: CallbackQuery, state: FSMContext) -> None:
     """
     Reaction on click put into cart
     """
+    chat_id: int = call.from_user.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
     data: dict = await state.get_data()
     
     quantity: int = data.get('quantity_dish') 
@@ -297,8 +343,8 @@ async def put_into_cart_handler(call: CallbackQuery, state: FSMContext) -> None:
     await call.message.delete()
       
     await call.message.answer(
-        text='Выберите категорию:',
-        reply_markup=categories_menu_kb(total_price_all_cart)
+        text=get_text(lang, 'choose_category'),
+        reply_markup=categories_menu_kb(lang, total_price_all_cart)
     )
 
 

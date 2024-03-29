@@ -8,10 +8,10 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import ContentType
 
-from keyboards.basic_kb import back_to_main_menu_kb
+from utils.basic_utils import get_text, get_lang
+from keyboards.basic_kb import back_to_main_menu_kb, main_menu_kb
 from api_requests.requests import check_user_api, create_order_api, \
     get_orders_by_user_api, update_order_status_api, get_order_by_order_id_api
-from keyboards.basic_kb import main_menu_kb
 from keyboards.order_kb import select_time_kb, select_table_kb, select_payment_type_kb, \
     order_approval_kb, review_order_kb, back_btn_kb, pay_order_kb
 from config.configuration import CLICK, PAYME, GROUP_ID
@@ -38,7 +38,9 @@ async def create_order_handler(call: CallbackQuery, state: FSMContext) -> None:
     """
     Create order handler
     """
-    chat_id: int = call.from_user.id
+    chat_id: int = call.chat.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
     
     data: dict = await state.get_data()
 
@@ -50,30 +52,36 @@ async def create_order_handler(call: CallbackQuery, state: FSMContext) -> None:
     )
     
     await call.message.answer(
-        text='Укажите удобное для вас время для брони столика:',
-        reply_markup=select_time_kb()
+        text=get_text(lang, 'select_time'),
+        reply_markup=select_time_kb(lang)
     )
     
     await state.set_state(CreateOrder.type_select_time)
 
 
-@router_order.message(CreateOrder.type_select_time, F.text == '✅ Ближайшее время')
+NEAR_TIME = ['✅ Ближайшее время', '✅ Tez orada']
+
+
+@router_order.message(CreateOrder.type_select_time, F.text.in_(NEAR_TIME))
 async def selected_nearest_time_handler(message: Message, state: FSMContext) -> None:
     """
     Selected nearest time for order handler
     """
+    chat_id: int = message.chat.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
     time = datetime.now() + timedelta(minutes=30)
     
     await message.answer(
-        text='Хорошо, теперь выберите столик на миникарте.',
-        reply_markup=back_btn_kb()
+        text=get_text(lang, 'select_table_text'),
+        reply_markup=back_btn_kb(lang)
     )
     await state.update_data(
         time_order=f'{time.hour}:{time.minute}'
     )
     
     await message.answer_photo(
-        caption='Хорошо, теперь выберите столик на миникарте.',
         photo=FSInputFile('bot/images/map.png'),
         reply_markup=select_table_kb(6) # TODO Change it quantity
     )
@@ -81,14 +89,21 @@ async def selected_nearest_time_handler(message: Message, state: FSMContext) -> 
     await state.set_state(CreateOrder.table)
 
 
-@router_order.message(CreateOrder.type_select_time, F.text == '🕛 Указать время')
+SET_TIME = ['🕛 Указать время', '🕛 Vaqtni belgilang']
+
+
+@router_order.message(CreateOrder.type_select_time, F.text.in_(SET_TIME))
 async def selected_type_time_handler(message: Message, state: FSMContext) -> None:
     """
     Selected time for order handler
     """
+    chat_id: int = message.chat.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
     await message.answer(
-        text='Для брони столика отправьте время в виде "##:##"',
-        reply_markup=back_btn_kb()
+        text=get_text(lang, 'set_time_text'),
+        reply_markup=back_btn_kb(lang)
     )
     
     await state.set_state(CreateOrder.time)
@@ -99,6 +114,10 @@ async def selected_time_handler(message: Message, state: FSMContext) -> None:
     """
     Selected time for order handler
     """
+    chat_id: int = message.chat.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
     text: str = message.text
     
     time_pattern = r"([01]?[0-9]|2[0-3]):([0-5]?[0-9])"
@@ -107,7 +126,7 @@ async def selected_time_handler(message: Message, state: FSMContext) -> None:
         hours, minutes = map(int, text.split(':'))
         if hours <= 23 and minutes <= 59:
             await message.answer_photo(
-                caption='Хорошо, теперь выберите столик на миникарте.',
+                caption=get_text(lang, 'select_table_text'),
                 photo=FSInputFile('bot/images/map.png'),
                 reply_markup=select_table_kb(6) # TODO Change it quantity
             )
@@ -119,11 +138,11 @@ async def selected_time_handler(message: Message, state: FSMContext) -> None:
             await state.set_state(CreateOrder.table)
         else:
             await message.answer(
-                text='Формат допустимый, но время не правильное! Повторите еще раз.'
+                text=get_text(lang, 'error_format_time')
             )
     else:
         await message.answer(
-            text='Ошибка при написании времени! Повторите еще раз.'
+            text=get_text(lang, 'error_text_time')
         )
         
         
@@ -132,6 +151,10 @@ async def selected_table_handler(call: CallbackQuery, state: FSMContext) -> None
     """
     Selected table for order handler
     """
+    chat_id: int = call.chat.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
     table: int = int(call.data.split("_")[-1])
     
     await state.update_data(
@@ -139,8 +162,8 @@ async def selected_table_handler(call: CallbackQuery, state: FSMContext) -> None
     )
     
     await call.message.answer(
-        'Отлично, теперь введите колл-во людей:',
-        reply_markup=back_btn_kb()
+        text=get_text(lang, 'set_quantity_people'),
+        reply_markup=back_btn_kb(lang)
     )
     
     await state.set_state(CreateOrder.quantity_people)
@@ -151,6 +174,10 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
     """
     Selected quantity people for order handler
     """
+    chat_id: int = message.chat.id
+
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
     quantity: str = message.text
     
     quantity_pattern = r"\d"
@@ -158,12 +185,12 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
     if re.match(quantity_pattern, quantity):
         if 0 < int(quantity) < 50:
             await message.answer(
-                text='Отлично, заявка создана, ждите одобрение от мененджера. 😊',
+                text=get_text(lang, 'succes_create_order'),
             )
             
             await message.answer(
-                text='Выберите направление:',
-                reply_markup=main_menu_kb()
+                text=get_text(lang, 'choose_direction'),
+                reply_markup=main_menu_kb(lang)
             )
             
             chat_id: int = message.chat.id
@@ -188,8 +215,6 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
             
             for dish_id, _ in carts:
                 dishes.append(dish_id)
-            
-            print(time_order)
             
             order: dict = create_order_api(
                 carts=dishes,
@@ -219,11 +244,11 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
             )
         else:
             await message.answer(
-                text='Ошибка указано неправильное колл-во! Повторите еще раз.'
+                text=get_text(lang, 'error_wrong_quantity')
             )
     else:
         await message.answer(
-            text='Ошибка указано было не колл-во! Повторите еще раз.'
+            text=get_text(lang, 'error_format_quantity')
         )
 
 
@@ -233,6 +258,8 @@ async def accept_order_handler(call: CallbackQuery) -> None:
     Accept order 
     """
     chat_id_user: int = int(call.data.split("_")[-1])
+
+    lang: str = await get_lang(chat_id=chat_id_user, state=None)
     
     order_id: int = int(call.data.split("_")[-2])
     
@@ -244,9 +271,10 @@ async def accept_order_handler(call: CallbackQuery) -> None:
     await call.bot.send_message(
         chat_id=chat_id_user,
         text=get_text_for_accepted_order(
+            language=lang,
             order=order
         ),
-        reply_markup=pay_order_kb(order.get('id'))
+        reply_markup=pay_order_kb(lang, order.get('id'))
     )
     
 
@@ -256,6 +284,8 @@ async def reject_order_handler(call: CallbackQuery) -> None:
     Reject order 
     """
     chat_id_user: int = int(call.data.split("_")[-1])
+    
+    lang: str = await get_lang(chat_id=chat_id_user, state=None)
     
     order_id: int = int(call.data.split("_")[-2])
     
@@ -267,6 +297,7 @@ async def reject_order_handler(call: CallbackQuery) -> None:
     await call.bot.send_message(
         chat_id=chat_id_user,
         text=get_text_for_rejected_order(
+            language=lang,
             order=order
         )
     )
@@ -277,6 +308,10 @@ async def select_payment_type_handler(call: CallbackQuery, state: FSMContext) ->
     """
     Select payment type 
     """
+    chat_id: int = call.chat.id
+
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
     order_id: int = int(call.data.split("_")[-1])
 
     await state.update_data(
@@ -284,8 +319,8 @@ async def select_payment_type_handler(call: CallbackQuery, state: FSMContext) ->
     )
 
     await call.message.answer(
-        text='Отлично, теперь выберите тип оплаты:',
-        reply_markup=select_payment_type_kb()
+        text=get_text(lang, 'choose_type_order'),
+        reply_markup=select_payment_type_kb(lang)
     )
 
     await state.set_state(PayOrder.finish_order)
@@ -296,6 +331,10 @@ async def payment_with_click_handler(call: CallbackQuery, state: FSMContext) -> 
     """
     Payment with click handler
     """
+    chat_id: int = call.chat.id
+
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
     data: dict = await state.get_data()
     
     order_id: int = data.get('order_id')
@@ -319,13 +358,25 @@ async def payment_with_click_handler(call: CallbackQuery, state: FSMContext) -> 
             ),
         ]
     )
-
+    
+    await call.message.answer(
+        text=get_text(lang, 'succes_payment_order'),
+    )
+    
+    await call.message.answer(
+        text=get_text(lang, 'choose_direction'),
+        reply_markup=main_menu_kb(lang)
+    )
 
 @router_order.callback_query(PayOrder.finish_order, F.data.startswith("type_payme"))
 async def payment_with_payme_handler(call: CallbackQuery, state: FSMContext) -> None:
     """
     Payment with payme handler
     """
+    chat_id: int = call.chat.id
+
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+
     data: dict = await state.get_data()
     
     order_id: int = data.get('order_id')
@@ -351,12 +402,12 @@ async def payment_with_payme_handler(call: CallbackQuery, state: FSMContext) -> 
     )
     
     await call.message.answer(
-        text='Ваш заказ в процессе! ☺️\nСтатус заказа обновлен.\nТекущие заказы вы можете посмотреть в "Мои заказы"',
+        text=get_text(lang, 'succes_payment_order'),
     )
     
     await call.message.answer(
-        text='Выберите направление:',
-        reply_markup=main_menu_kb()
+        text=get_text(lang, 'choose_direction'),
+        reply_markup=main_menu_kb(lang)
     )
 
     
@@ -374,21 +425,25 @@ async def successful_payment_handler(message: Message):
     for key, val in pmnt.items():
         print(f'{key} = {val}')
         
-        
-@router_order.message(F.text == '📖 Мои заказы')
-async def get_all_orders_handler(message: Message) -> None:
+
+MY_ORDERS = ['📖 Мои заказы', '📖 Mening buyurtmalarim']
+
+@router_order.message(F.text.in_(MY_ORDERS))
+async def get_my_orders_handler(message: Message, state: FSMContext) -> None:
     """
-    Get all orders
+    Get my orders
     """
     chat_id: int = message.from_user.id 
-    
+
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+
     user: dict = check_user_api(chat_id=chat_id)[0].get('pk')
     
     orders: dict = get_orders_by_user_api(user=user)
     
     if orders:
         await message.answer(
-            text='Ваши последние 3 заказа:',
+            text=get_text(lang, 'my_last_three_orders'),
             reply_markup=back_to_main_menu_kb()
         )
         
@@ -399,5 +454,5 @@ async def get_all_orders_handler(message: Message) -> None:
             )
     else:
         await message.answer(
-            text='У вас нету ни одного заказа. 😅'
+            text=get_text(lang, 'empty_orders'),
         )

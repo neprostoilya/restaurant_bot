@@ -1,9 +1,10 @@
 from aiogram import Router, F
-from aiogram.types import Message
+from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.markdown import hbold
 from aiogram.fsm.state import StatesGroup, State
 
+from utils.basic_utils import get_text, get_lang
 from api_requests.requests import update_user_language_api, \
     update_user_phone_api
 from keyboards.settings_kb import settings_kb
@@ -20,25 +21,37 @@ class ChangeLanguage(StatesGroup):
 class ChangePhone(StatesGroup):
     phone = State()
     
+SETTINGS = ['⚙️ Настройки', '⚙️ Sozlamalar']
 
-@router_settings.message(F.text == "⚙️ Настройки")
-async def settings_handler(message: Message) -> None:
+@router_settings.message(F.text.in_(SETTINGS))
+async def settings_handler(message: Message, state: FSMContext) -> None:
     """
     Change settings user
     """
+    chat_id: int = message.chat.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
     await message.answer(
-        text=hbold('Выберите действие:'),
-        reply_markup=settings_kb()
+        text=get_text(lang, 'choose_action'),
+        reply_markup=settings_kb(lang)
     )
+
+
+CHANGE_LANGUAGE = ["🇺🇿 Сменить язык", "🇺🇿 Tilni o'zgartiring"]
         
-        
-@router_settings.message(F.text == "🇺🇿 Сменить язык")
+
+@router_settings.message(F.text.in_(CHANGE_LANGUAGE))
 async def change_language_handler(message: Message, state: FSMContext) -> None:
     """
     Change language
     """
+    chat_id: int = message.chat.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
     await message.answer(
-        text=hbold('Выберите язык:'),
+        text=get_text(lang, 'choose_language_settings'),
         reply_markup=choose_language_kb()
     )
     
@@ -66,25 +79,32 @@ async def change_language_handler(message: Message, state: FSMContext) -> None:
     )
 
     await message.answer(
-        text='Язык успешно изменен!😀'
+        text=get_text(language, 'succes_changed_language')
     )
     
     await message.answer(
-        text='Выберите направление:',
-        reply_markup=main_menu_kb()
+        text=get_text(language, 'choose_direction'),
+        reply_markup=main_menu_kb(language)
     )
     
     await state.set_state(None)
 
 
-@router_settings.message(F.text == "📞 Сменить номер")
+CHANGE_PHONE = ['📞 Сменить номер', "📞 Raqamni o'zgartiring"]
+
+
+@router_settings.message(F.text)
 async def change_phone_handler(message: Message, state: FSMContext) -> None:
     """
     Change phone
     """
+    chat_id: int = message.chat.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
     await message.answer(
-        text=hbold('Введите номер в виде +998##########:'),
-        reply_markup=settings_kb()
+        text=get_text(lang, 'change_phone_text'),
+        reply_markup=ReplyKeyboardRemove()
     )
     
     await state.set_state(ChangePhone.phone)
@@ -97,6 +117,8 @@ async def change_phone_handler(message: Message, state: FSMContext) -> None:
     """
     chat_id: int = message.from_user.id
     
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
     phone: str = message.text 
 
     update_user_phone_api(
@@ -105,12 +127,12 @@ async def change_phone_handler(message: Message, state: FSMContext) -> None:
     )
 
     await message.answer(
-        text='Номер успешно изменен!😉'
+        text=get_text(lang, 'succes_changed_phone')
     )
     
     await message.answer(
-        text='Выберите направление:',
-        reply_markup=main_menu_kb()
+        text=get_text(lang, 'choose_direction'),
+        reply_markup=main_menu_kb(lang)
     )
     
     await state.set_state(None)

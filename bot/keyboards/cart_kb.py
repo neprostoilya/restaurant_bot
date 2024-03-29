@@ -1,5 +1,7 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
+from utils.basic_utils import get_text
+
 
 def cart_kb(quantity: int, dish_id: int):
     """ 
@@ -29,14 +31,14 @@ def cart_kb(quantity: int, dish_id: int):
     )
     
 
-def create_order_btn_kb():
+def create_order_btn_kb(language: str):
     """ 
     Create order button
     """
     builder = InlineKeyboardBuilder()
     
     builder.button(
-        text="✅ Заказать",
+        text=get_text(language, 'create_order_btn'),
         callback_data=f"create_order"
     )
     

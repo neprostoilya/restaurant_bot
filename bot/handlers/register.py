@@ -6,6 +6,8 @@ from aiogram.fsm.state import StatesGroup, State
 from api_requests.requests import register_user_api
 from keyboards.register_kb import send_contact_kb
 from keyboards.basic_kb import main_menu_kb
+from utils.basic_utils import get_text, get_lang
+
 
 router_register = Router()
 
@@ -33,8 +35,8 @@ async def set_language_handler(message: Message, state: FSMContext) -> None:
     await message.delete()
 
     await message.answer(
-        text='Отлично, теперь отправьте нам контакт.',
-        reply_markup=send_contact_kb()
+        text=get_text(language, 'send_contact_btn'),
+        reply_markup=send_contact_kb(language)
     )
 
     await state.set_state(Registration.contact)
@@ -62,8 +64,8 @@ async def finish_register_handler(message: Message, state: FSMContext) -> None:
     await message.delete()
 
     await message.answer(
-        text='Выберите направление:',
-        reply_markup=main_menu_kb()
+        text=get_text(language, 'choose_direction'),
+        reply_markup=main_menu_kb(language)
     )
 
     await state.clear()
