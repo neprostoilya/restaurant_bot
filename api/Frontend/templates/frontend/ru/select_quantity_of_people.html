@@ -1,0 +1,45 @@
+<!-- Ваш шаблон HTML -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block main %}
+<script src="https://telegram.org/js/telegram-web-app.js"></script> 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'frontend/select_quantity_of_people.js' %}"></script>
+
+<div class="HeaderWrapper">
+  <button class="BackButton" style="background: transparent; top: 40px; left: 20px; box-shadow: none;">
+    <span style="box-sizing: border-box; display: inline-block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: relative; max-width: 100%;">
+      <span style="box-sizing: border-box; display: block; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; max-width: 100%;">
+      </span>
+      <a href="{% url 'frontend:select_table_view_ru'  %}"><i class="fa-solid fa-chevron-left fa-lg"></i></a>
+    </span>
+  </button>
+  <h1>Выбор количества людей</h1>
+  <div class="HeaderNone"><div style="width: 48px; height: 48px;"></div></div>
+</div>
+
+<div class="TimePicker">
+  <div class="form-floating">
+    <input value="1" type="number" id="typeNumber" class="form-control"/>
+    <label class="form-label" for="typeNumber">Количество</label>
+  </div>
+  <div id="TimeBlock" class="form-text TextInputTime">
+    Количество людей для столика.
+  </div>
+
+  <div>
+    <a href="#" class="ButtonWrapperAtable">
+      <div class="ButtonBlockWrapperQuantityPeople">
+        <button class="ButtonWrapperQuantityPeople" style="margin: 0px; width: 100%;">
+          <div class="ButtonWrapperDivQuantityPeople"><p class="TextButtonWrapperQuantityPeople TextButtonWrapperPQuantityPeople">Перейти к оплате</p></div>
+        </button>
+      </div>
+    </a>
+  </div>
+</div>
+{% endblock main %}

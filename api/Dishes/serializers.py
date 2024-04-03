@@ -8,4 +8,7 @@ class DishesSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Dishes
-        fields = ('pk', 'title', 'category', 'image', 'descriptiontrim', 'description', 'price')
+        fields = (
+            'pk', 'title_ru', 'category', 'image', 'descriptiontrim_ru', 'description_ru', 'price',
+            'title_uz', 'descriptiontrim_uz', 'description_uz', 
+        )

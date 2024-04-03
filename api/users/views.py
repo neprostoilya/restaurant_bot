@@ -117,3 +117,20 @@ class GetUserLanguageAPIView(APIView):
         )
         serializer = self.serializer_class(users, many=True)
         return Response(data={'language': serializer.data[0].get('language')})
+
+
+class CheckManagerAPIView(APIView):
+    """
+    Check Manager 
+    """
+    model = UserProfile
+    serializer_class = UserSerializer
+
+    def get(self, request, telegram_pk):
+        users = self.model.objects.filter(
+            telegram_pk=telegram_pk,
+            is_staff=True
+        )
+        serializer = self.serializer_class(users, many=True)
+        return Response(data=serializer.data)
+

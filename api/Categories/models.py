@@ -6,13 +6,18 @@ class Categories(models.Model):
     """
     Model Categories Dish
     """
-    title = models.CharField(
+    title_ru = models.CharField(
         max_length=100,
-        verbose_name='Название категории'
+        verbose_name='Название категории RU'
     )
-
+    
+    title_uz = models.CharField(
+        max_length=100,
+        verbose_name='Название категории UZ'
+    )
+    
     def __str__(self) -> CharField:
-        return self.title
+        return self.title_ru
 
     def __repr__(self) -> str:
         return super().__repr__()

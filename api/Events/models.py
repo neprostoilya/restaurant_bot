@@ -9,12 +9,15 @@ class Events(models.Model):
     image = models.ImageField(
         verbose_name='Фотокарточка'
     )
-    description = models.TextField(
-        verbose_name='Описание'
+    description_ru = models.TextField(
+        verbose_name='Описание RU'
+    )
+    description_uz = models.TextField(
+        verbose_name='Описание UZ'
     )
     
     def descriptiontrim(self):
-        return u"%s" % (self.description[:35],) + '...'
+        return u"%s" % (self.description_ru[:35],) + '...'
     
     descriptiontrim.allow_tags = True
     descriptiontrim.short_description = 'Описание'

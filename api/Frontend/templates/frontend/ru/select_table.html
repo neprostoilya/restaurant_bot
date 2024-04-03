@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load static %} 
+{% block title %} 
+{{ title }} 
+{% endblock title %}
+
+{% block main %}
+
+<div class="HeaderWrapper">
+	<button class="BackButton" style="background: transparent; top: 40px; left: 20px; box-shadow: none;">
+		<span style="box-sizing: border-box; display: inline-block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: relative; max-width: 100%;">
+			<span style="box-sizing: border-box; display: block; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; max-width: 100%;">
+			</span>
+			<a href="{% url 'frontend:select_time_view_ru'  %}"><i class="fa-solid fa-chevron-left fa-lg"></i></a>
+		</span>
+	</button>   
+	<h1>Выбор столика</h1>
+	<div class="HeaderNone"><div style="width: 48px; height: 48px;"></div></div>
+</div>
+
+<div class="RestourantMap">
+    <div class="Table" value="1"><img src="https://abrakadabra.fun/uploads/posts/2022-02/1644931148_27-abrakadabra-fun-p-stol-vid-sverkhu-44.png" alt="Table 1"></div>
+    <div class="Table" value="2"><img src="https://abrakadabra.fun/uploads/posts/2022-02/1644931148_27-abrakadabra-fun-p-stol-vid-sverkhu-44.png" alt="Table 1"></div>
+    <div class="Table" value="3"><img src="https://abrakadabra.fun/uploads/posts/2022-02/1644931148_27-abrakadabra-fun-p-stol-vid-sverkhu-44.png" alt="Table 1"></div>
+    <div class="Table" value="4"><img src="https://abrakadabra.fun/uploads/posts/2022-02/1644931148_27-abrakadabra-fun-p-stol-vid-sverkhu-44.png" alt="Table 1"></div>
+    <div class="Table" value="5"><img src="https://abrakadabra.fun/uploads/posts/2022-02/1644931148_27-abrakadabra-fun-p-stol-vid-sverkhu-44.png" alt="Table 1"></div>
+    <div class="Table" value="6"><img src="https://abrakadabra.fun/uploads/posts/2022-02/1644931148_27-abrakadabra-fun-p-stol-vid-sverkhu-44.png" alt="Table 2"></div>
+</div>
+
+<div>
+	<div class="TextBlockWrapper">
+		<div class="TextWrapper TextBottom">
+			<p class="TextBottomP">Вы не выбрали столик!</p>
+		</div>
+	</div>
+	<a href="{% url 'frontend:select_quantity_of_people_view_ru'  %}" class="ButtonWrapperAtable">
+		<div class="ButtonBlockWrapperTable">
+			<button class="ButtonWrapperTable" style="margin: 0px; width: 100%;">
+				<div class="ButtonWrapperDivTable"><p class="TextButtonWrapperTable TextButtonWrapperPTable">Далее</p></div>
+			</button>
+		</div>
+	</a>
+</div>
+
+
+{% endblock main %}

@@ -20,7 +20,7 @@ jQuery(document).ready(function($) {
         function GetUser(callback) {
             $.ajax({
                 type: "GET",
-                url: "https://f16d-95-46-67-138.ngrok-free.app/users/users/" + tg.initDataUnsafe.user.id + "/",
+                url: "https://da8c-95-46-67-138.ngrok-free.app/users/users/" + tg.initDataUnsafe.user.id + "/",
                 success: function(data) {
                     userData = data; 
                     callback(userData); 
@@ -80,7 +80,7 @@ jQuery(document).ready(function($) {
 
             $.ajax({
                 type: "POST",
-                url: "https://f16d-95-46-67-138.ngrok-free.app/orders/create_order/",
+                url: "https://da8c-95-46-67-138.ngrok-free.app/orders/create_order/",
                 data: JSON.stringify({
                     user: userPk,
                     table: storedTable,

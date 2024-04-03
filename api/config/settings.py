@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'dishes.apps.DishesConfig',
     'orders.apps.OrdersConfig',
     'rest_framework',
-    'rest_framework_simplejwt'
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -47,6 +47,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'config.urls'
 
@@ -156,13 +157,16 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-LANGUAGE_CODE = 'ru-ru'
+LANGUAGE_CODE = 'ru-uz'
 
 TIME_ZONE = 'Asia/Tashkent'
 
-USE_I18N = True
-
 USE_TZ = True
+
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

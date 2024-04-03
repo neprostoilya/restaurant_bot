@@ -12,12 +12,19 @@ class Dishes(models.Model):
         upload_to='dishes/', 
         verbose_name='Изображение'
     )
-    title = models.CharField(
+    title_ru = models.CharField(
         max_length=155,
-        verbose_name='Название блюда'
+        verbose_name='Название блюда RU'
     )
-    description = models.TextField(
-        verbose_name='Описание'
+    title_uz = models.CharField(
+        max_length=155,
+        verbose_name='Название блюда UZ'
+    )
+    description_ru = models.TextField(
+        verbose_name='Описание RU'
+    )
+    description_uz = models.TextField(
+        verbose_name='Описание UZ'
     )
     category = models.ForeignKey(
         Categories, 
@@ -31,17 +38,23 @@ class Dishes(models.Model):
     )
 
     def __str__(self) -> str:
-         return self.title
+         return self.title_ru
 
     def __repr__(self) -> str:
-         return (f'Dishes: image={self.image}, title={self.title}, description={self.description},'
-                 f' category={self.category}, pric{self.price}')
+         return (f'Dishes: image={self.image}, title_ru={self.title_ru}, title_uz={self.title_uz}, description_ru={self.description_ru},'
+                 f' description_uz={self.description_uz}, category={self.category}, price={self.price}')
     
-    def descriptiontrim(self):
-        return u"%s" % (self.description[:35],) + '...'
+    def descriptiontrim_ru(self):
+        return u"%s" % (self.description_ru[:35],) + '...'
     
-    descriptiontrim.allow_tags = True
-    descriptiontrim.short_description = 'Описание'
+    descriptiontrim_ru.allow_tags = True
+    descriptiontrim_ru.short_description = 'Описание'
+
+    def descriptiontrim_uz(self):
+        return u"%s" % (self.description_ru[:35],) + '...'
+    
+    descriptiontrim_ru.allow_tags = True
+    descriptiontrim_ru.short_description = 'Описание'
 
     def img_preview(self): 
             return mark_safe(f'<img src="{self.image.url}" width="100px" height="100px"/>')
