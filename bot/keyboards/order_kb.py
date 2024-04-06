@@ -1,6 +1,7 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder, ReplyKeyboardBuilder
 
 from utils.basic_utils import get_text, get_lang
+from api_requests.requests import get_tables_api
 
 
 def create_order_btn_kb(language: str):
@@ -43,18 +44,27 @@ def select_time_kb(language: str):
     )
     
     
-def select_table_kb(quantity_tables: int):
+def select_table_kb():
     """ 
     Create order button
     """
     builder = InlineKeyboardBuilder()
     
-    for table in range(quantity_tables):
-        builder.button(
-            text=f"№ {table+1}",
-            callback_data=f"table_{table+1}"
-        )
+    tables: dict = get_tables_api()[0]
     
+    for table in tables:
+        print(table)
+        if table.get('status') == 'Свободен':
+            builder.button(
+                text=f"№ {table.get('number')}",
+                callback_data=f"table_{table.get('pk')}"
+            )
+        else:
+            builder.button(
+                text=f"№ {table.get('number')} Занят",
+                callback_data='ignore'
+            )
+            
     builder.adjust(2)
     
     return builder.as_markup(

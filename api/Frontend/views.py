@@ -13,6 +13,10 @@ from dishes.serializers import DishesSerializer
 from categories.models import Categories
 from categories.serializers import CategoriesSerializer
 
+from tables.models import Tables
+from tables.serializers import TablesSerializer
+
+
 class MainViewRU(APIView):
     """
     View for Events and Dishes RU
@@ -81,8 +85,13 @@ class SelectTableForOrderViewRU(APIView):
     template_name = 'frontend/ru/select_table.html'
 
     def get(self, request):  
-        return Response({})
-
+        tables = Tables.objects.all()
+        tables_serializer = TablesSerializer(tables, many=True)
+        
+        return Response({
+            'tables': tables_serializer.data
+        })
+        
 
 class CartViewRU(APIView):
     """
@@ -174,7 +183,12 @@ class SelectTableForOrderViewUZ(APIView):
     template_name = 'frontend/uz/select_table.html'
 
     def get(self, request):  
-        return Response({})
+        tables = Tables.objects.all()
+        tables_serializer = TablesSerializer(tables, many=True)
+        
+        return Response({
+            'tables': tables_serializer.data
+        })
 
 
 class CartViewUZ(APIView):

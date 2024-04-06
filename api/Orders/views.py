@@ -2,8 +2,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Orders
-from .serializers import OrdersSerializer
+from .models import Orders, DishOrder
+from .serializers import OrdersSerializer, DishOrderSerializer
+
+from tables.models import Tables
+
 
 
 class CreateOrderAPIView(APIView):
@@ -13,7 +16,7 @@ class CreateOrderAPIView(APIView):
     serializer_class = OrdersSerializer
     model = Orders
 
-    def post(self, request):
+    def post(self, request):    
         data = request.data
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
@@ -22,6 +25,40 @@ class CreateOrderAPIView(APIView):
         else:
             print(serializer.errors)
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CreateDishOrderAPIView(APIView):
+    """
+    Create Dish Order
+    """
+    serializer_class = DishOrderSerializer
+    model = DishOrder  
+
+    def post(self, request):    
+        data = request.data
+        serializer = self.serializer_class(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GetDishesOrderAPIView(APIView):
+    """
+    Get Dishes Order
+    """
+    serializer_class = DishOrderSerializer
+    model = DishOrder
+
+    def get(self, request, order_id):
+        orders = self.model.objects.filter(
+            order=order_id
+        )
+        
+        serializer = self.serializer_class(orders, many=True)
+        serialized_data = serializer.data
+        return Response(data=serialized_data, status=status.HTTP_200_OK)
 
 
 class GetOrdersByUserAPIView(APIView):
@@ -42,6 +79,23 @@ class GetOrdersByUserAPIView(APIView):
             return Response(data=serialized_data, status=status.HTTP_200_OK)
         else:
             return Response(data={'error': 'Order not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class GetActiveOrdersAPIView(APIView):
+    """
+    Get Active Orders
+    """
+    serializer_class = OrdersSerializer
+    model = Orders
+
+    def get(self, request):
+        orders = self.model.objects.filter(
+           status='Оплачен' 
+        )
+        
+        serializer = self.serializer_class(orders, many=True)
+        serialized_data = serializer.data
+        return Response(data=serialized_data, status=status.HTTP_200_OK)
 
 
 class GetOrderByOrderIdAPIView(APIView):
@@ -78,6 +132,20 @@ class UpdateOrderStatusAPIView(APIView):
             order = self.model.objects.get(pk=order_id)
             
             if 'status' in data:
+                if data.get('status') == 'Оплачен':
+                    table = Tables.objects.get(
+                        pk=data.get('table')
+                    )
+                    table.status = 'Забронирован'
+                    table.save()
+                    
+                elif data.get('status') == 'Выполнен':
+                    table = Tables.objects.get(
+                        pk=data.get('table')
+                    )
+                    table.status = 'Свободный'
+                    table.save()
+                    
                 order.status = data['status']
                 order.save()
                 

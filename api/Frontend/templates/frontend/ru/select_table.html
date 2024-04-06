@@ -21,12 +21,9 @@
 </div>
 
 <div class="RestourantMap">
-    <div class="Table" value="1"><img src="https://abrakadabra.fun/uploads/posts/2022-02/1644931148_27-abrakadabra-fun-p-stol-vid-sverkhu-44.png" alt="Table 1"></div>
-    <div class="Table" value="2"><img src="https://abrakadabra.fun/uploads/posts/2022-02/1644931148_27-abrakadabra-fun-p-stol-vid-sverkhu-44.png" alt="Table 1"></div>
-    <div class="Table" value="3"><img src="https://abrakadabra.fun/uploads/posts/2022-02/1644931148_27-abrakadabra-fun-p-stol-vid-sverkhu-44.png" alt="Table 1"></div>
-    <div class="Table" value="4"><img src="https://abrakadabra.fun/uploads/posts/2022-02/1644931148_27-abrakadabra-fun-p-stol-vid-sverkhu-44.png" alt="Table 1"></div>
-    <div class="Table" value="5"><img src="https://abrakadabra.fun/uploads/posts/2022-02/1644931148_27-abrakadabra-fun-p-stol-vid-sverkhu-44.png" alt="Table 1"></div>
-    <div class="Table" value="6"><img src="https://abrakadabra.fun/uploads/posts/2022-02/1644931148_27-abrakadabra-fun-p-stol-vid-sverkhu-44.png" alt="Table 2"></div>
+	{% for table in tables %}
+    <div class="Table" value="{{ table.id }}"><img src="{% static 'frontend/image/table-middle.png' %}"></div>
+	{% endfor %}
 </div>
 
 <div>

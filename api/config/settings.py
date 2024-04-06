@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'events.apps.EventsConfig',
     'frontend.apps.FrontendConfig',
+    'tables.apps.TablesConfig',
     'categories.apps.CategoriesConfig',
     'dishes.apps.DishesConfig',
     'orders.apps.OrdersConfig',

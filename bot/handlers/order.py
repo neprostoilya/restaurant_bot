@@ -8,6 +8,9 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import ContentType
 
+from keyboards.menu_kb import categories_menu_kb
+from keyboards.basic_kb import back_to_main_menu_kb, main_menu_kb
+    
 from utils.basic_utils import get_text, get_lang
 from keyboards.basic_kb import back_to_main_menu_kb, main_menu_kb
 from api_requests.requests import check_user_api, create_order_api, \
@@ -15,6 +18,7 @@ from api_requests.requests import check_user_api, create_order_api, \
 from keyboards.order_kb import select_time_kb, select_table_kb, select_payment_type_kb, \
     order_approval_kb, review_order_kb, back_btn_kb, pay_order_kb
 from config.configuration import CLICK, PAYME, GROUP_ID
+from config.instance import bot_2
 from utils.order_utils import get_text_for_order, get_text_for_accepted_order, \
     get_text_for_view_orders, get_text_for_rejected_order
 
@@ -58,6 +62,44 @@ async def create_order_handler(call: CallbackQuery, state: FSMContext) -> None:
     await state.set_state(CreateOrder.type_select_time)
 
 
+BACK_TO_MENU = ['⬅️ Orqaga', '⬅️ Назад']
+
+
+@router_order.message(CreateOrder.type_select_time, F.text.in_(BACK_TO_MENU))
+async def back_to_menu_handler(message: Message, state: FSMContext) -> None:
+    """
+    Back to menu handler
+    """
+    chat_id: int = message.chat.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
+    data: dict = await state.get_data()
+    
+    await message.answer(
+        text=get_text(lang, 'booking_text'),
+        reply_markup=back_to_main_menu_kb(lang)
+    )
+    
+    total_sum_cart: int = data.get('total_price', 0) 
+    
+    categories_menu = await message.answer(
+        text=get_text(lang, 'choose_category'),
+        reply_markup=categories_menu_kb(lang, total_sum_cart)
+    )
+    
+    menu_mesages_ids: list = []
+    
+    menu_mesages_ids.append(categories_menu.message_id)
+    
+    await state.update_data(
+        menu_mesages_ids=menu_mesages_ids,
+        type_order='booking'
+    )
+    
+    await state.set_state(None)
+
+
 NEAR_TIME = ['✅ Ближайшее время', '✅ Tez orada']
 
 
@@ -82,7 +124,7 @@ async def selected_nearest_time_handler(message: Message, state: FSMContext) -> 
     
     await message.answer_photo(
         photo=FSInputFile('bot/images/map.png'),
-        reply_markup=select_table_kb(6) # TODO Change it quantity
+        reply_markup=select_table_kb()
     )
     
     await state.set_state(CreateOrder.table)
@@ -106,8 +148,35 @@ async def selected_type_time_handler(message: Message, state: FSMContext) -> Non
     )
     
     await state.set_state(CreateOrder.time)
+
+
+@router_order.message(CreateOrder.time, F.text.in_(BACK_TO_MENU))
+async def back_to_set_time_handler(message: Message, state: FSMContext) -> None:
+    """
+    Back to menu handler
+    """
+    chat_id: int = message.chat.id
     
+    lang: str = await get_lang(chat_id=chat_id, state=state)
     
+    time = datetime.now() + timedelta(minutes=30)
+    
+    await message.answer(
+        text=get_text(lang, 'select_table_text'),
+        reply_markup=back_btn_kb(lang)
+    )
+    await state.update_data(
+        time_order=f'{time.hour}:{time.minute}'
+    )
+    
+    await message.answer_photo(
+        photo=FSInputFile('bot/images/map.png'),
+        reply_markup=select_table_kb()
+    )
+    
+    await state.set_state(CreateOrder.table)
+
+
 @router_order.message(CreateOrder.time)
 async def selected_time_handler(message: Message, state: FSMContext) -> None:
     """
@@ -127,7 +196,7 @@ async def selected_time_handler(message: Message, state: FSMContext) -> None:
             await message.answer_photo(
                 caption=get_text(lang, 'select_table_text'),
                 photo=FSInputFile('bot/images/map.png'),
-                reply_markup=select_table_kb(6) # TODO Change it quantity
+                reply_markup=select_table_kb()
             )
             
             await state.update_data(
@@ -144,7 +213,33 @@ async def selected_time_handler(message: Message, state: FSMContext) -> None:
             text=get_text(lang, 'error_text_time')
         )
         
-        
+
+@router_order.message(CreateOrder.table, F.text.in_(BACK_TO_MENU))
+async def back_to_set_type_time_handler(message: Message, state: FSMContext) -> None:
+    """
+    Back to menu handler
+    """
+    chat_id: int = message.from_user.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
+    data: dict = await state.get_data()
+
+    messages_id_list: list = data.get('messages_id_list')    
+    
+    await message.bot.delete_messages(
+        chat_id=chat_id,
+        message_ids=messages_id_list,
+    )
+    
+    await message.answer(
+        text=get_text(lang, 'select_time'),
+        reply_markup=select_time_kb(lang)
+    )
+    
+    await state.set_state(CreateOrder.type_select_time)
+
+     
 @router_order.callback_query(CreateOrder.table, F.data.startswith("table_"))
 async def selected_table_handler(call: CallbackQuery, state: FSMContext) -> None:
     """
@@ -222,24 +317,30 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
                 total_price=total_price,
                 total_quantity=total_quantity,
                 time_order=time_order,
-                table_order=table_order
+                table_order=table_order,
+                people_quantity=quantity
             )
 
-            await message.bot.send_message(
-                chat_id=GROUP_ID,
+            await bot_2.send_message(
+                chat_id=5974014808,
                 text=get_text_for_order(
                     phone=user.get('phone'),
-                    carts=carts,
+                    dishes=carts,
                     username=username,
                     total_price=total_price,
                     total_quantity=total_quantity,
-                    time_order=time_order,
-                    table_order=table_order
+                    datetime_selected=time_order,
+                    datetime_created=order.get('datetime_created'),
+                    table=table_order,
+                    order_id=order.get('pk'),
+                    people_quantity=quantity,
+                    status=order.get('status')
                 ),
                 reply_markup=order_approval_kb(
                     order_id=order.get('id'), 
                     chat_id=chat_id,
-                )
+                ),
+                parse_mode='HTML'
             )
         else:
             await message.answer(
@@ -249,57 +350,6 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
         await message.answer(
             text=get_text(lang, 'error_format_quantity')
         )
-
-
-@router_order.callback_query(F.data.startswith("accept_order"))
-async def accept_order_handler(call: CallbackQuery) -> None:
-    """
-    Accept order 
-    """
-    chat_id_user: int = int(call.data.split("_")[-1])
-
-    lang: str = await get_lang(chat_id=chat_id_user, state=None)
-    
-    order_id: int = int(call.data.split("_")[-2])
-    
-    order: dict = update_order_status_api(
-        order_id=order_id,
-        status='Принят'
-    )
-    
-    await call.bot.send_message(
-        chat_id=chat_id_user,
-        text=get_text_for_accepted_order(
-            language=lang,
-            order=order
-        ),
-        reply_markup=pay_order_kb(lang, order.get('id'))
-    )
-    
-
-@router_order.callback_query(F.data.startswith("reject_order"))
-async def reject_order_handler(call: CallbackQuery) -> None:
-    """
-    Reject order 
-    """
-    chat_id_user: int = int(call.data.split("_")[-1])
-    
-    lang: str = await get_lang(chat_id=chat_id_user, state=None)
-    
-    order_id: int = int(call.data.split("_")[-2])
-    
-    order: dict = update_order_status_api(
-        order_id=order_id,
-        status='Отклонен'
-    )
-    
-    await call.bot.send_message(
-        chat_id=chat_id_user,
-        text=get_text_for_rejected_order(
-            language=lang,
-            order=order
-        )
-    )
 
 
 @router_order.callback_query(F.data.startswith("pay_order"))

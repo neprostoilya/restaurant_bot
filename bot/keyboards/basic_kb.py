@@ -4,23 +4,6 @@ from config.configuration import URL
 from utils.basic_utils import get_text
 
 
-def open_web_menu_kb(lang: str):
-    """
-    Open web menu keyboard
-    """
-    builder = InlineKeyboardBuilder()
-
-    builder.button(
-        text=get_text(lang, 'interact_menu_btn'),
-        web_app=WebAppInfo(url=URL + '/frontend/ru/'),
-        url=''
-    )
-
-    return builder.as_markup(
-        resize_keyboard=True
-    )
-
-
 def main_menu_kb(lang: str):
     """
     Main menu keyboard

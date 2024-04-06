@@ -8,8 +8,8 @@ from keyboards.menu_kb import categories_menu_kb, dishes_menu_kb, \
 from utils.menu_utils import get_text_for_dish
 from utils.basic_utils import get_text, get_lang
 from api_requests.requests import get_dish_by_id_api
-from keyboards.basic_kb import back_to_main_menu_kb, open_web_menu_kb, \
-    main_menu_kb
+from keyboards.basic_kb import back_to_main_menu_kb, main_menu_kb
+    
 
 router_menu = Router()
 
@@ -69,11 +69,6 @@ async def booking_order_handler(message: Message, state: FSMContext) -> None:
         reply_markup=back_to_main_menu_kb(lang)
     )
     
-    web_menu = await message.answer(
-        text=get_text(lang, 'interact_menu_text'),
-        reply_markup=open_web_menu_kb(lang)
-    )  
-    
     total_sum_cart: int = data.get('total_price', 0) 
     
     categories_menu = await message.answer(
@@ -82,8 +77,6 @@ async def booking_order_handler(message: Message, state: FSMContext) -> None:
     )
     
     menu_mesages_ids: list = []
-    
-    menu_mesages_ids.append(web_menu.message_id)
     
     menu_mesages_ids.append(categories_menu.message_id)
     

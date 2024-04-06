@@ -119,6 +119,21 @@ class GetUserLanguageAPIView(APIView):
         return Response(data={'language': serializer.data[0].get('language')})
 
 
+class GetUserByPkAPIView(APIView):
+    """
+    Get User By Pk(id)
+    """
+    model = UserProfile
+    serializer_class = UserSerializer
+
+    def get(self, request, pk):
+        users = self.model.objects.filter(
+            pk=pk
+        )
+        serializer = self.serializer_class(users, many=True)
+        return Response(data=serializer.data)
+
+
 class CheckManagerAPIView(APIView):
     """
     Check Manager 

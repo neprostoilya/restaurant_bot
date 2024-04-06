@@ -20,7 +20,7 @@ jQuery(document).ready(function($) {
         function GetUser(callback) {
             $.ajax({
                 type: "GET",
-                url: "https://a459-95-46-67-138.ngrok-free.app/users/users/" + tg.initDataUnsafe.user.id + "/",
+                url: "https://1c01-95-46-67-138.ngrok-free.app/users/users/" + tg.initDataUnsafe.user.id + "/",
                 success: function(data) {
                     userData = data; 
                     callback(userData); 
@@ -55,6 +55,10 @@ jQuery(document).ready(function($) {
 
             var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
 
+            var total_price_all_dishes = 0;
+
+            var total_quantity_all_dishes = 0;
+
             var dishes = [];
             
             var text_dishes = '';
@@ -62,6 +66,8 @@ jQuery(document).ready(function($) {
             cartItems.forEach(function(item, i) {
                 dishes.push(item.dish_pk)
                 text_dishes += `<b>Блюдо</b> <code>#${i+1}</code>\n<b>Название:</b> <code>${item.title}</code>\n<b>Колл-во:</b> <code>${item.quantity}</code>\n<b>Цена:</b> <code>${item.total_price}</code> <b>сум</b>\n\n`;
+                total_price_all_dishes += item.total_price;
+                total_quantity_all_dishes += item.quantity;
             });
 
             var storedPeopleCount = localStorage.getItem('selectedPeopleCount');
@@ -74,11 +80,13 @@ jQuery(document).ready(function($) {
 
             $.ajax({
                 type: "POST",
-                url: "https://a459-95-46-67-138.ngrok-free.app/orders/create_order/",
+                url: "https://1c01-95-46-67-138.ngrok-free.app/orders/create_order/",
                 data: JSON.stringify({
                     user: userPk,
                     table: storedTable,
                     people_quantity: storedPeopleCount,
+                    total_price: total_price_all_dishes, 
+                    total_quantity: total_quantity_all_dishes,
                     dishes: dishes, 
                     datetime_selected: storedTime + ':00',
                     status: 'Ожидание'
@@ -86,10 +94,6 @@ jQuery(document).ready(function($) {
                 contentType: 'application/json', 
                 success: function(data) {
                     var order = data;
-
-                    cartItems.forEach(function(item, i) {
-                        createDishOrder(order.pk, item.pk, order.total_price, order.total_quantity);
-                    });
 
                     const date = new Date(data.datetime_created);
 
@@ -103,22 +107,6 @@ jQuery(document).ready(function($) {
                 }
             });
             
-
-            function createDishOrder(order_id, dish_pk, total_price, total_quantity) {
-                $.ajax({
-                    type: "GET",
-                    url: "https://a459-95-46-67-138.ngrok-free.app/orders/create_dish_order/",
-                    data: JSON.stringify({
-                        order: order_id,
-                        dish: dish_pk,
-                        total_price: total_price,
-                        total_quantity: total_quantity
-                    }),
-                    contentType: 'application/json', 
-                });
-                
-            }
-
         
             function sendTelegramOrderNotification(datetimeCreated, userPhone, username, userTelegramId, 
                 order, storedTime, storedTable, storedPeopleCount, total_price_all_dishes, total_quantity_all_dishes, text_dishes) {
