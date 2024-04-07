@@ -9,8 +9,8 @@ class OrdersSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Orders
-        fields = '__all__'
-
+        fields = ('pk', 'user', 'datetime_created', 'datetime_selected', 'total_quantity_all_dishes',
+                    'table', 'people_quantity', 'total_price_all_dishes', 'status')
     def create(self, validated_data):
         return super().create(validated_data)
 

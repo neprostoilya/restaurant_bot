@@ -1,17 +1,18 @@
 $(document).ready(function() {  
-    function displayCartItems() {
-        var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-  
+  function displayCartItems() {
+      var cartItems = JSON.parse(localStorage.getItem('cartItems')) || NaN;
+    
+      if (cartItems) {
         var cartItemsList = $('#cartItemsList');
-  
-        var total_price_all_dishes = 0;
 
+        var total_price_all_dishes = 0;
+  
         cartItemsList.empty();
   
         cartItems.forEach(function(item) {
-
+  
           total_price_all_dishes += item.total_price;
-
+  
           var cartBlockWrapper = $('<div>').addClass('CartBlockWrapper_' + item.dish);
   
           var cartBlockInfo = $('<div>').addClass('CartBlockInfo');
@@ -58,14 +59,16 @@ $(document).ready(function() {
           cartBlockWrapper.append(cartBlockInfo, cartBlockCounterWrapper);
       
           cartItemsList.append(cartBlockWrapper);
-      });     
+        });     
+    
+        $('.TextTotalPriceP').text('К оплате ' + total_price_all_dishes + ' сум');
+      } else {
+        console.log('#DD');
+      }
+  }
 
-      $('.TextTotalPriceP').text('К оплате ' + total_price_all_dishes + ' сум');
-    }
-    displayCartItems();
-});
+  displayCartItems();
 
-$(document).ready(function() {
   function updateCartItem(dish, action) {
     var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
 
@@ -73,14 +76,17 @@ $(document).ready(function() {
       return item.dish_pk === dish.dish_pk;
     });
     
-    if (existingItem) {
-      if (action === 'plus') {
-          existingItem.quantity++;
-      } else if (action === 'minus') {
-          existingItem.quantity--;
-      }
+    if (action === 'plus') {
+        existingItem.quantity++;
+    } else if (action === 'minus') {
+        existingItem.quantity--;
+    }
+
+    if (existingItem.quantity > 0) {
 
       total_price = existingItem.quantity * existingItem.price;
+
+      $('input[name="quantity"]').val(existingItem.quantity);
 
       $('.CartBlockCounterQuantity_' + existingItem.dish_pk).text(existingItem.quantity);
 
@@ -101,6 +107,10 @@ $(document).ready(function() {
       
       $('.TextTotalPriceP').text('К оплате ' + total_price_all_dishes + ' сум');
 
+    } else {
+      cartItems = cartItems.filter(item => item.dish_pk !== existingItem.dish_pk);
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+      displayCartItems();
     }
   }
 
@@ -140,5 +150,6 @@ $(document).ready(function() {
     };
 
     updateCartItem(dish, 'minus');
+
   });
 });

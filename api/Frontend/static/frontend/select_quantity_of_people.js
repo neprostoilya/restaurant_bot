@@ -8,7 +8,7 @@ jQuery(document).ready(function($) {
     
     if (storedPeopleCount) {
         $('#typeNumber').val(storedPeopleCount);
-    }
+    }960
 
     $('.ButtonWrapperAtable').on('click', function(e) {
         e.preventDefault();
@@ -20,7 +20,7 @@ jQuery(document).ready(function($) {
         function GetUser(callback) {
             $.ajax({
                 type: "GET",
-                url: "https://a459-95-46-67-138.ngrok-free.app/users/users/" + tg.initDataUnsafe.user.id + "/",
+                url: "https://7189-95-46-67-138.ngrok-free.app/users/users/" + tg.initDataUnsafe.user.id + "/",   
                 success: function(data) {
                     userData = data; 
                     callback(userData); 
@@ -30,7 +30,7 @@ jQuery(document).ready(function($) {
                     {
                         title: "Ошибка", 
                         message: "Вы не зарегистрированы в системе!",
-                        buttons: [{ type: "destructive", text: "Закрыть" }], // Optional
+                        buttons: [{ type: "destructive", text: "Закрыть" }],  
                     },
                     callback
                     );
@@ -66,7 +66,9 @@ jQuery(document).ready(function($) {
 
             var storedPeopleCount = localStorage.getItem('selectedPeopleCount');
 
-            var storedTable = localStorage.getItem('selectedTable');
+            var selectedTableID = localStorage.getItem('selectedTableNumber');
+
+            console.log(selectedTableID)
 
             var storedTime = localStorage.getItem('selectedTime');
             
@@ -74,12 +76,11 @@ jQuery(document).ready(function($) {
 
             $.ajax({
                 type: "POST",
-                url: "https://a459-95-46-67-138.ngrok-free.app/orders/create_order/",
+                url: "https://7189-95-46-67-138.ngrok-free.app/orders/create_order/",
                 data: JSON.stringify({
                     user: userPk,
-                    table: storedTable,
+                    table: selectedTableID,
                     people_quantity: storedPeopleCount,
-                    dishes: dishes, 
                     datetime_selected: storedTime + ':00',
                     status: 'Ожидание'
                 }),
@@ -88,15 +89,14 @@ jQuery(document).ready(function($) {
                     var order = data;
 
                     cartItems.forEach(function(item, i) {
-                        createDishOrder(order.pk, item.pk, order.total_price, order.total_quantity);
+                        createDishOrder(order.pk, item.dish_pk, item.total_price, item.quantity);
                     });
 
                     const date = new Date(data.datetime_created);
 
                     const formattedDateTime = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')};`
-
                     sendTelegramOrderNotification(formattedDateTime, userPhone, username, userTelegramId, order, storedTime,
-                         storedTable, storedPeopleCount, total_price_all_dishes, total_quantity_all_dishes, text_dishes);
+                        selectedTableID, storedPeopleCount, order.total_price_all_dishes, order.total_quantity_all_dishes, text_dishes)
                 },
                 error: function(err) {
                     var order = 'None';
@@ -106,11 +106,11 @@ jQuery(document).ready(function($) {
 
             function createDishOrder(order_id, dish_pk, total_price, total_quantity) {
                 $.ajax({
-                    type: "GET",
-                    url: "https://a459-95-46-67-138.ngrok-free.app/orders/create_dish_order/",
+                    type: "POST",
+                    url: "https://7189-95-46-67-138.ngrok-free.app/orders/create_dish_order/",
                     data: JSON.stringify({
-                        order: order_id,
                         dish: dish_pk,
+                        order: order_id,
                         total_price: total_price,
                         total_quantity: total_quantity
                     }),
@@ -121,7 +121,7 @@ jQuery(document).ready(function($) {
 
         
             function sendTelegramOrderNotification(datetimeCreated, userPhone, username, userTelegramId, 
-                order, storedTime, storedTable, storedPeopleCount, total_price_all_dishes, total_quantity_all_dishes, text_dishes) {
+                order, storedTime, selectedTableID, storedPeopleCount, total_price_all_dishes, total_quantity_all_dishes, text_dishes) {
                 var text = `
 <b>Заказ</b> <code>#${order.id}</code>
 
@@ -136,7 +136,7 @@ jQuery(document).ready(function($) {
 
 
 ${text_dishes}
-<b>Номер столика:</b> <code>${storedTable}</code>
+<b>Номер столика:</b> <code>${selectedTableID}</code>
 
 <b>Колл-во людей:</b> <code>${storedPeopleCount}</code>
 
@@ -147,12 +147,11 @@ ${text_dishes}
                 var chatid = '5974014808';
                 var token_1 = '6898947200:AAGcnJRBEw2E_I0p4Mey4jcMXNJSGML3s_g';
                 var token_2 = '7174377582:AAG2bot7iwpYE8DNVSC6sivYCdhyyMXz6jU';
-                
                 var buttons = JSON.stringify({
                     inline_keyboard: [
                         [
-                            { text: '✔️ Принять', callback_data: `accept_order_${order.id}_${userTelegramId} `},
-                            { text: '✖️ Отклонить', callback_data: `reject_order_${order.id}_${userTelegramId} `}
+                            { text: '✔️ Принять', callback_data: `accept_order_${order.pk}_${userTelegramId} `},
+                            { text: '✖️ Отклонить', callback_data: `reject_order_${order.pk}_${userTelegramId} `}
                         ]
                     ]
                 });
