@@ -75,7 +75,7 @@ $(document).ready(function() {
     var existingItem = cartItems.find(function(item) {
       return item.dish_pk === dish.dish_pk;
     });
-    
+    18960707
     if (action === 'plus') {
         existingItem.quantity++;
     } else if (action === 'minus') {
