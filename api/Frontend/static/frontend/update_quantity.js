@@ -48,7 +48,7 @@ $(document).ready(function() {
             $('<button>').addClass('plus-to-cart-button').append($('<span>').append($('<i>').addClass('fa-solid fa-plus')))
           );
           
-          var counterPrice = $('<p>').addClass('CartBlockCounterPrice_' + item.dish_pk).text(item.total_price + ' сум');
+          var counterPrice = $('<p>').addClass('CartBlockCounterPrice_' + item.dish_pk).text(formatPrice(item.total_price) + ' сум');
       
           cartBlockCounter.append(hiddenInputsMinus, quantity, hiddenInputsPlus);
   
@@ -60,14 +60,21 @@ $(document).ready(function() {
       
           cartItemsList.append(cartBlockWrapper);
         });     
-    
-        $('.TextTotalPriceP').text('К оплате ' + total_price_all_dishes + ' сум');
+        
+        $('.TextTotalPriceP').text('К оплате ' + formatPrice(total_price_all_dishes) + ' сум');
       } else {
-        console.log('#DD');
+        console.log('s')
+        $('.TextEmptyCart').css({'visibility': 'visible', 'position': 'relative', 'font-size': 'large', 'text-align': 'center'});
+        $('.Emodgi').css({'font-size': '80px'});
+        
       }
   }
 
   displayCartItems();
+
+  function formatPrice(price) {
+      return `${(+price).toLocaleString()}`;
+  }
 
   function updateCartItem(dish, action) {
     var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
@@ -75,7 +82,6 @@ $(document).ready(function() {
     var existingItem = cartItems.find(function(item) {
       return item.dish_pk === dish.dish_pk;
     });
-    18960707
     if (action === 'plus') {
         existingItem.quantity++;
     } else if (action === 'minus') {
@@ -90,7 +96,7 @@ $(document).ready(function() {
 
       $('.CartBlockCounterQuantity_' + existingItem.dish_pk).text(existingItem.quantity);
 
-      $('.CartBlockCounterPrice_' + existingItem.dish_pk).text(total_price + ' сум');
+      $('.CartBlockCounterPrice_' + existingItem.dish_pk).text(formatPrice(total_price) + ' сум');
 
       existingItem.total_price = total_price
 
@@ -105,7 +111,7 @@ $(document).ready(function() {
         total_price_all_dishes += item.total_price;
       });
       
-      $('.TextTotalPriceP').text('К оплате ' + total_price_all_dishes + ' сум');
+      $('.TextTotalPriceP').text('К оплате ' + formatPrice(total_price_all_dishes) + ' сум');
 
     } else {
       cartItems = cartItems.filter(item => item.dish_pk !== existingItem.dish_pk);

@@ -51,7 +51,7 @@ class Dishes(models.Model):
     descriptiontrim_ru.short_description = 'Описание'
 
     def descriptiontrim_uz(self):
-        return u"%s" % (self.description_ru[:35],) + '...'
+        return u"%s" % (self.description_uz[:35],) + '...'
     
     descriptiontrim_ru.allow_tags = True
     descriptiontrim_ru.short_description = 'Описание'

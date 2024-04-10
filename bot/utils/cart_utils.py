@@ -9,7 +9,7 @@ def get_text_for_dish_in_cart(language: str, dish: dict, total_price: int):
         text: str = f"{hbold('Название')}: {hbold(dish.get('title_ru'))}\n\n{hbold('Цена')}: " \
             f"{hitalic(total_price)} сум" 
     else:
-        text: str = f"{hbold('Nomi')}: {hbold(dish.get('title_ru'))}\n\n{hbold('Narxi')}: " \
+        text: str = f"{hbold('Nomi')}: {hbold(dish.get('title_uz'))}\n\n{hbold('Narxi')}: " \
             f"{hitalic(total_price)} so'm" 
             
     return text

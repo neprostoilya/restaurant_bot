@@ -7,6 +7,8 @@
 {% endblock title %}
 
 {% block main %}
+<script src="{% static 'frontend/update_quantity_ru.js' %}"></script>
+
 <div class="HeaderWrapper">
 	<button class="BackButton" style="background: transparent; top: 40px; left: 20px; box-shadow: none;">
 		<span style="box-sizing: border-box; display: inline-block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: relative; max-width: 100%;">
@@ -20,6 +22,12 @@
 </div>
 
 <div id="cartItemsList">
+</div>
+
+
+<div class="TextEmptyCart" style="visibility:hidden">
+	<p class="Emodgi">🛒</p>
+	Ваша Корзина Пуста 😅
 </div>
 
 <div>

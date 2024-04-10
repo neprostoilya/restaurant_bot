@@ -21,6 +21,8 @@ TYPE_ORDER_BOOKING = ["🍽️ Бронирование стола", "🍽️ Ja
 
 BACK_TO_MAIN = ["⬅️ Главное меню", "⬅️ Asosiy menyu"] 
 
+BACK = ["⬅️ Назад", "⬅️ Orqaga"] 
+
 @router_menu.message(F.text.in_(START_ORDER))
 async def choose_type_order_handler(message: Message, state: FSMContext) -> None:
     """
@@ -29,8 +31,6 @@ async def choose_type_order_handler(message: Message, state: FSMContext) -> None
     chat_id: int = message.chat.id
     
     lang: str = await get_lang(chat_id=chat_id, state=state)
-    
-    print(lang)
     
     await message.answer(
         text=get_text(lang, 'choose_type_order'),
@@ -84,7 +84,22 @@ async def booking_order_handler(message: Message, state: FSMContext) -> None:
         menu_mesages_ids=menu_mesages_ids,
         type_order='booking'
     )
+
+
+@router_menu.message(F.text.in_(BACK))
+async def back_handler(message: Message, state: FSMContext) -> None:
+    """
+    Back 
+    """
+    chat_id: int = message.from_user.id
     
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
+    await message.answer(
+        text=get_text(lang, 'choose_direction'),
+        reply_markup=main_menu_kb(lang)
+    )
+
 
 @router_menu.message(F.text.in_(BACK_TO_MAIN))
 async def back_to_main_menu_handler(message: Message, state: FSMContext) -> None:
@@ -158,16 +173,21 @@ async def dish_handler(call: CallbackQuery, state: FSMContext) -> None:
     
     dish_id: int = int(call.data.split("_")[-1])
 
-    dish: dict = get_dish_by_id_api(dish_id)[0]
+    dish: dict = get_dish_by_id_api(dish_id)
     
-    title: str = dish.get('title_ru')
-    
-    description: str = dish.get('description_ru')
-    
+    if lang == 'ru':    
+        title: str = dish.get('title_ru')
+        
+        description: str = dish.get('description_ru')
+    else:
+        title: str = dish.get('title_uz')
+        
+        description: str = dish.get('description_uz')
+        
     price: int = dish.get('price')
     
     image: str = dish.get('image')
-    
+         
     quantity: int = 1
     
     await state.update_data(

@@ -2,79 +2,141 @@ from datetime import datetime
 
 from aiogram.utils.markdown import hbold, hitalic
 
-from api_requests.requests import get_dish_by_id_api
+from api_requests.requests import get_dish_by_id_api, create_dish_order_api, \
+    get_dishes_order_api
 
 
-def get_text_for_order(phone: str, dishes: dict, username: str, total_price: int, total_quantity: int, status: str,
+def get_text_for_order(phone: str, carts: dict, username: str, total_price: int, total_quantity: int, status: str,
                        datetime_created: str, datetime_selected: str, table: int, order_id: int, people_quantity: int):
     """ 
     Get text for order
     """ 
+    dt = datetime.fromisoformat(datetime_created)
+
+    formatted_datetime = dt.strftime('%Y-%m-%d %H:%M')
+    
     text_dishes: str = ''
     
-    for dish_id in enumerate(dishes):
-        dish: dict = get_dish_by_id_api(dish_id[1])
+    for cart in enumerate(carts):        
+        dish_id: int = cart[1][0]
         
-        title: str = dish.get('title')
+        dish: dict = get_dish_by_id_api(dish_id=dish_id)
         
-        total_quantity_dish: int = 1
+        title: str = dish.get('title_ru')
         
-        total_price_dish: int = 100
+        price: int = (dish.get('price') * cart[1][1])
         
-        text_dishes += f'<b>Блюдо</b> <code>#{dish_id[0]}</code>\n<b>Название:</b> <code>{title}</code>\n<b>Колл-во:</b>', \
-        f'<code>{total_quantity_dish}</code>\n<b>Цена:</b> <code>{total_price_dish}</code> <b>сум.</b>\n\n'
+        quantity: int = cart[1][1]
+        
+        create_dish_order_api(
+            order=order_id,
+            dish=dish_id,
+            total_price=price,
+            total_quantity=quantity
+        )
+        
+        text_dishes += f'<b>Блюдо</b> <code>#{cart[0]+1}</code>\n<b>Название:</b> <code>{title}</code>\n<b>Колл-во:</b> '
+        text_dishes += f'<code>{quantity}</code>\n<b>Цена:</b> <code>{price}</code> <b>сум.</b>\n\n'
     
     text = f"""
-<b>Заказ</b> <code>#${order_id}</code>
+<b>Заказ</b> <code>#{order_id}</code>
 
-<b>От Пользователя:</b> <code>@${username}</code>
+<b>От Пользователя:</b> <code>@{username}</code>
 
-<b>Номер:</b> <code>${phone}</code>
+<b>Номер:</b> <code>{phone}</code>
 
 <b>Дата и время создания:</b>   
-<code>${datetime_created}</code>
+<code>{formatted_datetime}</code>
 
-<b>Забронированное время:</b> <code>${datetime_selected}</code>
+<b>Забронированное время:</b> <code>{datetime_selected}</code>
 
 
-${text_dishes}
-<b>Номер столика:</b> <code>${table}</code>
+{text_dishes}
+<b>Номер столика:</b> <code>{table}</code>
 
-<b>Колл-во людей:</b> <code>${people_quantity}</code>
+<b>Колл-во людей:</b> <code>{people_quantity}</code>
 
-<b>Общая цена:</b> <code>${total_price}</code> <b>сум</b> 
+<b>Общая цена:</b> <code>{total_price}</code> <b>сум</b> 
 
-<b>Общее колл-во:</b> <code>${total_quantity}</code>`;
+<b>Общее колл-во:</b> <code>{total_quantity}</code>
 
 <b>Статус:</b> <code>{status}</code>
     """
     return text
 
 
-def get_text_for_view_orders(order: dict):
+def get_text_for_view_orders(order: dict, total_price_all_dishes: int, total_quantity_all_dishes: int,
+                             order_id: int, datetime_selected: str, datetime_created: str, people_quantity: int, status: str, table: int, lang: str):
     """ 
     Get text for view orders
-    """        
-    text: str = f'Заказ №{hbold(order.get('id'))}\n\n' 
+    """           
+    dishes_orders: dict = get_dishes_order_api(
+        order_id=order.get('pk')
+    )
     
-    for cart in enumerate(order.get('dishes')):
-        dish: dict = get_dish_by_id_api(dish_id=cart[1])
+    text_dishes: str = ''
+    for dish_order in enumerate(dishes_orders):
+        dish_id: int = dish_order[1].get('dish')
         
-        price: int = dish.get('price') * cart[1]
+        dish_quantity: int = dish_order[1].get('total_quantity')
         
-        text += f'Блюдо №{hbold(int(cart[0])+1)}.\nНазвание: {dish.get('title_ru')},\n'
+        dish_price: int = dish_order[1].get('total_price')
         
-        text += f'Колл-во: {hbold(cart[1])},\nЦена: {hbold(price)} сум\n\n'
+        dish: dict = get_dish_by_id_api(dish_id=dish_id)
+        
+        title: str = dish.get('title_ru') if lang == 'ru' else dish.get('title_uz')
+        
+        if lang == 'ru':
+            text_dishes += f'<b>Блюдо</b> <code>#{dish_order[0]+1}</code>\n<b>Название:</b> <code>{title}</code>\n<b>Колл-во:</b> '
+            text_dishes += f'<code>{dish_quantity}</code>\n<b>Цена:</b> <code>{dish_price}</code> <b>сум.</b>\n\n'
+        else:
+            text_dishes += f'<b>Buyurtma</b> <code>#{dish_order[0]+1}</code>\n<b>Nomi:</b> <code>{title}</code>\n<b>Miqdor:</b> '
+            text_dishes += f'<code>{dish_quantity}</code>\n<b>Narx:</b> <code>{dish_price}</code> <b>sum.</b>\n\n'
     
-    text += f'Забронированное время: {hbold(order.get('datetime_selected'))}'
+    formatted_datetime_created = datetime.fromisoformat(datetime_created).strftime('%Y-%m-%d %H:%M')
     
-    text += f'\n\nНомер столика: {hbold(order.get('table'))}\n\n'
-    
-    text += f'Общая цена: {hbold(order.get('total_price'))}\n'
-    
-    text += f'\nОбщее колл-во: {hbold(order.get('total_quantity'))}\n\n'
-    
-    text += f'Статус: {hbold(order.get('status'))}'
+    if lang == 'ru':
+        text = f"""
+<b>Заказ</b> <code>#{order_id}</code>
+
+<b>Дата и время создания:</b>   
+<code>{formatted_datetime_created}</code>
+
+<b>Забронированное время:</b> <code>{datetime_selected}</code>
+
+
+{text_dishes}
+<b>Номер столика:</b> <code>{table}</code>
+
+<b>Колл-во людей:</b> <code>{people_quantity}</code>
+
+<b>Общая цена:</b> <code>{total_price_all_dishes}</code> <b>сум</b> 
+
+<b>Общее колл-во:</b> <code>{total_quantity_all_dishes}</code>
+
+<b>Статус:</b> <code>{status}</code>
+        """
+    else: 
+        text = f"""
+<b>Buyurtma</b> <code>#{order_id}</code>
+
+<b>Yaratilgan vaqt:</b>   
+<code>{formatted_datetime_created}</code>
+
+<b>Axborot vaqt:</b> <code>{datetime_selected}</code>
+
+
+{text_dishes}
+<b>Stol raqami:</b> <code>{table}</code>
+
+<b>A'zolar soni:</b> <code>{people_quantity}</code>
+
+<b>Umumiy narx:</b> <code>{total_price_all_dishes}</code> <b>sum</b> 
+
+<b>Umumiy miqdor:</b> <code>{total_quantity_all_dishes}</code>
+
+<b>Holat:</b> <code>{status}</code>
+        """
     
     return text
 
@@ -84,7 +146,7 @@ def get_text_for_accepted_order(language: str, order: dict):
     Get text for accepted order
     """
     if language == 'ru':
-        text: str = f'Ваш заказ №{hbold(order.get('id'))} был принят! 😀' 
+        text: str = f'Ваш заказ №{hbold(order.get('pk'))} был принят! 😀' 
     else:
         text: str = f'Sizning buyurtmangiz №{hbold(order.get('id'))} qabul qilindi! 😀' 
         
@@ -100,4 +162,57 @@ def get_text_for_rejected_order(language: str, order: dict):
     else:
         text: str = f'Sizning buyurtmangiz №{hbold(order.get('id'))} rad etildi! 😥'
         
+    return text
+
+
+def get_text_for_active_order(phone: str, dishes: dict, username: str, total_price_all_dishes: int, total_quantity_all_dishes: int, status: str,
+                       datetime_created: str, datetime_selected: str, table: int, order_id: int, people_quantity: int):
+    """ 
+    Get text for order
+    """ 
+    dt = datetime.fromisoformat(datetime_created)
+
+    formatted_datetime = dt.strftime('%Y-%m-%d %H:%M')
+    
+    text_dishes: str = ''
+    
+    for dish_order in enumerate(dishes):        
+        dish_id: int = dish_order[1].get('dish')
+        
+        dish_quantity: int = dish_order[1].get('total_quantity')
+        
+        dish_price: int = dish_order[1].get('total_price')
+        
+        dish: dict = get_dish_by_id_api(dish_id=dish_id)
+        
+        title: str = dish.get('title_ru') 
+        
+        text_dishes += f'<b>Блюдо</b> <code>#{dish_order[0]+1}</code>\n<b>Название:</b> <code>{title}</code>\n<b>Колл-во:</b> '
+        text_dishes += f'<code>{dish_quantity}</code>\n<b>Цена:</b> <code>{dish_price}</code> <b>сум.</b>\n\n'
+    
+    text = f"""
+<b>Заказ</b> <code>#{order_id}</code>
+
+<b>От Пользователя:</b> <code>@{username}</code>
+
+<b>Номер:</b> <code>{phone}</code>
+
+<b>Дата и время создания:</b>   
+<code>{formatted_datetime}</code>
+
+<b>Забронированное время:</b> <code>{datetime_selected}</code>
+
+
+{text_dishes}
+<b>Номер столика:</b> <code>{table}</code>
+
+<b>Колл-во людей:</b> <code>{people_quantity}</code>
+
+<b>Общая цена:</b> <code>{total_price_all_dishes}</code> <b>сум</b> 
+
+<b>Общее колл-во:</b> <code>{total_quantity_all_dishes}</code>
+
+<b>Статус:</b> <code>{status}</code>
+    """
+    
     return text

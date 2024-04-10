@@ -92,16 +92,29 @@ def get_dish_by_id_api(dish_id: int):
     """
     Get dish by id menu
     """
-    return get(f'/dishes/get_dish/{dish_id}/')[0]
+    
+    try:
+        return get(f'/dishes/get_dish/{dish_id}/')[0]
+    except:
+        return get(f'/dishes/get_dish/{dish_id}/')
 
 
-def create_order_api(carts: dict, user: int, total_price: int, status: str,
+def create_order_api(user: int, total_price: int, status: str,
                     total_quantity: int, time_order: str, table_order: int, people_quantity: int):
     """
     Create order 
     """
-    data: dict = {'dishes': carts, 'user': user, 'total_price': total_price, 'status': status, 'people_quantity': people_quantity,
+    data: dict = {'user': user, 'total_price': total_price, 'status': status, 'people_quantity': people_quantity,
                   'total_quantity': total_quantity, 'datetime_selected': time_order, 'table': table_order}
+        
+    return post('/orders/create_order/', data=data)
+
+
+def create_dish_order_api(order: int, dish: int, total_price: int, total_quantity: int):
+    """
+    Create Dish order 
+    """
+    data: dict = {'order': order, 'total_price': total_price, 'dish': dish, 'total_quantity': total_quantity}
         
     return post('/orders/create_order/', data=data)
 
@@ -110,17 +123,17 @@ def get_orders_by_user_api(user: int):
     """
     Get orders by user
     """
-    try:
+    try:    
         return get(f'/orders/get_orders_by_user/{user}/')
     except:
         return None
+
 
 def update_order_status_api(order_id: int, status: str):
     """
     Update status order 
     """
     data = {'status': status}
-    
     return put(f'/orders/update_order_status/{order_id}/', data=data)
 
 
@@ -204,3 +217,10 @@ def get_user_by_pk_api(user_id: int) -> dict:
     Get user pk(id)
     """
     return get(f'/users/get_user_by_pk/{user_id}/')
+
+
+def get_dishes_order_api(order_id: int) -> dict:
+    """
+    Get dishes order
+    """
+    return get(f'/orders/get_dishes_order/{order_id}/')

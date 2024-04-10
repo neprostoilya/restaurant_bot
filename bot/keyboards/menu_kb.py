@@ -35,13 +35,19 @@ def categories_menu_kb(lang: str, total_sum_cart: int):
         text=get_text(lang, 'cart_btn_in_menu') + f' ({total_sum_cart} сум)',
         callback_data='cart'
     )
-
-    for category in categories:
-        builder.button(
-            text=category['title_ru'],
-            callback_data=f'category_{category['id']}'
-        )
-
+    if lang == 'ru':
+        for category in categories:
+            builder.button(
+                text=category['title_ru'],
+                callback_data=f'category_{category['id']}'
+            )
+    else:
+        for category in categories:
+            builder.button(
+                text=category['title_uz'],
+                callback_data=f'category_{category['id']}'
+            )
+            
     builder.adjust(1, 2)
 
     return builder.as_markup(
@@ -56,13 +62,20 @@ def dishes_menu_kb(lang: str, category: int):
     carts: dict = get_dishes_by_category_api(category)
 
     builder = InlineKeyboardBuilder()
-
-    for cart in carts:
+    
+    if lang == 'ru':
+        for cart in carts:
+            builder.button(
+                text=cart['title_ru'],
+                callback_data=f'dish_{cart['pk']}'
+            )
+    else:
+      for cart in carts:
         builder.button(
-            text=cart['title_ru'],
+            text=cart['title_uz'],
             callback_data=f'dish_{cart['pk']}'
         )
-        
+            
     builder.button(
         text=get_text(lang, 'back_btn'),
         callback_data='bact_to_categories'

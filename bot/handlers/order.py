@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery, FSInputFile, LabeledPrice, \
-    PreCheckoutQuery, WebAppData
+    PreCheckoutQuery
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import ContentType
@@ -14,13 +14,14 @@ from keyboards.basic_kb import back_to_main_menu_kb, main_menu_kb
 from utils.basic_utils import get_text, get_lang
 from keyboards.basic_kb import back_to_main_menu_kb, main_menu_kb
 from api_requests.requests import check_user_api, create_order_api, \
-    get_orders_by_user_api, update_order_status_api, get_order_by_order_id_api
+    get_orders_by_user_api, update_order_status_api, get_order_by_order_id_api, \
+    create_dish_order_api, get_dish_by_id_api
 from keyboards.order_kb import select_time_kb, select_table_kb, select_payment_type_kb, \
-    order_approval_kb, review_order_kb, back_btn_kb, pay_order_kb
-from config.configuration import CLICK, PAYME, GROUP_ID
+    order_approval_kb, review_order_kb, back_btn_kb
+from config.configuration import CLICK, PAYME
 from config.instance import bot_2
-from utils.order_utils import get_text_for_order, get_text_for_accepted_order, \
-    get_text_for_view_orders, get_text_for_rejected_order
+from utils.order_utils import get_text_for_order, \
+    get_text_for_view_orders
 
 router_order = Router()
 
@@ -287,7 +288,7 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
                 reply_markup=main_menu_kb(lang)
             )
             
-            chat_id: int = message.chat.id
+            chat_id: int = message.from_user.id
             
             username: int = message.from_user.username
             
@@ -305,13 +306,7 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
             
             table_order: int = data.get('table_order')
             
-            dishes: list = []
-            
-            for dish_id, _ in carts:
-                dishes.append(dish_id)
-            
             order: dict = create_order_api(
-                carts=dishes,
                 status='Ожидание',
                 user=user.get('pk'),
                 total_price=total_price,
@@ -320,12 +315,12 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
                 table_order=table_order,
                 people_quantity=quantity
             )
-
+                    
             await bot_2.send_message(
                 chat_id=5974014808,
                 text=get_text_for_order(
                     phone=user.get('phone'),
-                    dishes=carts,
+                    carts=carts,
                     username=username,
                     total_price=total_price,
                     total_quantity=total_quantity,
@@ -337,11 +332,13 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
                     status=order.get('status')
                 ),
                 reply_markup=order_approval_kb(
-                    order_id=order.get('id'), 
+                    order_id=order.get('pk'), 
                     chat_id=chat_id,
                 ),
                 parse_mode='HTML'
             )
+            
+            await state.set_state(None)
         else:
             await message.answer(
                 text=get_text(lang, 'error_wrong_quantity')
@@ -392,8 +389,9 @@ async def payment_with_click_handler(call: CallbackQuery, state: FSMContext) -> 
         order_id=order_id
     )[0]
     
-    total_price: int = order.get('total_price')
+    total_price: int = order.get('total_price_all_dishes', 1)
     
+    print(order.get('total_price_all_dishes'))
     update_order_status_api(
         order_id=order_id,
         status='Оплачен'
@@ -444,7 +442,7 @@ async def payment_with_payme_handler(call: CallbackQuery, state: FSMContext) -> 
         status='Оплачен'
     )
     
-    total_price: int = order.get('total_price')
+    total_price: int = order.get('total_price_all_dishes')
     
     await call.message.answer_invoice(
         title=f"Ваш заказ",
@@ -507,9 +505,38 @@ async def get_my_orders_handler(message: Message, state: FSMContext) -> None:
         )
         
         for order in orders[::4]:
+            order_id: int = order.get('pk')
+            
+            total_price_all_dishes: int = order.get('total_price_all_dishes')    
+            
+            total_quantity_all_dishes: int = order.get('total_quantity_all_dishes')  
+                       
+            datetime_selected: str = order.get('datetime_selected')    
+            
+            datetime_selected: str = order.get('datetime_selected')    
+                    
+            datetime_created: str = order.get('datetime_created')            
+                        
+            people_quantity: int = order.get('people_quantity')        
+            
+            status: str = order.get('status')
+            
+            table: int = order.get('table')
+            
             await message.answer(
-                text=get_text_for_view_orders(order=order),
-                reply_markup=review_order_kb(lang, order_id=order.get('id'))
+                text=get_text_for_view_orders(
+                    lang=lang,
+                    order=order, 
+                    total_price_all_dishes=total_price_all_dishes,
+                    total_quantity_all_dishes=total_quantity_all_dishes,
+                    order_id=order_id,
+                    datetime_selected=datetime_selected,
+                    datetime_created=datetime_created,
+                    people_quantity=people_quantity,
+                    status=status,
+                    table=table
+                ),
+                reply_markup=review_order_kb(lang, order_id=order_id)
             )
     else:
         await message.answer(

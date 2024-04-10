@@ -31,7 +31,7 @@ async def cart_callback_handler(call: CallbackQuery, state: FSMContext) -> None:
         await call.message.delete()
         
         for cart in carts:  
-            dish: dict = get_dish_by_id_api(dish_id=cart[0])[0]
+            dish: dict = get_dish_by_id_api(dish_id=cart[0])
             
             total_price: int = dish.get('price') * cart[1]
             
@@ -93,11 +93,11 @@ async def plus_quantity_in_cart_handler(call: CallbackQuery, state: FSMContext) 
     
     carts.append([dish_id, quantity+1])
     
-    dish: dict = get_dish_by_id_api(dish_id=dish_id)[0]
+    dish: dict = get_dish_by_id_api(dish_id=dish_id)
     
     total_price: int = dish.get('price') * (quantity+1)
     
-    total_price_all_cart: int = data.get('total_price') + dish.get('price')
+    total_price_all_cart: int = data.get('total_price') + dish.get('price')     
     
     total_quantity_all_cart: int = data.get('total_quantity') + 1
     

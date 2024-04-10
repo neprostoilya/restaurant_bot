@@ -20,7 +20,7 @@ jQuery(document).ready(function($) {
         function GetUser(callback) {
             $.ajax({
                 type: "GET",
-                url: "https://7189-95-46-67-138.ngrok-free.app/users/users/" + tg.initDataUnsafe.user.id + "/",   
+                url: "https://d4a4-95-46-67-138.ngrok-free.app/users/users/" + tg.initDataUnsafe.user.id + "/",   
                 success: function(data) {
                     userData = data; 
                     callback(userData); 
@@ -76,7 +76,7 @@ jQuery(document).ready(function($) {
 
             $.ajax({
                 type: "POST",
-                url: "https://7189-95-46-67-138.ngrok-free.app/orders/create_order/",
+                url: "https://d4a4-95-46-67-138.ngrok-free.app/orders/create_order/",
                 data: JSON.stringify({
                     user: userPk,
                     table: selectedTableID,
@@ -107,7 +107,7 @@ jQuery(document).ready(function($) {
             function createDishOrder(order_id, dish_pk, total_price, total_quantity) {
                 $.ajax({
                     type: "POST",
-                    url: "https://7189-95-46-67-138.ngrok-free.app/orders/create_dish_order/",
+                    url: "https://d4a4-95-46-67-138.ngrok-free.app/orders/create_dish_order/",
                     data: JSON.stringify({
                         dish: dish_pk,
                         order: order_id,

@@ -15,7 +15,7 @@ from config.instance import bot_1, bot_2
 
 async def on_startup(bot: Bot):
     await bot.set_chat_menu_button(
-        menu_button=MenuButtonWebApp(text="Меню", web_app=WebAppInfo(url=URL + '/frontend/ru/'))
+        menu_button=MenuButtonWebApp(text="Меню", web_app=WebAppInfo(url=URL + '/frontend/'))
     )
 
 

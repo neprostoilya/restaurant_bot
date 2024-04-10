@@ -17,9 +17,20 @@ from tables.models import Tables
 from tables.serializers import TablesSerializer
 
 
+class ChooseLanguageView(APIView):
+    """
+    Choose Language View
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/choose_language.html'
+
+    def get(self, request):
+        return Response()
+
+
 class MainViewRU(APIView):
     """
-    View for Events and Dishes RU
+    View Dishes RU
     """
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'frontend/ru/index.html'
@@ -38,6 +49,22 @@ class MainViewRU(APIView):
             'events': events_serializer.data,
             'dishes': dishes_serializer.data,
             'categories': categories_serializer.data,
+        })
+
+
+class EventsViewRU(APIView):
+    """
+    View for Events 
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/ru/events.html'
+
+    def get(self, request):
+        events = Events.objects.all()
+        events_serializer = EventsSerializer(events, many=True)
+
+        return Response({
+            'events': events_serializer.data,
         })
 
 
@@ -136,6 +163,22 @@ class MainViewUZ(APIView):
             'events': events_serializer.data,
             'dishes': dishes_serializer.data,
             'categories': categories_serializer.data,
+        })
+
+
+class EventsViewUZ(APIView):
+    """
+    View for Events UZ
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/uz/events.html'
+
+    def get(self, request):
+        events = Events.objects.all()
+        events_serializer = EventsSerializer(events, many=True)
+
+        return Response({
+            'events': events_serializer.data,
         })
 
 

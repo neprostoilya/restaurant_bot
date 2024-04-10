@@ -8,7 +8,7 @@
 
 {% block main %}
 <div class="ButtonBlock">
-  <a href="#" class="btn-events">
+  <a href="{% url 'frontend:events_view_ru' %}" class="btn-events">
     🎊
     Акции
   </a>
@@ -40,7 +40,7 @@
     <div class="CardWrapperText">
         <h3 class="Title">{{ dish.title_ru }}</h3>
         <p class="Description">{{ dish.descriptiontrim_ru }}</p>
-        <div class="price"><p>{{ dish.price}} сум</p></div>
+        <div class="price"><p class="price-p">{{ dish.price}} сум</p></div>
     </div>
 </div>
 

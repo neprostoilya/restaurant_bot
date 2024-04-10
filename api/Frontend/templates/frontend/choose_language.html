@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load static %} 
+{% block title %} 
+{{ title }} 
+{% endblock title %}
+
+{% block main %}
+<style>
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    text-align: center;
+}
+
+.russian-flag {
+    background: linear-gradient(to bottom, #f3efef 33.333%, #0072CE 33.333%, #0072CE 66.667%, #D52B1E 66.667%);
+    border-radius: 50px;
+    display: inline-block;
+    margin: 10px;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    font-size: 16px;
+    text-decoration: none;
+    color: #000;
+}
+
+
+.russian-flag::before {
+    content: "";
+    display: block;
+    padding-top: 66.667%;
+}
+
+.uzbek-flag {
+    background: linear-gradient(to bottom, #0072CE 33.333%, #f3efef  33.333%, #f3efef  66.667%, #43B02A 66.667%);
+    border-radius: 50px;
+    display: inline-block;
+    margin: 10px;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    font-size: 16px;
+    text-decoration: none;
+    color: #000;
+}
+
+
+.uzbek-flag::before {
+    content: "";
+    display: block;
+    padding-top: 66.667%;
+}
+
+
+</style>
+
+<div class="HeaderWrapper">
+	<button class="BackButton" style="background: transparent; top: 40px; left: 20px; box-shadow: none;">
+		<span style="box-sizing: border-box; display: inline-block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: relative; max-width: 100%;">
+			<span style="box-sizing: border-box; display: block; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; max-width: 100%;">
+			</span>
+		</span>
+	</button>   
+	<h1>Выбор языка</h1>
+	<div class="HeaderNone"><div style="width: 48px; height: 48px;"></div></div>
+</div>
+
+
+<div class="buttons-container">
+    <a href="{% url 'frontend:events_and_dishes_view_ru' %}" class="russian-flag">Русский</a>
+    <a href="{% url 'frontend:events_and_dishes_view_uz' %}" class="uzbek-flag">O'zbek</a>
+</div>
+
+
+{% endblock main %}

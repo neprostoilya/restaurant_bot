@@ -35,7 +35,7 @@ async def accept_order_handler(call: CallbackQuery) -> None:
             language=lang,
             order=order
         ),
-        reply_markup=pay_order_kb(lang, order.get('id'))
+        reply_markup=pay_order_kb(lang, order.get('pk'))
     )
     
 

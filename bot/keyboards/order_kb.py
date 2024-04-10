@@ -50,14 +50,13 @@ def select_table_kb():
     """
     builder = InlineKeyboardBuilder()
     
-    tables: dict = get_tables_api()[0]
+    tables: dict = get_tables_api()
     
     for table in tables:
-        print(table)
         if table.get('status') == 'Свободен':
             builder.button(
                 text=f"№ {table.get('number')}",
-                callback_data=f"table_{table.get('pk')}"
+                callback_data=f"table_{table.get('id')}"
             )
         else:
             builder.button(
@@ -105,7 +104,7 @@ def order_approval_kb(order_id: int, chat_id: int):
     Order approval keyboard
     """
     builder = InlineKeyboardBuilder()
-
+    print(order_id, chat_id)
     builder.button(
         text=f"✔️ Принять",
         callback_data=f"accept_order_{order_id}_{chat_id}"

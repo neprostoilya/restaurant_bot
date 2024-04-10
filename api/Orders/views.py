@@ -131,23 +131,23 @@ class UpdateOrderStatusAPIView(APIView):
         
         try:
             order = self.model.objects.get(pk=order_id)
-            
             if 'status' in data:
+                
                 if data.get('status') == 'Оплачен':
                     table = Tables.objects.get(
-                        pk=data.get('table')
+                        pk=order.table.pk
                     )
                     table.status = 'Забронирован'
                     table.save()
                     
                 elif data.get('status') == 'Выполнен':
                     table = Tables.objects.get(
-                        pk=data.get('table')
+                        pk=order.table.pk
                     )
                     table.status = 'Свободный'
                     table.save()
-                    
-                order.status = data['status']
+                        
+                order.status = data.get('status')
                 order.save()
                 
                 serializer = self.serializer_class(order)
@@ -155,6 +155,7 @@ class UpdateOrderStatusAPIView(APIView):
                 return Response(data=serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(data={'error': 'Поле "status" обязательно'}, status=status.HTTP_400_BAD_REQUEST)
-            
-        except self.model.DoesNotExist:
+        except:
             return Response(data={'error': 'Заказ не найден'}, status=status.HTTP_404_NOT_FOUND)
+
+            
