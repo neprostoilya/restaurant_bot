@@ -7,7 +7,7 @@ from aiogram.types import Message
 from aiogram.utils.markdown import hbold
 
 from api_requests.requests import check_manager_api
-from keyboards.menu_manager import main_menu_manager_kb
+from keyboards.menu_manager_kb import main_menu_manager_kb
 
 router_commands = Router()
 

@@ -14,7 +14,7 @@ class GetTablesAPIView(APIView):
     model = Tables
 
     def get(self, request):
-        events = self.model.objects.all()
+        events = self.model.objects.all().order_by('id')
         if events.exists():
             serializer = self.serializer_class(events, many=True)
             serialized_data = serializer.data

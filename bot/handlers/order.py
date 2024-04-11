@@ -389,7 +389,7 @@ async def payment_with_click_handler(call: CallbackQuery, state: FSMContext) -> 
         order_id=order_id
     )[0]
     
-    total_price: int = order.get('total_price_all_dishes', 1)
+    total_price: int = order.get('total_price_all_dishes', 100)
     
     print(order.get('total_price_all_dishes'))
     update_order_status_api(

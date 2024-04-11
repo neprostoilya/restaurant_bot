@@ -116,7 +116,7 @@ def create_dish_order_api(order: int, dish: int, total_price: int, total_quantit
     """
     data: dict = {'order': order, 'total_price': total_price, 'dish': dish, 'total_quantity': total_quantity}
         
-    return post('/orders/create_order/', data=data)
+    return post('/orders/create_dish_order/', data=data)
 
 
 def get_orders_by_user_api(user: int):
@@ -202,7 +202,7 @@ def update_table_status_api(table_id: int, status: str) -> dict:
     """
     data = {'status': status}
     
-    return put(f'/users/update/{table_id}/', data=data)
+    return put(f'/tables/update_table/{table_id}/', data=data)
 
 
 def get_active_orders_api() -> dict:

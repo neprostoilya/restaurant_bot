@@ -64,7 +64,7 @@ def select_table_kb():
                 callback_data='ignore'
             )
             
-    builder.adjust(2)
+    builder.adjust(3)
     
     return builder.as_markup(
         resize_keyboard=True

@@ -1,6 +1,5 @@
-from aiogram.utils.keyboard import InlineKeyboardBuilder, \
-    ReplyKeyboardBuilder
-
+from aiogram.utils.keyboard import ReplyKeyboardBuilder
+    
 
 def main_menu_manager_kb():
     """
