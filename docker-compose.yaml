@@ -5,12 +5,14 @@ services:
     build:
       context: .
       dockerfile: api/Dockerfile
-    command: python api/manage.py runserver 0.0.0.0:8000
+    command: sh -c "python3 api/manage.py makemigrations && python3 api/manage.py migrate --noinput && python3 api/manage.py collectstatic --noinput"
     environment:
       - DATABASE_HOST=database
     volumes:
       - .:/app
       - ./requirements.txt:/app/requirements.txt
+      - /var/www/static/:/var/www/static/
+      - /var/certbot/conf:/etc/letsencrypt/:ro
     env_file:
       - .env
  bot:
@@ -37,13 +39,17 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     ports:
       - '5432:5432'
+      
  nginx:
-    image: nginx:latest
+    image: nginx:alpine
+    restart: unless-stopped
     ports:
       - "80:80"
     volumes:
-      - ./nginx:/etc/nginx/conf.d
+      - /var/www/static/:/var/www/static/
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
     depends_on:
-      - api 
+      - api
+
 volumes:
  postgres_data:

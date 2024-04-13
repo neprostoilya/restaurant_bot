@@ -13,10 +13,10 @@ from handlers import commands, register, menu, cart, order, \
 from config.instance import bot_1, bot_2
 
 
-async def on_startup(bot: Bot):
-    await bot.set_chat_menu_button(
-        menu_button=MenuButtonWebApp(text="Меню", web_app=WebAppInfo(url=URL + '/frontend/'))
-    )
+# async def on_startup(bot: Bot):
+#     await bot.set_chat_menu_button(
+#         menu_button=MenuButtonWebApp(text="Меню", web_app=WebAppInfo(url=URL + '/frontend/'))
+#     )
 
 
 async def main():
@@ -27,7 +27,7 @@ async def main():
     
     dp_2 = Dispatcher()
     
-    dp_1.startup.register(on_startup)
+    # dp_1.startup.register(on_startup)
 
     dp_1.include_routers(commands.router_commands)
     dp_1.include_routers(register.router_register)
