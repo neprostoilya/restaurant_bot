@@ -340,7 +340,6 @@ body{
   transition: .2s ease;
 }
 
-
 .modal-title-description {
   margin: 25px 0;
   margin-left: 15px;
@@ -392,8 +391,8 @@ body{
 
 .BackButton {
   border-radius: 50%;
-  width: 48px;
-  height: 48px;
+  width: 60px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -414,6 +413,7 @@ body{
 }
 
 .BackButton span a {
+  width: 100px;
   text-align: center;
   color: #000000;
 }
@@ -733,4 +733,57 @@ body{
   overflow: hidden;
   margin-bottom: 1rem;
   padding-top: 10px;
+}
+
+.EventsBlock {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start; 
+  justify-content: flex-start;
+  background: var(--pizza-card-bg);
+  box-shadow: var(--pizza-card-shadow);
+  border-radius: 18px;
+  width: 97%;
+  margin-bottom: 8px; 
+  cursor: pointer;
+  transition: all .15s ease;
+}
+
+.EventImageWrapper img {
+  width: 98%;
+  height: 100%;
+  position: relative;
+  border-radius: 18px;
+}
+
+.back-to-events {
+  background: #006f4c;
+  color: #fff;
+  border: none;
+  border-radius: 60px;
+  text-align: center;
+  font-weight: 650;
+  font-size: 16px;
+  padding: 15px 25px;
+  margin-left: 10px;
+  margin-bottom: 15px;
+  position: absolute;
+  bottom: 0;
+  width: calc(100% - 50px);
+  cursor: pointer;
+  display: block;
+  max-width: 400px;
+  transition: .2s ease;
+}
+
+.modal-image-event img {
+  width: 100%;
+  height: 100%;
+}
+
+.modal-title-description-event {
+  margin: 25px 0;
+  margin-left: 15px;
+  margin-right: 15px;
+  border-bottom: 1px solid #ececec;
 }

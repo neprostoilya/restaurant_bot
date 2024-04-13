@@ -3,28 +3,32 @@ $(document).ready(function() {
 
     $('.Table').click(function() {
         $(this).toggleClass('reserved');
-        var tableValue = $(this).attr('value');
-        $('.TextBottomP').text("Вы выбрали столик № " + tableValue);
+        var tableID = $(this).closest('.TableDiv').attr('value');
+        var tableNumber = $(this).closest('.TableDiv').attr('data-number'); // Используем data-number для получения order.number
+        console.log(tableID);
+        $('.TextBottomP').text("Вы выбрали столик № " + tableNumber);
 
-        localStorage.setItem('selectedTable', tableValue);
+        localStorage.setItem('selectedTableText', tableNumber); // Сохраняем order.number
+        localStorage.setItem('selectedTableNumber', tableID); // Сохраняем order.id
 
-        selectedTable = true; 
+        selectedTable = true;
     });
 
     $('.ButtonWrapperAtable .ButtonWrapperTable').click(function(event) {
         if (!selectedTable) {
-            $('.TextBottomP').text("Вы не выбрали столик!"); 
-            return false; 
+            $('.TextBottomP').text("Вы не выбрали столик!");
+            return false;
         }
 
-        window.location.href = "{% url 'frontend:select_quantity_of_people_view' %}";
+        window.location.href = "{% url 'frontend:select_quantity_of_people_view_ru' %}";
     });
 
-    var storedTable = localStorage.getItem('selectedTable');
-    if (storedTable) {
-        $('.Table[value="' + storedTable + '"]').addClass('reserved');
-        $('.TextBottomP').text("Вы выбрали столик № " + storedTable);
+    var selectedTableID = localStorage.getItem('selectedTableNumber');
+    var selectedTableNumber = localStorage.getItem('selectedTableText');
+    if (selectedTableID && selectedTableNumber) {
+        $('.TableDiv[value="' + selectedTableID + '"] .Table').addClass('reserved');
+        $('.TextBottomP').text("Вы выбрали столик № " + selectedTableNumber);
 
-        selectedTable = true; 
+        selectedTable = true;
     }
 });

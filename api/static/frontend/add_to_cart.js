@@ -47,6 +47,17 @@ $(document).ready(function() {
     
     addToCart(dish); 
   });
+
+  $('.price-p').text((i, text) => {
+    const [ price, currency ] = text.split(' ');
+    return `${(+price).toLocaleString()} ${currency}`;
+  });
+
+  $('.modal-price').text((i, text) => {
+    const [ price, currency ] = text.split(' ');
+    return `${(+price).toLocaleString()} ${currency}`;
+  });
+
 });
 
 
