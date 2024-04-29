@@ -15,8 +15,8 @@ from utils.basic_utils import get_text, get_lang
 from keyboards.basic_kb import back_to_main_menu_kb, main_menu_kb
 from api_requests.requests import check_user_api, create_order_api, \
     get_orders_by_user_api, update_order_status_api, get_order_by_order_id_api, \
-    create_dish_order_api, get_dish_by_id_api
-from keyboards.order_kb import select_time_kb, select_table_kb, select_payment_type_kb, \
+    get_managers_api
+from keyboards.order_kb import select_time_kb, select_place_kb, select_payment_type_kb, \
     order_approval_kb, review_order_kb, back_btn_kb
 from config.configuration import CLICK, PAYME
 from config.instance import bot_2
@@ -29,7 +29,7 @@ router_order = Router()
 class CreateOrder(StatesGroup):
     type_select_time = State()
     time = State()
-    table = State()
+    place = State()
     quantity_people = State()
 
 
@@ -123,12 +123,12 @@ async def selected_nearest_time_handler(message: Message, state: FSMContext) -> 
         time_order=f'{time.hour}:{time.minute}'
     )
     
-    await message.answer_photo(
-        photo=FSInputFile('bot/images/map.png'),
-        reply_markup=select_table_kb()
+    await message.answer(
+        text=get_text(lang, 'select_table_text'),
+        reply_markup=select_place_kb(lang)
     )
     
-    await state.set_state(CreateOrder.table)
+    await state.set_state(CreateOrder.place)
 
 
 SET_TIME = ['🕛 Указать время', '🕛 Vaqtni belgilang']
@@ -169,13 +169,13 @@ async def back_to_set_time_handler(message: Message, state: FSMContext) -> None:
     await state.update_data(
         time_order=f'{time.hour}:{time.minute}'
     )
-    
-    await message.answer_photo(
-        photo=FSInputFile('bot/images/map.png'),
-        reply_markup=select_table_kb()
+
+    await message.answer(
+        text=get_text(lang, 'select_table_text'),
+        reply_markup=select_place_kb(lang)
     )
     
-    await state.set_state(CreateOrder.table)
+    await state.set_state(CreateOrder.place)
 
 
 @router_order.message(CreateOrder.time)
@@ -194,17 +194,16 @@ async def selected_time_handler(message: Message, state: FSMContext) -> None:
     if re.match(time_pattern, text):
         hours, minutes = map(int, text.split(':'))
         if hours <= 23 and minutes <= 59:
-            await message.answer_photo(
-                caption=get_text(lang, 'select_table_text'),
-                photo=FSInputFile('bot/images/map.png'),
-                reply_markup=select_table_kb()
+            await message.answer(
+                text=get_text(lang, 'select_table_text'),
+                reply_markup=select_place_kb(lang)
             )
             
             await state.update_data(
                 time_order=f'{hours}:{minutes}'
             )
             
-            await state.set_state(CreateOrder.table)
+            await state.set_state(CreateOrder.place)
         else:
             await message.answer(
                 text=get_text(lang, 'error_format_time')
@@ -215,7 +214,7 @@ async def selected_time_handler(message: Message, state: FSMContext) -> None:
         )
         
 
-@router_order.message(CreateOrder.table, F.text.in_(BACK_TO_MENU))
+@router_order.message(CreateOrder.place, F.text.in_(BACK_TO_MENU))
 async def back_to_set_type_time_handler(message: Message, state: FSMContext) -> None:
     """
     Back to menu handler
@@ -241,19 +240,19 @@ async def back_to_set_type_time_handler(message: Message, state: FSMContext) -> 
     await state.set_state(CreateOrder.type_select_time)
 
      
-@router_order.callback_query(CreateOrder.table, F.data.startswith("table_"))
-async def selected_table_handler(call: CallbackQuery, state: FSMContext) -> None:
+@router_order.callback_query(CreateOrder.place, F.data.startswith("place_pk"))
+async def selected_place_handler(call: CallbackQuery, state: FSMContext) -> None:
     """
-    Selected table for order handler
+    Selected place for order handler
     """
     chat_id: int = call.from_user.id
     
     lang: str = await get_lang(chat_id=chat_id, state=state)
     
-    table: int = int(call.data.split("_")[-1])
+    place: int = int(call.data.split("_")[-1])
     
     await state.update_data(
-        table_order=table
+        place_order=place
     )
     
     await call.message.answer(
@@ -304,7 +303,7 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
             
             time_order: str = data.get('time_order')
             
-            table_order: int = data.get('table_order')
+            place_order: int = data.get('place_order')
             
             order: dict = create_order_api(
                 status='Ожидание',
@@ -312,31 +311,34 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
                 total_price=total_price,
                 total_quantity=total_quantity,
                 time_order=time_order,
-                table_order=table_order,
+                place_order=place_order,
                 people_quantity=quantity
             )
-                    
-            await bot_2.send_message(
-                chat_id=5974014808,
-                text=get_text_for_order(
-                    phone=user.get('phone'),
-                    carts=carts,
-                    username=username,
-                    total_price=total_price,
-                    total_quantity=total_quantity,
-                    datetime_selected=time_order,
-                    datetime_created=order.get('datetime_created'),
-                    table=table_order,
-                    order_id=order.get('pk'),
-                    people_quantity=quantity,
-                    status=order.get('status')
-                ),
-                reply_markup=order_approval_kb(
-                    order_id=order.get('pk'), 
-                    chat_id=chat_id,
-                ),
-                parse_mode='HTML'
-            )
+            
+            managers: dict = get_managers_api()
+            
+            for manager in managers:
+                await bot_2.send_message(
+                    chat_id=manager.get('telegram_pk'),
+                    text=get_text_for_order(
+                        phone=user.get('phone'),
+                        carts=carts,
+                        username=username,
+                        total_price=total_price,
+                        total_quantity=total_quantity,
+                        datetime_selected=time_order,
+                        datetime_created=order.get('datetime_created'),
+                        place=place_order,
+                        order_id=order.get('pk'),
+                        people_quantity=quantity,
+                        status=order.get('status')
+                    ),
+                    reply_markup=order_approval_kb(
+                        order_id=order.get('pk'), 
+                        chat_id=chat_id,
+                    ),
+                    parse_mode='HTML'
+                )
             
             await state.set_state(None)
         else:
@@ -391,7 +393,6 @@ async def payment_with_click_handler(call: CallbackQuery, state: FSMContext) -> 
     
     total_price: int = order.get('total_price_all_dishes', 100)
     
-    print(order.get('total_price_all_dishes'))
     update_order_status_api(
         order_id=order_id,
         status='Оплачен'
@@ -419,6 +420,7 @@ async def payment_with_click_handler(call: CallbackQuery, state: FSMContext) -> 
         text=get_text(lang, 'choose_direction'),
         reply_markup=main_menu_kb(lang)
     )
+
 
 @router_order.callback_query(PayOrder.finish_order, F.data.startswith("type_payme"))
 async def payment_with_payme_handler(call: CallbackQuery, state: FSMContext) -> None:
@@ -485,6 +487,7 @@ async def successful_payment_handler(message: Message):
 
 MY_ORDERS = ['📖 Мои заказы', '📖 Mening buyurtmalarim']
 
+
 @router_order.message(F.text.in_(MY_ORDERS))
 async def get_my_orders_handler(message: Message, state: FSMContext) -> None:
     """
@@ -521,7 +524,7 @@ async def get_my_orders_handler(message: Message, state: FSMContext) -> None:
             
             status: str = order.get('status')
             
-            table: int = order.get('table')
+            place: int = order.get('place')
             
             await message.answer(
                 text=get_text_for_view_orders(
@@ -534,7 +537,7 @@ async def get_my_orders_handler(message: Message, state: FSMContext) -> None:
                     datetime_created=datetime_created,
                     people_quantity=people_quantity,
                     status=status,
-                    table=table
+                    place=place
                 ),
                 reply_markup=review_order_kb(lang, order_id=order_id)
             )

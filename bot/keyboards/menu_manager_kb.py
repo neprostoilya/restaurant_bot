@@ -8,7 +8,7 @@ def main_menu_manager_kb():
     builder = ReplyKeyboardBuilder()
 
     builder.button(text='📖 Активные Заказы')
-    builder.button(text='🍽️ Столы')
+    builder.button(text='🍽️ Места Ресторана')
     builder.button(text='💬 Рассылка')
 
     builder.adjust(2, 1)

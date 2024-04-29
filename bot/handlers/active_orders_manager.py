@@ -44,7 +44,7 @@ async def active_orders_handler(message: Message, state: FSMContext) -> None:
         
         people_quantity: int = order.get('people_quantity')
         
-        table: int = order.get('table')
+        place: int = order.get('place')
         
         order_id: int = order.get('pk')
         
@@ -66,7 +66,7 @@ async def active_orders_handler(message: Message, state: FSMContext) -> None:
                 datetime_created=datetime_created,
                 datetime_selected=datetime_selected,
                 people_quantity=people_quantity,
-                table=table,
+                place=place,
                 order_id=order_id,
                 status=status
             )

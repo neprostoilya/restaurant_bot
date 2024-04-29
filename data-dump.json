@@ -1,0 +1,1711 @@
+[
+    {
+      "model": "admin.logentry",
+      "pk": 1,
+      "fields": {
+        "action_time": "2024-04-14T17:31:18.665Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "1",
+        "object_repr": "Европейский стол",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 2,
+      "fields": {
+        "action_time": "2024-04-14T17:31:34.984Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "2",
+        "object_repr": "Народная кухня",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 3,
+      "fields": {
+        "action_time": "2024-04-14T17:31:53.009Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "3",
+        "object_repr": "Салаты",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 4,
+      "fields": {
+        "action_time": "2024-04-14T18:11:36.837Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "1",
+        "object_repr": "Плов",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 5,
+      "fields": {
+        "action_time": "2024-04-14T18:13:37.689Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "1",
+        "object_repr": "Плов",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0418\\u0437\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u0438\\u0435\"]}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 6,
+      "fields": {
+        "action_time": "2024-04-14T18:17:44.381Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "1",
+        "object_repr": "Плов",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0418\\u0437\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u0438\\u0435\"]}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 7,
+      "fields": {
+        "action_time": "2024-04-14T18:21:28.905Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "4",
+        "object_repr": "Напитки",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 8,
+      "fields": {
+        "action_time": "2024-04-14T18:40:44.794Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "2",
+        "object_repr": "Малиновый лимонад",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 9,
+      "fields": {
+        "action_time": "2024-04-14T18:42:20.873Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "3",
+        "object_repr": "Лимонад",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 10,
+      "fields": {
+        "action_time": "2024-04-15T17:23:30.934Z",
+        "user": 1,
+        "content_type": 8,
+        "object_id": "1",
+        "object_repr": "1",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 11,
+      "fields": {
+        "action_time": "2024-04-15T17:23:44.428Z",
+        "user": 1,
+        "content_type": 8,
+        "object_id": "2",
+        "object_repr": "2",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 12,
+      "fields": {
+        "action_time": "2024-04-15T17:23:46.301Z",
+        "user": 1,
+        "content_type": 8,
+        "object_id": "3",
+        "object_repr": "2",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 13,
+      "fields": {
+        "action_time": "2024-04-15T17:23:56.455Z",
+        "user": 1,
+        "content_type": 8,
+        "object_id": "4",
+        "object_repr": "3",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 14,
+      "fields": {
+        "action_time": "2024-04-15T17:24:01.401Z",
+        "user": 1,
+        "content_type": 8,
+        "object_id": "5",
+        "object_repr": "4",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 15,
+      "fields": {
+        "action_time": "2024-04-15T17:24:05.649Z",
+        "user": 1,
+        "content_type": 8,
+        "object_id": "6",
+        "object_repr": "5",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 16,
+      "fields": {
+        "action_time": "2024-04-15T17:24:09.709Z",
+        "user": 1,
+        "content_type": 8,
+        "object_id": "7",
+        "object_repr": "6",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 17,
+      "fields": {
+        "action_time": "2024-04-15T17:24:37.539Z",
+        "user": 1,
+        "content_type": 8,
+        "object_id": "3",
+        "object_repr": "2",
+        "action_flag": 3,
+        "change_message": ""
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 18,
+      "fields": {
+        "action_time": "2024-04-15T17:25:10.827Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "1",
+        "object_repr": "Плов",
+        "action_flag": 3,
+        "change_message": ""
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 19,
+      "fields": {
+        "action_time": "2024-04-15T17:27:46.784Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "1",
+        "object_repr": "/media/i_44.webp",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 20,
+      "fields": {
+        "action_time": "2024-04-21T09:05:10.146Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "4",
+        "object_repr": "Грибной дождь",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 21,
+      "fields": {
+        "action_time": "2024-04-21T09:06:28.976Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "1",
+        "object_repr": "Европейский стол",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435 \\u043a\\u0430\\u0442\\u0435\\u0433\\u043e\\u0440\\u0438\\u0438 UZ\"]}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 22,
+      "fields": {
+        "action_time": "2024-04-21T09:10:36.892Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "2",
+        "object_repr": "neprostoilya",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Is staff\"]}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 23,
+      "fields": {
+        "action_time": "2024-04-22T10:59:01.469Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "5",
+        "object_repr": "Зеленая роща",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 24,
+      "fields": {
+        "action_time": "2024-04-22T11:01:37.662Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "5",
+        "object_repr": "Зеленая роща",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0418\\u0437\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u0438\\u0435\"]}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 25,
+      "fields": {
+        "action_time": "2024-04-22T11:05:53.235Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "6",
+        "object_repr": "Мясо по мексикански",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 26,
+      "fields": {
+        "action_time": "2024-04-22T11:09:53.801Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "7",
+        "object_repr": "Руккола",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 27,
+      "fields": {
+        "action_time": "2024-04-22T11:11:57.973Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "8",
+        "object_repr": "Борщ украинский",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 28,
+      "fields": {
+        "action_time": "2024-04-22T11:14:09.690Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "9",
+        "object_repr": "Мясо по итальянски",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 29,
+      "fields": {
+        "action_time": "2024-04-22T11:14:56.878Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "9",
+        "object_repr": "Мясо по итальянски",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435 RU\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435 UZ\"]}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 30,
+      "fields": {
+        "action_time": "2024-04-22T11:16:45.031Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "10",
+        "object_repr": "Жиз из баранины",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 31,
+      "fields": {
+        "action_time": "2024-04-22T11:17:02.987Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "1",
+        "object_repr": "Европейский стол",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435 \\u043a\\u0430\\u0442\\u0435\\u0433\\u043e\\u0440\\u0438\\u0438 UZ\"]}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 32,
+      "fields": {
+        "action_time": "2024-04-22T11:17:39.317Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "5",
+        "object_repr": "Десерт",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 33,
+      "fields": {
+        "action_time": "2024-04-22T11:20:51.392Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "11",
+        "object_repr": "Мясо по китайски",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 34,
+      "fields": {
+        "action_time": "2024-04-22T11:23:21.016Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "12",
+        "object_repr": "Мужской каприз",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 35,
+      "fields": {
+        "action_time": "2024-04-22T11:27:06.176Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "13",
+        "object_repr": "Котлета по киевски",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 36,
+      "fields": {
+        "action_time": "2024-04-22T11:29:05.686Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "14",
+        "object_repr": "Фараон",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 37,
+      "fields": {
+        "action_time": "2024-04-22T11:32:07.250Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "6",
+        "object_repr": "Шашлыки",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 38,
+      "fields": {
+        "action_time": "2024-04-22T11:32:21.676Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "15",
+        "object_repr": "Шашлык говяжий Кусковой",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 39,
+      "fields": {
+        "action_time": "2024-04-22T11:37:05.834Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "16",
+        "object_repr": "Ковурма лагман",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 40,
+      "fields": {
+        "action_time": "2024-04-23T11:19:44.404Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "17",
+        "object_repr": "Селедка по русски",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 41,
+      "fields": {
+        "action_time": "2024-04-23T11:22:37.101Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "18",
+        "object_repr": "Тбилиси",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 42,
+      "fields": {
+        "action_time": "2024-04-23T11:28:04.021Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "19",
+        "object_repr": "Флоренция",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 43,
+      "fields": {
+        "action_time": "2024-04-23T11:30:51.672Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "20",
+        "object_repr": "Мясо по деревенски",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 44,
+      "fields": {
+        "action_time": "2024-04-23T11:32:38.487Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "21",
+        "object_repr": "Салат Греческий",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 45,
+      "fields": {
+        "action_time": "2024-04-23T11:34:57.119Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "22",
+        "object_repr": "Салат Смак",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 46,
+      "fields": {
+        "action_time": "2024-04-23T11:38:37.967Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "23",
+        "object_repr": "Салат Цезарь с курицей",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 47,
+      "fields": {
+        "action_time": "2024-04-23T11:42:41.147Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "24",
+        "object_repr": "Мясо с грибами  сливочном соусе",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 48,
+      "fields": {
+        "action_time": "2024-04-23T11:44:49.841Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "25",
+        "object_repr": "Лимонад в ассортименте",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 49,
+      "fields": {
+        "action_time": "2024-04-23T11:53:29.040Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "1",
+        "object_repr": "/media/i_44.webp",
+        "action_flag": 3,
+        "change_message": ""
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 50,
+      "fields": {
+        "action_time": "2024-04-23T11:55:46.338Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "26",
+        "object_repr": "Классический наполеон",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 51,
+      "fields": {
+        "action_time": "2024-04-24T11:57:19.625Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "27",
+        "object_repr": "Сельдерей с авокадо",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 52,
+      "fields": {
+        "action_time": "2024-04-24T11:57:23.489Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "28",
+        "object_repr": "Мясо по итольянски",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 53,
+      "fields": {
+        "action_time": "2024-04-24T12:06:34.698Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "28",
+        "object_repr": "Мясо по итольянски",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0426\\u0435\\u043d\\u0430\"]}}]"
+      }
+    },
+    {
+      "model": "admin.logentry",
+      "pk": 54,
+      "fields": {
+        "action_time": "2024-04-24T12:26:25.857Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "27",
+        "object_repr": "Сельдерей с авокадо",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0426\\u0435\\u043d\\u0430\"]}}]"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 1,
+      "fields": {
+        "name": "Can add log entry",
+        "content_type": 1,
+        "codename": "add_logentry"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 2,
+      "fields": {
+        "name": "Can change log entry",
+        "content_type": 1,
+        "codename": "change_logentry"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 3,
+      "fields": {
+        "name": "Can delete log entry",
+        "content_type": 1,
+        "codename": "delete_logentry"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 4,
+      "fields": {
+        "name": "Can view log entry",
+        "content_type": 1,
+        "codename": "view_logentry"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 5,
+      "fields": {
+        "name": "Can add permission",
+        "content_type": 2,
+        "codename": "add_permission"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 6,
+      "fields": {
+        "name": "Can change permission",
+        "content_type": 2,
+        "codename": "change_permission"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 7,
+      "fields": {
+        "name": "Can delete permission",
+        "content_type": 2,
+        "codename": "delete_permission"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 8,
+      "fields": {
+        "name": "Can view permission",
+        "content_type": 2,
+        "codename": "view_permission"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 9,
+      "fields": {
+        "name": "Can add group",
+        "content_type": 3,
+        "codename": "add_group"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 10,
+      "fields": {
+        "name": "Can change group",
+        "content_type": 3,
+        "codename": "change_group"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 11,
+      "fields": {
+        "name": "Can delete group",
+        "content_type": 3,
+        "codename": "delete_group"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 12,
+      "fields": {
+        "name": "Can view group",
+        "content_type": 3,
+        "codename": "view_group"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 13,
+      "fields": {
+        "name": "Can add content type",
+        "content_type": 4,
+        "codename": "add_contenttype"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 14,
+      "fields": {
+        "name": "Can change content type",
+        "content_type": 4,
+        "codename": "change_contenttype"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 15,
+      "fields": {
+        "name": "Can delete content type",
+        "content_type": 4,
+        "codename": "delete_contenttype"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 16,
+      "fields": {
+        "name": "Can view content type",
+        "content_type": 4,
+        "codename": "view_contenttype"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 17,
+      "fields": {
+        "name": "Can add session",
+        "content_type": 5,
+        "codename": "add_session"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 18,
+      "fields": {
+        "name": "Can change session",
+        "content_type": 5,
+        "codename": "change_session"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 19,
+      "fields": {
+        "name": "Can delete session",
+        "content_type": 5,
+        "codename": "delete_session"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 20,
+      "fields": {
+        "name": "Can view session",
+        "content_type": 5,
+        "codename": "view_session"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 21,
+      "fields": {
+        "name": "Can add Пользователь",
+        "content_type": 6,
+        "codename": "add_userprofile"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 22,
+      "fields": {
+        "name": "Can change Пользователь",
+        "content_type": 6,
+        "codename": "change_userprofile"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 23,
+      "fields": {
+        "name": "Can delete Пользователь",
+        "content_type": 6,
+        "codename": "delete_userprofile"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 24,
+      "fields": {
+        "name": "Can view Пользователь",
+        "content_type": 6,
+        "codename": "view_userprofile"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 25,
+      "fields": {
+        "name": "Can add Эвент",
+        "content_type": 7,
+        "codename": "add_events"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 26,
+      "fields": {
+        "name": "Can change Эвент",
+        "content_type": 7,
+        "codename": "change_events"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 27,
+      "fields": {
+        "name": "Can delete Эвент",
+        "content_type": 7,
+        "codename": "delete_events"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 28,
+      "fields": {
+        "name": "Can view Эвент",
+        "content_type": 7,
+        "codename": "view_events"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 29,
+      "fields": {
+        "name": "Can add Стол",
+        "content_type": 8,
+        "codename": "add_tables"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 30,
+      "fields": {
+        "name": "Can change Стол",
+        "content_type": 8,
+        "codename": "change_tables"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 31,
+      "fields": {
+        "name": "Can delete Стол",
+        "content_type": 8,
+        "codename": "delete_tables"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 32,
+      "fields": {
+        "name": "Can view Стол",
+        "content_type": 8,
+        "codename": "view_tables"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 33,
+      "fields": {
+        "name": "Can add Категорию Блюда",
+        "content_type": 9,
+        "codename": "add_categories"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 34,
+      "fields": {
+        "name": "Can change Категорию Блюда",
+        "content_type": 9,
+        "codename": "change_categories"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 35,
+      "fields": {
+        "name": "Can delete Категорию Блюда",
+        "content_type": 9,
+        "codename": "delete_categories"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 36,
+      "fields": {
+        "name": "Can view Категорию Блюда",
+        "content_type": 9,
+        "codename": "view_categories"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 37,
+      "fields": {
+        "name": "Can add Блюдо",
+        "content_type": 10,
+        "codename": "add_dishes"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 38,
+      "fields": {
+        "name": "Can change Блюдо",
+        "content_type": 10,
+        "codename": "change_dishes"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 39,
+      "fields": {
+        "name": "Can delete Блюдо",
+        "content_type": 10,
+        "codename": "delete_dishes"
+      }
+    },
+    {
+      "model": "auth.permission",
+      "pk": 40,
+      "fields": {
+        "name": "Can view Блюдо",
+        "content_type": 10,
+        "codename": "view_dishes"
+      }
+    },
+    {
+      "model": "contenttypes.contenttype",
+      "pk": 1,
+      "fields": {
+        "app_label": "admin",
+        "model": "logentry"
+      }
+    },
+    {
+      "model": "contenttypes.contenttype",
+      "pk": 2,
+      "fields": {
+        "app_label": "auth",
+        "model": "permission"
+      }
+    },
+    {
+      "model": "contenttypes.contenttype",
+      "pk": 3,
+      "fields": {
+        "app_label": "auth",
+        "model": "group"
+      }
+    },
+    {
+      "model": "contenttypes.contenttype",
+      "pk": 4,
+      "fields": {
+        "app_label": "contenttypes",
+        "model": "contenttype"
+      }
+    },
+    {
+      "model": "contenttypes.contenttype",
+      "pk": 5,
+      "fields": {
+        "app_label": "sessions",
+        "model": "session"
+      }
+    },
+    {
+      "model": "contenttypes.contenttype",
+      "pk": 6,
+      "fields": {
+        "app_label": "users",
+        "model": "userprofile"
+      }
+    },
+    {
+      "model": "contenttypes.contenttype",
+      "pk": 7,
+      "fields": {
+        "app_label": "events",
+        "model": "events"
+      }
+    },
+    {
+      "model": "contenttypes.contenttype",
+      "pk": 8,
+      "fields": {
+        "app_label": "tables",
+        "model": "tables"
+      }
+    },
+    {
+      "model": "contenttypes.contenttype",
+      "pk": 9,
+      "fields": {
+        "app_label": "categories",
+        "model": "categories"
+      }
+    },
+    {
+      "model": "contenttypes.contenttype",
+      "pk": 10,
+      "fields": {
+        "app_label": "dishes",
+        "model": "dishes"
+      }
+    },
+    {
+      "model": "sessions.session",
+      "pk": "cl515kfhe4s69hhgdsbjra30jfo8jhmi",
+      "fields": {
+        "session_data": ".eJxVjDsOwjAQBe_iGln4uxYlPWewvOs1DiBHipMKcXccKQW0M_PeW8S0rTVunZc4ZXERSpx-GSZ6cttFfqR2nyXNbV0mlHsiD9vlbc78uh7t30FNvY41Kg8lnwsjap0KlmANGw3ojDIas08WmQIYKg6QcDAgrxzqEQaw4vMFCTg4VQ:1ryT6I:or9WGdQyufprRTA-PtNrxRqQL2vT0KuItucDLhRKJmw",
+        "expire_date": "2024-05-05T09:03:06.073Z"
+      }
+    },
+    {
+      "model": "sessions.session",
+      "pk": "jvbb9q2wrj8w4sbwtlgkkumov9pfggl6",
+      "fields": {
+        "session_data": ".eJxVjDsOwjAQBe_iGln4uxYlPWewvOs1DiBHipMKcXccKQW0M_PeW8S0rTVunZc4ZXERSpx-GSZ6cttFfqR2nyXNbV0mlHsiD9vlbc78uh7t30FNvY41Kg8lnwsjap0KlmANGw3ojDIas08WmQIYKg6QcDAgrxzqEQaw4vMFCTg4VQ:1ryT4C:6xSK9nVRibw3kLzcxFQwL01o9NsW0siA2Nnh-KzH5Lg",
+        "expire_date": "2024-05-05T09:00:56.808Z"
+      }
+    },
+    {
+      "model": "sessions.session",
+      "pk": "vyopvdid68r666km4cm2pezlrxl7ja4s",
+      "fields": {
+        "session_data": ".eJxVjDsOwjAQBe_iGln4uxYlPWewvOs1DiBHipMKcXccKQW0M_PeW8S0rTVunZc4ZXERSpx-GSZ6cttFfqR2nyXNbV0mlHsiD9vlbc78uh7t30FNvY41Kg8lnwsjap0KlmANGw3ojDIas08WmQIYKg6QcDAgrxzqEQaw4vMFCTg4VQ:1rw3eu:RBJdavzJSAVjHw4La9M65PFZA77qcUBJRq67U9Ku0mo",
+        "expire_date": "2024-04-28T17:28:52.306Z"
+      }
+    },
+    {
+      "model": "users.userprofile",
+      "pk": 1,
+      "fields": {
+        "password": "pbkdf2_sha256$720000$PkGxUKpDaU6cnngGWdidfU$kkUk7qtTPf6xJ/XTyEpcq+vowPAd8kq0cUaRKSOV9Zc=",
+        "last_login": "2024-04-21T09:03:06.071Z",
+        "is_superuser": false,
+        "username": "admin",
+        "phone": "def",
+        "telegram_pk": "def",
+        "language": "ru",
+        "is_active": true,
+        "is_staff": true,
+        "is_admin": true,
+        "groups": [],
+        "user_permissions": []
+      }
+    },
+    {
+      "model": "users.userprofile",
+      "pk": 2,
+      "fields": {
+        "password": "!600fBxbtXD0bsIWbFhOxDRtFz97oP8eUWYUXLSFC",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "neprostoilya",
+        "phone": "+998953441508",
+        "telegram_pk": "5974014808",
+        "language": "ru",
+        "is_active": true,
+        "is_staff": true,
+        "is_admin": false,
+        "groups": [],
+        "user_permissions": []
+      }
+    },
+    {
+      "model": "users.userprofile",
+      "pk": 3,
+      "fields": {
+        "password": "!MeVJH82uyh1ROb3wWTefcHGHk9q1cUVNFX5VPCkb",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "Елена Чапленко",
+        "phone": "998974412717",
+        "telegram_pk": "162154490",
+        "language": "ru",
+        "is_active": true,
+        "is_staff": false,
+        "is_admin": false,
+        "groups": [],
+        "user_permissions": []
+      }
+    },
+    {
+      "model": "users.userprofile",
+      "pk": 4,
+      "fields": {
+        "password": "!deDnppSGpTkKyY8I5gOYjisLSokODPH8OKmG4C9d",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "𝑼𝒍𝒚𝒂𝒏𝒂.𝑪𝒉",
+        "phone": "998338546801",
+        "telegram_pk": "1976182430",
+        "language": "ru",
+        "is_active": true,
+        "is_staff": false,
+        "is_admin": false,
+        "groups": [],
+        "user_permissions": []
+      }
+    },
+    {
+      "model": "users.userprofile",
+      "pk": 5,
+      "fields": {
+        "password": "!KT3Wloyqtms7jSX3SwXIXWP5FP5ALy4BhoN6VnXD",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "Бунед",
+        "phone": "998973330190",
+        "telegram_pk": "325610678",
+        "language": "ru",
+        "is_active": true,
+        "is_staff": false,
+        "is_admin": false,
+        "groups": [],
+        "user_permissions": []
+      }
+    },
+    {
+      "model": "users.userprofile",
+      "pk": 6,
+      "fields": {
+        "password": "!CDKvgoqK5gecmNN0C3XwH0PJmV82RUxQ5oNaMDaE",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "Мансур",
+        "phone": "998996004228",
+        "telegram_pk": "1412128398",
+        "language": "ru",
+        "is_active": true,
+        "is_staff": false,
+        "is_admin": false,
+        "groups": [],
+        "user_permissions": []
+      }
+    },
+    {
+      "model": "users.userprofile",
+      "pk": 7,
+      "fields": {
+        "password": "!87qUKdGC2O2iW6J3zFxg1GSapSL1g3FBMzBM6MHS",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "dad.h",
+        "phone": "998931623808",
+        "telegram_pk": "5191950992",
+        "language": "ru",
+        "is_active": true,
+        "is_staff": false,
+        "is_admin": false,
+        "groups": [],
+        "user_permissions": []
+      }
+    },
+    {
+      "model": "users.userprofile",
+      "pk": 8,
+      "fields": {
+        "password": "!FMI2uA1pvJUGgG5PibGTZrow94v60xJu3VfO9sfd",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "Семья",
+        "phone": "+998936180155",
+        "telegram_pk": "6236487057",
+        "language": "ru",
+        "is_active": true,
+        "is_staff": false,
+        "is_admin": false,
+        "groups": [],
+        "user_permissions": []
+      }
+    },
+    {
+      "model": "categories.categories",
+      "pk": 1,
+      "fields": {
+        "title_ru": "Европейский стол",
+        "title_uz": "Yevropa stoli"
+      }
+    },
+    {
+      "model": "categories.categories",
+      "pk": 2,
+      "fields": {
+        "title_ru": "Народная кухня",
+        "title_uz": "Milliy taom"
+      }
+    },
+    {
+      "model": "categories.categories",
+      "pk": 3,
+      "fields": {
+        "title_ru": "Салаты",
+        "title_uz": "Salatlar"
+      }
+    },
+    {
+      "model": "categories.categories",
+      "pk": 4,
+      "fields": {
+        "title_ru": "Напитки",
+        "title_uz": "Ichimliklar"
+      }
+    },
+    {
+      "model": "categories.categories",
+      "pk": 5,
+      "fields": {
+        "title_ru": "Десерт",
+        "title_uz": "Shirinlik"
+      }
+    },
+    {
+      "model": "categories.categories",
+      "pk": 6,
+      "fields": {
+        "title_ru": "Шашлыки",
+        "title_uz": "Kabob"
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 2,
+      "fields": {
+        "image": "dishes/Passion_Fruit___Malina_Lemonade_j80m8l1.jpg",
+        "title_ru": "Малиновый лимонад",
+        "title_uz": "Malina limonadasi",
+        "description_ru": "Малиновый лимонад - это освежающий напиток, который идеально подходит для жаркого летнего дня. Он готовится из малины, сахара, воды и лимонного сока. Малиновый лимонад обладает приятным вкусом и ароматом, а также полезными свойствами малины.",
+        "description_uz": "Malina limonadasi - sovuq va shirin bo’lgan shirin ichimlik. U malina, shakar, suv va sitrus sharbati (ko’pincha limon sharbati) dan tayyorlanadi. Malina limonadasining xushbo’yligi malina foydali xususiyatlari bilan birlashtirilgan.",
+        "category": 4,
+        "price": 15000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 3,
+      "fields": {
+        "image": "dishes/Green_Melon___Apple_Lemonade_rDTrLvE.jpg",
+        "title_ru": "Лимонад",
+        "title_uz": "Limonad",
+        "description_ru": "Лимонад - это безалкогольный прохладительный напиток, приготовленный из лимона или лимонного сока и сахара или подсластителя, который затем разбавляют водой.",
+        "description_uz": "Limonad— asal, shakar yoki boshqa shahlo tartibida bo’lgan limon yoki limon sharbati aralashtiriladi va suv qo’shib iste’mol qilinadigan ichimlik.",
+        "category": 4,
+        "price": 15000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 4,
+      "fields": {
+        "image": "dishes/photo_2024-04-21_15-01-11.jpg",
+        "title_ru": "Грибной дождь",
+        "title_uz": "Грибной дождь",
+        "description_ru": "Грибной дождь - это салат",
+        "description_uz": "Грибной дождь - это салат",
+        "category": 3,
+        "price": 40000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 5,
+      "fields": {
+        "image": "dishes/photo_2024-04-22_16-51-39.jpg",
+        "title_ru": "Зеленая роща",
+        "title_uz": "Yashil bog'",
+        "description_ru": "грибы, куриная грудка,  салатный лист, яйца, чернослив, майонез",
+        "description_uz": "qo'ziqorin, tovuq ko'krak, marul, tuxum, o'rik, mayonez",
+        "category": 3,
+        "price": 45000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 6,
+      "fields": {
+        "image": "dishes/photo_2024-04-22_16-59-13.jpg",
+        "title_ru": "Мясо по мексикански",
+        "title_uz": "Meksika go'shti",
+        "description_ru": "мясо говяжее, болгарский перец, томаты, лук, кукуруза,  острый перец (на выбор),  входящий гарнир рис(на выбор)",
+        "description_uz": "mol go'shti, bolgar qalampiri, pomidor, piyoz, makkajo'xori, achchiq qalampir (ixtiyoriy), yonma-yon guruch (ixtiyoriy)",
+        "category": 1,
+        "price": 45000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 7,
+      "fields": {
+        "image": "dishes/photo_2024-04-22_17-03-50.jpg",
+        "title_ru": "Руккола",
+        "title_uz": "Rukkola",
+        "description_ru": "говяжее мясо обжаренное в кисло-сладком соусе,  листья рукколы, помидоры, фисташки, бальзамический крем соус",
+        "description_uz": "shirin va nordon sousda qovurilgan mol go'shti, rukkola barglari, pomidor, pista, balzam qaymoqli sous",
+        "category": 3,
+        "price": 50000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 8,
+      "fields": {
+        "image": "dishes/photo_2024-04-22_17-07-34.jpg",
+        "title_ru": "Борщ украинский",
+        "title_uz": "Ukraina borschi",
+        "description_ru": "традиционный украинский борщ на говяжем мясе",
+        "description_uz": "mol go'shti bilan an'anaviy Ukraina borschti",
+        "category": 1,
+        "price": 20000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 9,
+      "fields": {
+        "image": "dishes/photo_2024-04-22_17-09-37.jpg",
+        "title_ru": "Мясо по итальянски",
+        "title_uz": "Italiya uslubidagi go'sht",
+        "description_ru": "говяжья отбивная в кляре, помидоры, сыр, каймак\r\n\r\nБез входящего гарнира",
+        "description_uz": "xamirda mol go'shti, pomidor, pishloq, qaymoq\r\n\r\nYo'q yonma-ovqat",
+        "category": 1,
+        "price": 35000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 10,
+      "fields": {
+        "image": "dishes/photo_2024-04-22_17-12-28.jpg",
+        "title_ru": "Жиз из баранины",
+        "title_uz": "Qo'zi sharbati",
+        "description_ru": "Баранина обжаренная и томленная в собственном соку",
+        "description_uz": "O'z sharbatida qovurilgan va qovurilgan qo'zichoq",
+        "category": 2,
+        "price": 55000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 11,
+      "fields": {
+        "image": "dishes/photo_2024-04-22_16-55-32.jpg",
+        "title_ru": "Мясо по китайски",
+        "title_uz": "Xitoy uslubidagi go'sht",
+        "description_ru": "Обжаренная говядина, болгарский перец, томаты, огурцы, лук, острый перец (на выбор), входящий гарнир рис (на выбор)",
+        "description_uz": "Qovurilgan mol go'shti, bolgar qalampiri, pomidor, bodring, piyoz, achchiq qalampir (ixtiyoriy), yonma-yon guruch (ixtiyoriy)",
+        "category": 1,
+        "price": 45000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 12,
+      "fields": {
+        "image": "dishes/photo_2024-04-22_16-55-34.jpg",
+        "title_ru": "Мужской каприз",
+        "title_uz": "Erkak injiqligi",
+        "description_ru": "Яичный блин, салатовый лист, отварная говядина, майонез",
+        "description_uz": "Tuxumli pancake, marul bargi, qaynatilgan mol go'shti, mayonez",
+        "category": 3,
+        "price": 35000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 13,
+      "fields": {
+        "image": "dishes/photo_2024-04-22_16-55-33.jpg",
+        "title_ru": "Котлета по киевски",
+        "title_uz": "Tovuq Kiev",
+        "description_ru": "Отбивная из куриного филе с начинкой из сливочного масла с грецкими орехами и сыром,  в кляре из сухарей\r\n\r\nБез входящего гарнира",
+        "description_uz": "Tovuq filetosi sariyog ', yong'oq va pishloq bilan to'ldirilgan, maydalangan xamirda\r\n\r\nYo'q yonma-ovqat",
+        "category": 1,
+        "price": 30000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 14,
+      "fields": {
+        "image": "dishes/photo_2024-04-22_16-55-33_2.jpg",
+        "title_ru": "Фараон",
+        "title_uz": "Fir'avn",
+        "description_ru": "Обжаренная говядина, томаты, лук, острый перец, соевый соус, кинза",
+        "description_uz": "Qovurilgan mol go'shti, pomidor, piyoz, achchiq qalampir, soya sousi, silantro",
+        "category": 3,
+        "price": 50000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 15,
+      "fields": {
+        "image": "dishes/photo_2024-04-22_17-27-27.jpg",
+        "title_ru": "Шашлык говяжий Кусковой",
+        "title_uz": "Bir parcha mol go'shti shashlik",
+        "description_ru": "Шашлык говяжий кусковой",
+        "description_uz": "Bir parcha mol go'shti shashlik",
+        "category": 6,
+        "price": 22000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 16,
+      "fields": {
+        "image": "dishes/photo_2024-04-22_17-27-34.jpg",
+        "title_ru": "Ковурма лагман",
+        "title_uz": "Kovurma lag'mon",
+        "description_ru": "Жаренный лагман, томаты, говяжий фарш, болгарский перец, лук, яйцо жаренное",
+        "description_uz": "Qovurilgan lagman, pomidor, qiyma, bolgar qalampiri, piyoz, qovurilgan tuxum",
+        "category": 2,
+        "price": 30000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 17,
+      "fields": {
+        "image": "dishes/photo_2024-04-23_17-03-48.jpg",
+        "title_ru": "Селедка по русски",
+        "title_uz": "Rus tilida seld balig'i",
+        "description_ru": "Селедь в масле, отварной картофель, лук, маринованные огурцы",
+        "description_uz": "Yog'da seld, qaynatilgan kartoshka, piyoz, tuzlangan bodring",
+        "category": 1,
+        "price": 40000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 18,
+      "fields": {
+        "image": "dishes/photo_2024-04-23_17-17-23.jpg",
+        "title_ru": "Тбилиси",
+        "title_uz": "Tbilisi",
+        "description_ru": "Гранат, отварное мясо, красный лук, кинза, фасоль красная, грецкий орех, хмели сунли, болгарский перец",
+        "description_uz": "Anor, qaynatilgan go'sht, qizil piyoz, cilantro, qizil loviya, yong'oq, sunli hop, bulg'or qalampiri",
+        "category": 3,
+        "price": 65000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 19,
+      "fields": {
+        "image": "dishes/photo_2024-04-23_17-03-50.jpg",
+        "title_ru": "Флоренция",
+        "title_uz": "Florensiya",
+        "description_ru": "Жаренная говядина, жаренные шампиньоны, болгарский перец, салатовый лист, листья руколы, вяленые томаты,  медово-лимонный соус,  брынза фетакса",
+        "description_uz": "Qovurilgan mol go'shti, qovurilgan shampignonlar, bolgar qalampiri, marul barglari, rukkola barglari, quyoshda quritilgan pomidor, asal-limon sousi, fetaks pishloq",
+        "category": 3,
+        "price": 65000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 20,
+      "fields": {
+        "image": "dishes/photo_2024-04-23_17-03-55.jpg",
+        "title_ru": "Мясо по деревенски",
+        "title_uz": "Mamlakat uslubidagi go'sht",
+        "description_ru": "Обжаренное мясо с луком и грибами, входящий гарнир картошка по деревенски",
+        "description_uz": "Piyoz va qo'ziqorin bilan qovurilgan go'sht, mamlakat uslubidagi kartoshkadan tayyorlangan garnitür",
+        "category": 1,
+        "price": 50000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 21,
+      "fields": {
+        "image": "dishes/photo_2024-04-23_17-03-56.jpg",
+        "title_ru": "Салат Греческий",
+        "title_uz": "Yunon salatasi",
+        "description_ru": "Помидоры, огурцы, салатный лист, оливки, фетакса, лимонная заправка",
+        "description_uz": "Pomidor, bodring, salat, zaytun, fetaks, limonli kiyinish",
+        "category": 3,
+        "price": 40000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 22,
+      "fields": {
+        "image": "dishes/photo_2024-04-23_17-03-58.jpg",
+        "title_ru": "Салат Смак",
+        "title_uz": "Salat Smak",
+        "description_ru": "Копченная колбаса, сухари, помидоры, майонез, сыр Пармезан",
+        "description_uz": "Dudlangan kolbasa, kraker, pomidor, mayonez, Parmesan pishloq",
+        "category": 3,
+        "price": 35000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 23,
+      "fields": {
+        "image": "dishes/photo_2024-04-23_17-04-00.jpg",
+        "title_ru": "Салат Цезарь с курицей",
+        "title_uz": "Tovuq bilan Tsezar salatasi",
+        "description_ru": "Пекинская капуста, сухари, соус, куриная грудка, помидоры черри, сыр Пармезан, перепелиные яйца",
+        "description_uz": "Xitoy karam, kraker, sous, tovuq ko'krak, olcha pomidor, Parmesan pishloq, bedana tuxumi",
+        "category": 3,
+        "price": 50000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 24,
+      "fields": {
+        "image": "dishes/photo_2024-04-23_17-04-05.jpg",
+        "title_ru": "Мясо с грибами  сливочном соусе",
+        "title_uz": "Kremli sousda qo'ziqorinli go'sht",
+        "description_ru": "Мясо говядина, шампиньены,  сливочный соус\r\n\r\nНе входящий гарнир",
+        "description_uz": "Mol go'shti, champignons, qaymoq sousi, guruch\r\n\r\nYon piyola kiritilmagan",
+        "category": 1,
+        "price": 40000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 25,
+      "fields": {
+        "image": "dishes/photo_2024-04-23_17-04-06.jpg",
+        "title_ru": "Лимонад в ассортименте",
+        "title_uz": "Har xil limonad",
+        "description_ru": "Классический Лимонад 1 литр",
+        "description_uz": "Klassik limonad 1 litr",
+        "category": 4,
+        "price": 40000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 26,
+      "fields": {
+        "image": "dishes/photo_2024-04-22_17-26-50.jpg",
+        "title_ru": "Классический наполеон",
+        "title_uz": "Klassik Napoleon",
+        "description_ru": "Сливочный крем",
+        "description_uz": "Yog 'kremi",
+        "category": 5,
+        "price": 25000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 27,
+      "fields": {
+        "image": "dishes/photo_2024-04-24_16-56-16.jpg",
+        "title_ru": "Сельдерей с авокадо",
+        "title_uz": "Avakado bilan selderey",
+        "description_ru": "Авокадо сельдерей куриная грудка помидоры черри свежие огурцы.",
+        "description_uz": "Avakado selderey tovuq ko'kragi gilos pomidorlari yangi bodring.",
+        "category": 1,
+        "price": 50000
+      }
+    },
+    {
+      "model": "dishes.dishes",
+      "pk": 28,
+      "fields": {
+        "image": "dishes/photo_2024-04-24_16-54-47.jpg",
+        "title_ru": "Мясо по итольянски",
+        "title_uz": "Italiya go'shti",
+        "description_ru": "говяжья отбивная,в кляре ,томаты,каймак,СЫР,без входящего гарнира",
+        "description_uz": "mol go'shti pirzola, kaltaklangan, pomidor, qaymak, pishloq, kiruvchi garnitur yo'q",
+        "category": 1,
+        "price": 40000
+      }
+    }
+  ]

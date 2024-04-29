@@ -149,3 +149,17 @@ class CheckManagerAPIView(APIView):
         serializer = self.serializer_class(users, many=True)
         return Response(data=serializer.data)
 
+
+class GetManagersAPIView(APIView):
+    """
+    Get Managers
+    """
+    model = UserProfile
+    serializer_class = UserSerializer
+
+    def get(self, request):
+        users = self.model.objects.filter(
+            is_staff=True
+        )
+        serializer = self.serializer_class(users, many=True)
+        return Response(serializer.data)

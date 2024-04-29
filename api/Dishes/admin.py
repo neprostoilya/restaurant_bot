@@ -5,6 +5,7 @@ from .models import Dishes
 
 @admin.register(Dishes)
 class DishesAdmin(admin.ModelAdmin):
+    search_fields = ['title_ru', 'category',]
     list_display = ('pk', 'title_ru', 'descriptiontrim_ru', 'category', 'price', 'img_preview')
     list_display_links = ('title_ru',)
     list_editable = ('price', 'category')

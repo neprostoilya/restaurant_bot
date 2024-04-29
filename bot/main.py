@@ -9,7 +9,7 @@ from aiogram import Bot
 from config.configuration import URL
 from handlers import commands, register, menu, cart, order, \
     information, events, settings, commands_manager, \
-    accept_or_reject_order_manager, active_orders_manager, tables_manager
+    accept_or_reject_order_manager, active_orders_manager, places_manager
 from config.instance import bot_1, bot_2
 
 
@@ -41,7 +41,7 @@ async def main():
     dp_2.include_routers(commands_manager.router_commands)
     dp_2.include_routers(active_orders_manager.router_active_orders)
     dp_2.include_routers(accept_or_reject_order_manager.router_accept_or_reject_order)
-    dp_2.include_routers(tables_manager.router_tables)
+    dp_2.include_routers(places_manager.router_places)
 
     await bot_1.delete_webhook(drop_pending_updates=True)
     await bot_2.delete_webhook(drop_pending_updates=True)

@@ -5,9 +5,6 @@ from rest_framework import status
 from .models import Orders, DishOrder
 from .serializers import OrdersSerializer, DishOrderSerializer
 
-from tables.models import Tables
-
-
 
 class CreateOrderAPIView(APIView):
     """
@@ -132,21 +129,6 @@ class UpdateOrderStatusAPIView(APIView):
         try:
             order = self.model.objects.get(pk=order_id)
             if 'status' in data:
-                
-                if data.get('status') == 'Оплачен':
-                    table = Tables.objects.get(
-                        pk=order.table.pk
-                    )
-                    table.status = 'Забронирован'
-                    table.save()
-                    
-                elif data.get('status') == 'Выполнен':
-                    table = Tables.objects.get(
-                        pk=order.table.pk
-                    )
-                    table.status = 'Свободный'
-                    table.save()
-                        
                 order.status = data.get('status')
                 order.save()
                 

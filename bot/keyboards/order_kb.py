@@ -1,7 +1,7 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder, ReplyKeyboardBuilder
 
 from utils.basic_utils import get_text, get_lang
-from api_requests.requests import get_tables_api
+from api_requests.requests import get_reserved_places_api
 
 
 def create_order_btn_kb(language: str):
@@ -44,24 +44,25 @@ def select_time_kb(language: str):
     )
     
     
-def select_table_kb():
+def select_place_kb(language: str):
     """ 
     Create order button
     """
     builder = InlineKeyboardBuilder()
     
-    tables: dict = get_tables_api()
+    places: dict = get_reserved_places_api()
     
-    for table in tables:
-        if table.get('status') == 'Свободен':
+    if language == 'ru':
+        for place in places:
+                builder.button(
+                    text=place.get('title_ru'),
+                    callback_data=f'place_pk_{place.get('id')}'
+                )
+    else:
+        for place in places:
             builder.button(
-                text=f"№ {table.get('number')}",
-                callback_data=f"table_{table.get('id')}"
-            )
-        else:
-            builder.button(
-                text=f"№ {table.get('number')} Занят",
-                callback_data='ignore'
+                text=place.get('title_uz'),
+                callback_data=f'place_pk_{place.get('id')}'
             )
             
     builder.adjust(3)

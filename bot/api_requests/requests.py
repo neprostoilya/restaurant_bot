@@ -100,12 +100,12 @@ def get_dish_by_id_api(dish_id: int):
 
 
 def create_order_api(user: int, total_price: int, status: str,
-                    total_quantity: int, time_order: str, table_order: int, people_quantity: int):
+                    total_quantity: int, time_order: str, place_order: int, people_quantity: int):
     """
     Create order 
     """
     data: dict = {'user': user, 'total_price': total_price, 'status': status, 'people_quantity': people_quantity,
-                  'total_quantity': total_quantity, 'datetime_selected': time_order, 'table': table_order}
+                  'total_quantity': total_quantity, 'datetime_selected': time_order, 'place': place_order}
         
     return post('/orders/create_order/', data=data)
 
@@ -189,20 +189,27 @@ def check_manager_api(chat_id: int) -> bool:
         return False
 
 
-def get_tables_api() -> dict:
+def get_reserved_places_api() -> dict:
     """
-    Get tables 
+    Get Reserved Places 
     """
-    return get(f'/tables/get_tables/')
+    return get(f'/places/get_reserved_places/')
 
 
-def update_table_status_api(table_id: int, status: str) -> dict:
+def get_places_api() -> dict:
     """
-    Update table status 
+    Get All Places 
     """
-    data = {'status': status}
+    return get(f'/places/get_places/')
+
+
+def update_place_status_api(place_id: int, is_view: str) -> dict:
+    """
+    Update place status 
+    """
+    data = {'is_view': is_view}
     
-    return put(f'/tables/update_table/{table_id}/', data=data)
+    return put(f'/places/update_place_status/{place_id}/', data=data)
 
 
 def get_active_orders_api() -> dict:
@@ -224,3 +231,11 @@ def get_dishes_order_api(order_id: int) -> dict:
     Get dishes order
     """
     return get(f'/orders/get_dishes_order/{order_id}/')
+
+
+def get_managers_api() -> dict:
+    """
+    Get Managers 
+    """
+    return get('/users/get_managers/')
+    

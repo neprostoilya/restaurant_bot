@@ -2,8 +2,7 @@ from django.db import models
 
 from users.models import UserProfile
 from dishes.models import Dishes
-from tables.models import Tables
-
+from places.models import Places
 
 class Orders(models.Model):
     """
@@ -14,10 +13,10 @@ class Orders(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Покупатель',
     )
-    table = models.ForeignKey(
-        Tables,
+    place = models.ForeignKey(
+        Places,
         on_delete=models.CASCADE,
-        verbose_name='Номер стола'
+        verbose_name='Место'
     )
     people_quantity = models.PositiveIntegerField(
         default=1,

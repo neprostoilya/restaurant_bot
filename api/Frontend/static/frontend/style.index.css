@@ -83,8 +83,10 @@ body{
 }
  
 .CardWrapperImage img {
-  width: 110px;
-  height: 100px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  width: 120px;
+  height: 130px;
   position: relative;
   border-radius: 18px;
 }
@@ -301,7 +303,6 @@ body{
 
 .modal-image img {
   width: 100%;
-  height: 270px;
 }
 
 .modal-header {
@@ -433,7 +434,6 @@ body{
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  width: 200px;
 }
 
 .CartBlockCounterWrapper {
@@ -442,15 +442,19 @@ body{
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  padding-left: 10px;
 }
 
 .CartBlockImg {
-  min-width: 95px;
-  height: 95px;
+  width: 135px;
+  height: 120px;
   position: relative;
-  margin-right: 10px;
+  padding-right: 10px;
   overflow: hidden;
+}
+
+.CartBlockImg img {
+  width: 100%;
+  height: 125px;
 }
 
 .CartBlockTitle {
@@ -501,7 +505,7 @@ body{
 }
 
 .TextBlockWrapper {
-  margin-top: 25px;
+  margin-top: 50px;
   padding: 10px 25px 80px;
 }
 
@@ -581,16 +585,6 @@ body{
   width: 82%;
 }
 
-.RestourantMap {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  background-color: #f6f4f4;
-  width: 80%;
-  margin-top: 10px;
-  margin-bottom: 25px;
-}
-
 .Table {
   cursor: pointer;
 }
@@ -655,12 +649,10 @@ body{
   background: #ffffff;
   mix-blend-mode: normal;
   box-shadow: 0 -7px 10px rgba(0,0,0,.06);
-  position: fixed;
   left: 0;
   right: 0;
+  position: absolute;
   bottom: 0;
-  display: flex;
-  flex-direction: column;
   padding: 15px 25px;
   align-items: center;
   justify-content: center;
@@ -676,7 +668,6 @@ body{
   font-weight: 650;
   margin: 1em 25px;
   cursor: pointer;
-  display: block;
   max-width: 400px;
   transition: .2s ease;
 }
@@ -786,4 +777,37 @@ body{
   margin-left: 15px;
   margin-right: 15px;
   border-bottom: 1px solid #ececec;
+}
+
+.PlacesBtnsWrapper {
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  gap: 30px;
+  /* row-gap: 12%; */
+  /* column-gap: 10%; */
+  grid-template-columns: repeat(2, 3fr);
+  grid-auto-rows: min-content;
+}
+
+.PlaceBtn {
+  text-align: center;
+  text-decoration: none;
+  color: black;
+  padding: 20px 20px 20px 20px;
+  background-color: #efefef;
+  border-radius: 10px;
+  font-family: monospace;
+  font-size: 18px;
+  font-weight: 450;
+}
+
+.PlaceBtn.selected {
+  background-color: #67dda6;
+  color: white;
+}
+
+.ButtonWrapperAtable.disabled {
+  background-color: grey;
+  pointer-events: none; 
 }

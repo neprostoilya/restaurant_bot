@@ -26,9 +26,9 @@ urlpatterns = [
     path('orders/', include('orders.urls', namespace='Orders')),
     path('dishes/', include('dishes.urls', namespace='Dishes')),
     path('users/', include('users.urls', namespace='Users')),
-    path('tables/', include('tables.urls', namespace='Tables')),
     path('frontend/', include('frontend.urls', namespace='Frontend')),
     path('events/', include('events.urls', namespace='Events')),
+    path('places/', include('places.urls', namespace='Places')),
     path('i18n/', include('django.conf.urls.i18n')),
 ]
 

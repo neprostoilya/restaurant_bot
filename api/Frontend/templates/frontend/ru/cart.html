@@ -7,7 +7,6 @@
 {% endblock title %}
 
 {% block main %}
-<script src="{% static 'frontend/update_quantity_ru.js' %}"></script>
 
 <div class="HeaderWrapper">
 	<button class="BackButton" style="background: transparent; top: 40px; left: 20px; box-shadow: none;">
@@ -39,12 +38,14 @@
   <a href="{% url 'frontend:select_time_view_ru'  %}">
 		<div class="ButtonWrapperAcart">
 			<div class="ButtonBlockWrappercart">
-				<button class="ButtonWrappercart" style="margin: 0px; width: 100%;">
+				<button class="ButtonWrappercart" style="width: 100%;height: 100%;">
 					<div class="ButtonWrapperDivcart"><p class="TextButtonWrapper TextButtonWrapperP">Далее</p></div>
 				</button>
 			</div>
 		</div>
   </a>
 </div>
+<script src	="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{% static 'frontend/update_quantity_ru.js' %}"></script>
   
 {% endblock main %}

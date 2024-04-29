@@ -1,7 +1,6 @@
 version: '3.8'
-
 services:
- api: 
+ api:
     build:
       context: .
       dockerfile: api/Dockerfile
@@ -11,7 +10,6 @@ services:
     volumes:
       - .:/app
       - ./requirements.txt:/app/requirements.txt
-      - /var/www/static/:/var/www/static/
     env_file:
       - .env
  bot:
@@ -20,7 +18,7 @@ services:
       dockerfile: Dockerfile
     command: python bot/main.py
     depends_on:
-      - api 
+      - api
     volumes:
       - .:/app
       - ./requirements.txt:/app/requirements.txt
@@ -38,16 +36,25 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     ports:
       - '5432:5432'
-      
  nginx:
     image: nginx:latest
+    restart: unless-stopped
     ports:
       - "80:80"
+      - "443:443"
     volumes:
-      - /var/www/static/:/var/www/static/
-      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+      - .:/app
+      - ./nginx:/etc/nginx/conf.d
     depends_on:
       - api
-
+ certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email geniumobile@gmail.com -d kafe-7a-test.tw1.su --agree-tos
 volumes:
  postgres_data:

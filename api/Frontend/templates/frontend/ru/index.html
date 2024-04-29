@@ -34,7 +34,9 @@
 
 {% for dish in dishes %}
 <div class="Cardblock" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
-    <div class="CardWrapperImage">
+    <div class="CardWrapperImage" style="
+      padding-right: 10px;
+    ">
         <img src="{{ dish.image }}" alt="{{ dish.title_ru_ru }}">
     </div>
     <div class="CardWrapperText">

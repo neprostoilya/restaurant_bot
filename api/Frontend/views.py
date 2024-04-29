@@ -13,8 +13,8 @@ from dishes.serializers import DishesSerializer
 from categories.models import Categories
 from categories.serializers import CategoriesSerializer
 
-from tables.models import Tables
-from tables.serializers import TablesSerializer
+from places.models import Places
+from places.serializers import PlacesSerializer
 
 
 class ChooseLanguageView(APIView):
@@ -93,6 +93,7 @@ class CategoriesViewRU(APIView):
             'categories': categories_serializer.data,
         })
 
+
 class SelectTimeForOrderViewRU(APIView):
     """
     Select DateTime for order RU
@@ -104,19 +105,21 @@ class SelectTimeForOrderViewRU(APIView):
         return Response({})
 
 
-class SelectTableForOrderViewRU(APIView):
+class SelectPlaceForOrderViewRU(APIView):
     """
-    Select Table for order RU
+    Select Place for order RU
     """
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'frontend/ru/select_table.html'
+    template_name = 'frontend/ru/select_place.html'
 
     def get(self, request):  
-        tables = Tables.objects.all()
-        tables_serializer = TablesSerializer(tables, many=True)
-        
+        places = Places.objects.filter(
+            is_view=True
+        )
+        places_serializer = PlacesSerializer(places, many=True)
+
         return Response({
-            'tables': tables_serializer.data
+            'places': places_serializer.data,
         })
         
 
@@ -207,6 +210,7 @@ class CategoriesViewUZ(APIView):
             'categories': categories_serializer.data,
         })
 
+
 class SelectTimeForOrderViewUZ(APIView):
     """
     Select DateTime for order UZ
@@ -218,21 +222,22 @@ class SelectTimeForOrderViewUZ(APIView):
         return Response({})
 
 
-class SelectTableForOrderViewUZ(APIView):
+class SelectPlaceForOrderViewUZ(APIView):
     """
-    Select Table for order UZ
+    Select Place for order UZ
     """
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'frontend/uz/select_table.html'
+    template_name = 'frontend/uz/select_place.html'
 
     def get(self, request):  
-        tables = Tables.objects.all()
-        tables_serializer = TablesSerializer(tables, many=True)
-        
-        return Response({
-            'tables': tables_serializer.data
-        })
+        places = Places.objects.filter(
+            is_view=True
+        )
+        places_serializer = PlacesSerializer(places, many=True)
 
+        return Response({
+            'places': places_serializer.data,
+        })
 
 class CartViewUZ(APIView):
     """

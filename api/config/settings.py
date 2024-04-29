@@ -17,7 +17,10 @@ ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'users.UserProfile'
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost/']
+ALLOWED_HOSTS = ["kafe-7a-test.tw1.su", "localhost", "api", 'b877-95-46-64-135.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ["https://kafe-7a-test.tw1.su"]
+CSRF_ALLOWED_ORIGINS = ["https://kafe-7a-test.tw1.su"]
+CORS_ORIGINS_WHITELIST = ["https://kafe-7a-test.tw1.su"]
 
 INSTALLED_APPS = [
     'fontawesomefree',
@@ -31,10 +34,10 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'events.apps.EventsConfig',
     'frontend.apps.FrontendConfig',
-    'tables.apps.TablesConfig',
     'categories.apps.CategoriesConfig',
     'dishes.apps.DishesConfig',
     'orders.apps.OrdersConfig',
+    'places.apps.PlacesConfig',
     'rest_framework',
     'rest_framework_simplejwt',
 ]
@@ -191,6 +194,7 @@ JAZZMIN_SETTINGS = {
         "dishes.Dishes": "fas fa-hamburger",
         "orders.Orders": "fas fa-clipboard-list",
         "events.Events": "fas fa-calendar-day",
+        "places.Places": "fas fa-utensils",
     },
     "related_modal_active": False,
     "use_google_fonts_cdn": True,
