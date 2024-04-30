@@ -1,60 +1,59 @@
-version: '3.8'
-services:
- api:
-    build:
-      context: .
-      dockerfile: api/Dockerfile
-    command: python api/manage.py runserver 0.0.0.0:8000
-    environment:
-      - DATABASE_HOST=database
-    volumes:
-      - .:/app
-      - ./requirements.txt:/app/requirements.txt
-    env_file:
-      - .env
- bot:
-    build:
-      context: ./bot
-      dockerfile: Dockerfile
-    command: python bot/main.py
-    depends_on:
-      - api
-    volumes:
-      - .:/app
-      - ./requirements.txt:/app/requirements.txt
-    env_file:
-      - .env
-    environment:
-      - URL=http://api:8000/
- db:
-    image: postgres:13
-    environment:
-      - POSTGRES_DB=web_bot
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=18960707
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    ports:
-      - '5432:5432'
- nginx:
-    image: nginx:latest
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-      - .:/app
-      - ./nginx:/etc/nginx/conf.d
-    depends_on:
-      - api
- certbot:
-    image: certbot/certbot
-    container_name: certbot
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    command: certonly --webroot -w /var/www/certbot --force-renewal --email geniumobile@gmail.com -d kafe-7a-test.tw1.su --agree-tos
-volumes:
- postgres_data:
+  version: '3.8'
+  services:
+  api:
+      build:
+        context: .
+        dockerfile: api/Dockerfile
+      command: python api/manage.py runserver 0.0.0.0:8000
+      environment:
+        - DATABASE_HOST=database
+      volumes:
+        - .:/app
+        - ./requirements.txt:/app/requirements.txt
+      env_file:
+        - .env
+  bot:
+      build:
+        context: ./bot
+        dockerfile: Dockerfile
+      command: python bot/main.py
+      depends_on:
+        - api
+      volumes:
+        - .:/app
+        - ./requirements.txt:/app/requirements.txt
+      env_file:
+        - .env
+      environment:
+        - URL=http://api:8000/
+  db:
+      image: postgres:13
+      environment:
+        - POSTGRES_DB=web_bot
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=18960707
+      volumes:
+        - postgres_data:/var/lib/postgresql/data/
+      ports:
+        - '5432:5432'
+  nginx:
+      image: nginx:latest
+      ports:
+        - "80:80"
+        - "443:443"
+      volumes:
+        - ./certbot/conf:/etc/letsencrypt
+        - ./certbot/www:/var/www/certbot
+        - .:/app
+        - ./nginx:/etc/nginx/conf.d
+      depends_on:
+        - api
+  certbot:
+      image: certbot/certbot
+      container_name: certbot
+      volumes:
+        - ./certbot/conf:/etc/letsencrypt
+        - ./certbot/www:/var/www/certbot
+      command: certonly --webroot -w /var/www/certbot --force-renewal --email geniumobile@gmail.com -d kafe-7a-test.tw1.su --agree-tos
+  volumes:
+  postgres_data:
