@@ -9,16 +9,15 @@ jQuery(document).ready(function($) {
     if (storedPeopleCount) {
         $('#typeNumber').val(storedPeopleCount);
     }
-
+    
     $('.ButtonWrapperAtable').on('click', function(e) {
         e.preventDefault();
-
+  
         const tg = Telegram.WebApp;
-
+  
         var userData; 
-
+  
         function GetUser(callback) {
-            // fetch("http://localhost/users/users/" + tg.initDataUnsafe.user.id + "/")
             fetch("http://localhost/users/users/" + 5974014808 + "/")
                 .then(response => response.json())
                 .then(data => {
@@ -43,32 +42,30 @@ jQuery(document).ready(function($) {
         
         function processData(userData) {
             var userData = JSON.parse(JSON.stringify(userData));
-
+  
             var userPk = userData[0].pk
-
+  
             var userPhone = userData[0].phone
-
+  
             var username= userData[0].username
-
+  
             var userTelegramId= userData[0].telegram_pk
-
+  
             var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-
+  
             var dishes = [];
             
             var text_dishes = '';
-
+  
             cartItems.forEach(function(item, i) {
                 dishes.push(item.dish_pk)
                 text_dishes += `<b>Блюдо</b> <code>#${i+1}</code>\n<b>Название:</b> <code>${item.title}</code>\n<b>Колл-во:</b> <code>${item.quantity}</code>\n<b>Цена:</b> <code>${item.total_price}</code> <b>сум</b>\n\n`;
             });
-
+  
             var storedPeopleCount = localStorage.getItem('selectedPeopleCount');
-
-            var selectedPlaceId = localStorage.getItem('selectedPlaceId');
-
+  
             var selectedPlaceName = localStorage.getItem('selectedPlaceName');
-
+  
             var storedTime = localStorage.getItem('selectedTime');
             
             fetch("http://localhost/orders/create_order/", {
@@ -78,7 +75,8 @@ jQuery(document).ready(function($) {
                 },
                 body: JSON.stringify({
                     user: userPk,
-                    place: selectedPlaceId,
+                    type_order: 'Бронирование',
+                    place: selectedPlaceName,
                     people_quantity: storedPeopleCount,
                     datetime_selected: storedTime + ':00',
                     status: 'Ожидание'
@@ -87,19 +85,24 @@ jQuery(document).ready(function($) {
             .then(response => response.json())
             .then(data => {
                 var order = data;
-
+          
+                var total_price_all_dishes = 0; 
+                var total_quantity_all_dishes = 0;
+                
                 cartItems.forEach(function(item, i) {
+                    total_price_all_dishes += item.total_price
+                    total_quantity_all_dishes += item.quantity
                     createDishOrder(order.pk, item.dish_pk, item.total_price, item.quantity);
                 });
-
+              
                 const date = new Date(data.datetime_created);
-
+  
                 const formattedDateTime = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')};`
                 sendTelegramOrderNotification(formattedDateTime, userPhone, username, userTelegramId, order, storedTime, order.pk,
-                    selectedPlaceName, storedPeopleCount, order.total_price_all_dishes, order.total_quantity_all_dishes, text_dishes)
+                    selectedPlaceName, storedPeopleCount, total_price_all_dishes, total_quantity_all_dishes, text_dishes)
             });
             
-
+  
             function createDishOrder(order_id, dish_pk, total_price, total_quantity) {
                 fetch("http://localhost/orders/create_dish_order/", {
                     method: "POST",
@@ -115,7 +118,7 @@ jQuery(document).ready(function($) {
                 });
                 
             };
-
+  
             function sendTelegramOrderNotification(datetimeCreated, userPhone, username, userTelegramId, 
                 order, storedTime, order_pk, selectedPlaceName, storedPeopleCount, total_price_all_dishes, total_quantity_all_dishes, text_dishes) {
                 var text = `
@@ -132,7 +135,7 @@ jQuery(document).ready(function($) {
 
 
 ${text_dishes}
-<b>Выбранное место:</b> <code>${selectedPlaceName}</code>
+<b>Место:</b> <code>${selectedPlaceName}</code>
 
 <b>Колл-во людей:</b> <code>${storedPeopleCount}</code>
 
@@ -140,29 +143,29 @@ ${text_dishes}
 
 <b>Общее колл-во:</b> <code>${total_quantity_all_dishes}</code>`;
                 
-                var token_1 = '6898947200:AAGcnJRBEw2E_I0p4Mey4jcMXNJSGML3s_g';
-                var token_2 = '7174377582:AAG2bot7iwpYE8DNVSC6sivYCdhyyMXz6jU';
+                var token_1 = '6513329874:AAH-ufpn6xB55o8J8eyi2dPfVXMlxGWiMAU';
+                var token_2 = '7184297327:AAFs3jwkVV8gXXvDSRMtLkgZmPRCx6KcYL0';
+                console.log(order_pk, order);
                 var buttons = JSON.stringify({
                     inline_keyboard: [
                         [
-                            { text: '✔️ Принять', callback_data: `accept_order_${order.pk}_${userTelegramId} `},
-                            { text: '✖️ Отклонить', callback_data: `reject_order_${order.pk}_${userTelegramId} `}
+                            { text: '✔️ Принять', callback_data: `accept_order_${order_pk}_${userTelegramId} `},
+                            { text: '✖️ Отклонить', callback_data: `reject_order_${order_pk}_${userTelegramId} `}
                         ]
                     ]
                 });
-
+  
                 fetch("http://localhost/users/get_managers/")
-                  .then(response => response.json())
-                  .then(data => {
-                    for(var userManager in data) {
-                      var chatIdManager = userManager.telegram_pk;
-                      sendMessageToManager(chatIdManager, token_2, buttons, text);
-                    }
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(userManager => { 
+                        var chatIdManager = userManager.telegram_pk; 
+                        sendMessageToManager(chatIdManager, token_2, buttons, text);
+                    });
                 });
-
                 sendMessageToUser(token_1, userTelegramId);
             };
-
+  
             function sendMessageToUser(token_1, userTelegramId) {
                 fetch("https://api.telegram.org/bot" + token_1 + "/sendMessage", {
                     method: "POST",
@@ -181,22 +184,22 @@ ${text_dishes}
                     tg.close()
                 });
             };
-
+  
             function sendMessageToManager(chatIdManager, token_2, buttons, text) {
-                fetch("https://api.telegram.org/bot" + token_2 + "/sendMessage", {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        chat_id: chatIdManager,
-                        text: text,
-                        reply_markup: buttons,
-                        parse_mode: 'HTML'
-                    })
-                })
-            };
-
+              fetch("https://api.telegram.org/bot" + token_2 + "/sendMessage", {
+                  method: "POST",
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                      chat_id: chatIdManager,
+                      text: text,
+                      reply_markup: buttons,
+                      parse_mode: 'HTML'
+                  })
+              });
+          }
         }
     });
-});
+  });
+  

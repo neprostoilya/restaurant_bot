@@ -6,7 +6,7 @@ $(document).ready(function() {
         $('.PlaceBtn').removeClass('selected'); 
         $(this).addClass('selected'); 
         var placeId = $(this).attr('value');
-        var placeName = $(this).text();
+        var placeName = $(this).find('span').text();
         localStorage.setItem('selectedPlaceId', placeId);
         localStorage.setItem('selectedPlaceName', placeName);
         

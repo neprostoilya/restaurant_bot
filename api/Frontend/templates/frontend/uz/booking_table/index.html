@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% load static %} 
+{% block title %} 
+{{ title }} 
+{% endblock title %}
+
+{% block main %}
+<div class="ButtonBlock">
+  <a href="{% url 'frontend:events_booking_table_view_uz' %}" class="btn-events">
+    🎊
+    Aksiya
+  </a>
+  <a href="{% url 'frontend:carts_booking_table_view_uz' %}" class="btn-cart">
+    🛒
+    Savat
+  </a>
+</div>
+
+<div class="CategoryBlock">
+    <div class="NavigationWrapperLogo">
+        <div class="NavigationLogoImage">
+            <span style="box-sizing: border-box; display: block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; inset: 0px;">
+            </span>
+        </div>
+    </div>
+    <div class="NavigationWrapperCategories">
+        {% for category in categories %}
+        <a class="NavigationLink" href="{% url 'frontend:categories_booking_table_view_uz'  category.id %}"><span class="NavigationTitle">{{ category.title_uz }}</span></a>
+        {% endfor %}
+    </div>
+</div>
+
+{% for dish in dishes %}
+<div class="Cardblock" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
+    <div class="CardWrapperImage">
+        <img src="{{ dish.image }}" alt="{{ dish.title }}">
+    </div>
+    <div class="CardWrapperText">
+        <h3 class="Title">{{ dish.title_uz }}</h3>
+        <p class="Description">{{ dish.descriptiontrim_uz }}</p>
+        <div class="price"><p class="price-p">{{ dish.price }} so'm</p></div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="HeaderWrapper">
+        <button class="BackButton" style="background: transparent; top: 40px; left: 20px; box-shadow: none;">
+          <span style="box-sizing: border-box; display: inline-block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: relative; max-width: 100%;">
+            <span style="box-sizing: border-box; display: block; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; max-width: 100%;">
+            </span>
+            <a data-bs-dismiss="modal"><i class="fa-solid fa-chevron-left fa-lg"></i></a>
+          </span>
+        </button>   
+        <div class="HeaderNone"><div style="width: 48px; height: 48px;"></div></div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-image">
+          <img src="{{ dish.image }}" alt="{{ dish.title_uz }}">
+        </div>
+        <div class="modal-title-description">
+          <div class="modal-title-block">
+              <h1 class="modal-title-h1">{{ dish.title_uz }}</h1>
+          </div>
+          <p class="modal-description">{{ dish.description_uz }}</p>
+          <p class="modal-price" style="white-space: nowrap;">{{ dish.price }} so'm</p>
+      </div>
+      </div>
+      <form class="card-form">
+        <input type="hidden" name="dish_pk" value="{{ dish.pk }}">
+        <input type="hidden" name="image" value="{{ dish.image }}">
+        <input type="hidden" name="title" value="{{ dish.title_uz }}">
+        <input type="hidden" name="description" value="{{ dish.description_uz }}">
+        <input type="hidden" name="price" value="{{ dish.price }}">
+        <input type="hidden" name="category" value="{{ dish.category }}">
+        <input type="hidden" name="quantity" value="{{ dish.quantity }}">
+        <button type="button" class="add-to-cart-button" id="addToCartButton" data-bs-dismiss="modal">Savatga qo'shing</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock main %}

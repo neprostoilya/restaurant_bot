@@ -99,13 +99,36 @@ def get_dish_by_id_api(dish_id: int):
         return get(f'/dishes/get_dish/{dish_id}/')
 
 
-def create_order_api(user: int, total_price: int, status: str,
-                    total_quantity: int, time_order: str, place_order: int, people_quantity: int):
+def create_order_api(user: int, total_price: int, status: str, type_order: str,
+                    total_quantity: int, time_order: str, place_name: str, people_quantity: int):
     """
     Create order 
     """
     data: dict = {'user': user, 'total_price': total_price, 'status': status, 'people_quantity': people_quantity,
-                  'total_quantity': total_quantity, 'datetime_selected': time_order, 'place': place_order}
+                  'total_quantity': total_quantity, 'datetime_selected': time_order, 'place': place_name, 'type_order': type_order}
+        
+    return post('/orders/create_order/', data=data)
+
+
+def create_pickup_order_api(user: int, total_price: int, status: str, total_quantity: int, time_order: str,
+                             type_order: str,):
+    """
+    Create Pickup Order 
+    """
+    data: dict = {'user': user, 'total_price': total_price, 'status': status,
+                  'total_quantity': total_quantity, 'datetime_selected': time_order, 'type_order': type_order}
+        
+    return post('/orders/create_order/', data=data)
+
+
+def create_delivery_order_api(user: int, total_price: int, status: str, total_quantity: int,
+                               latitude: str, longitude: str, type_order: str):
+    """
+    Create Delivery Order 
+    """
+    data: dict = {'user': user, 'total_price': total_price, 'status': status, 'latitude': latitude,
+                  'total_quantity': total_quantity, 'longitude': longitude,
+                  'type_order': type_order}
         
     return post('/orders/create_order/', data=data)
 

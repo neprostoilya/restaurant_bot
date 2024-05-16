@@ -28,12 +28,41 @@ class ChooseLanguageView(APIView):
         return Response()
 
 
-class MainViewRU(APIView):
+class ChooseTypeOrderViewRU(APIView):
+    """
+    Choose Type Order View RU
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/ru/choose_type_order.html'
+
+    def get(self, request):
+        return Response()
+
+
+class ChooseTypeOrderViewUZ(APIView):
+    """
+    Choose Type Order View UZ
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/uz/choose_type_order.html'
+
+    def get(self, request):
+        return Response()
+
+
+# RU
+
+
+# Booking Table with food
+
+
+
+class MainBookingTableViewRU(APIView):
     """
     View Dishes RU
     """
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'frontend/ru/index.html'
+    template_name = 'frontend/ru/booking_table/index.html'
 
     def get(self, request):
         events = Events.objects.all()
@@ -52,12 +81,12 @@ class MainViewRU(APIView):
         })
 
 
-class EventsViewRU(APIView):
+class EventsBookingTableViewRU(APIView):
     """
     View for Events 
     """
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'frontend/ru/events.html'
+    template_name = 'frontend/ru/booking_table/events.html'
 
     def get(self, request):
         events = Events.objects.all()
@@ -68,12 +97,12 @@ class EventsViewRU(APIView):
         })
 
 
-class CategoriesViewRU(APIView):
+class CategoriesBookingTableViewRU(APIView):
     """
     View for categories RU
     """
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'frontend/ru/index.html'
+    template_name = 'frontend/ru/booking_table/index.html'
 
     def get(self, request, category):
         events = Events.objects.all()
@@ -94,23 +123,23 @@ class CategoriesViewRU(APIView):
         })
 
 
-class SelectTimeForOrderViewRU(APIView):
+class SelectTimeForOrderBookingTableViewRU(APIView):
     """
     Select DateTime for order RU
     """
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'frontend/ru/select_time.html'
+    template_name = 'frontend/ru/booking_table/select_time.html'
 
     def get(self, request):  
         return Response({})
 
 
-class SelectPlaceForOrderViewRU(APIView):
+class SelectPlaceForOrderBookingTableViewRU(APIView):
     """
     Select Place for order RU
     """
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'frontend/ru/select_place.html'
+    template_name = 'frontend/ru/booking_table/select_place.html'
 
     def get(self, request):  
         places = Places.objects.filter(
@@ -123,34 +152,37 @@ class SelectPlaceForOrderViewRU(APIView):
         })
         
 
-class CartViewRU(APIView):
+class CartBookingTableViewRU(APIView):
     """
     Cart view RU
     """
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'frontend/ru/cart.html'
+    template_name = 'frontend/ru/booking_table/cart.html'
 
     def get(self, request):  
         return Response({})
  
 
-class SelectQuantityOfPeopleForOrderViewRU(APIView):
+class SelectQuantityOfPeopleBookingTableViewRU(APIView):
     """
     Select quantity of people for order RU
     """
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'frontend/ru/select_quantity_of_people.html'
+    template_name = 'frontend/ru/booking_table/select_quantity_of_people.html'
 
     def get(self, request):  
         return Response({})
 
 
-class MainViewUZ(APIView):
+# Pickup
+
+
+class MainPickupViewRU(APIView):
     """
-    View for Events and Dishes UZ
+    View Dishes RU
     """
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'frontend/uz/index.html'
+    template_name = 'frontend/ru/pickup/index.html'
 
     def get(self, request):
         events = Events.objects.all()
@@ -169,12 +201,12 @@ class MainViewUZ(APIView):
         })
 
 
-class EventsViewUZ(APIView):
+class EventsPickupViewRU(APIView):
     """
-    View for Events UZ
+    View for Events 
     """
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'frontend/uz/events.html'
+    template_name = 'frontend/ru/pickup/events.html'
 
     def get(self, request):
         events = Events.objects.all()
@@ -185,12 +217,12 @@ class EventsViewUZ(APIView):
         })
 
 
-class CategoriesViewUZ(APIView):
+class CategoriesPickupViewRU(APIView):
     """
-    View for categories UZ
+    View for categories RU
     """
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'frontend/uz/index.html'
+    template_name = 'frontend/ru/pickup/index.html'
 
     def get(self, request, category):
         events = Events.objects.all()
@@ -211,23 +243,209 @@ class CategoriesViewUZ(APIView):
         })
 
 
-class SelectTimeForOrderViewUZ(APIView):
+class SelectTimeForOrderPickupViewRU(APIView):
     """
-    Select DateTime for order UZ
+    Select DateTime for order RU
     """
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'frontend/uz/select_time.html'
+    template_name = 'frontend/ru/pickup/select_time.html'
 
     def get(self, request):  
         return Response({})
 
 
-class SelectPlaceForOrderViewUZ(APIView):
+class CartPickupViewRU(APIView):
+    """
+    Cart view RU
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/ru/pickup/cart.html'
+
+    def get(self, request):  
+        return Response({})
+
+
+# Delivery
+
+
+class MainDeliveryViewRU(APIView):
+    """
+    View Dishes RU
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/ru/delivery/index.html'
+
+    def get(self, request):
+        events = Events.objects.all()
+        events_serializer = EventsSerializer(events, many=True)
+
+        dishes = Dishes.objects.all()
+        dishes_serializer = DishesSerializer(dishes, many=True)
+
+        categories = Categories.objects.all()
+        categories_serializer = CategoriesSerializer(categories, many=True)
+
+        return Response({
+            'events': events_serializer.data,
+            'dishes': dishes_serializer.data,
+            'categories': categories_serializer.data,
+        })
+
+
+class EventsDeliveryViewRU(APIView):
+    """
+    View for Events 
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/ru/delivery/events.html'
+
+    def get(self, request):
+        events = Events.objects.all()
+        events_serializer = EventsSerializer(events, many=True)
+
+        return Response({
+            'events': events_serializer.data,
+        })
+
+
+class CategoriesDeliveryViewRU(APIView):
+    """
+    View for categories RU
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/ru/delivery/index.html'
+
+    def get(self, request, category):
+        events = Events.objects.all()
+        events_serializer = EventsSerializer(events, many=True)
+
+        dishes = Dishes.objects.filter(
+            category=category
+        )
+        dishes_serializer = DishesSerializer(dishes, many=True)
+
+        categories = Categories.objects.all()
+        categories_serializer = CategoriesSerializer(categories, many=True)
+
+        return Response({
+            'events': events_serializer.data,
+            'dishes': dishes_serializer.data,
+            'categories': categories_serializer.data,
+        })
+
+
+class GetGeolocationDeliveryViewRU(APIView):
+    """
+    Select DateTime for order RU
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/ru/delivery/get_geolocation.html'
+
+    def get(self, request):  
+        return Response({})
+
+
+class CartDeliveryViewRU(APIView):
+    """
+    Cart view RU
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/ru/delivery/cart.html'
+
+    def get(self, request):  
+        return Response({})
+
+
+# Uz
+
+
+# Booking Table with food
+
+
+
+class MainBookingTableViewUZ(APIView):
+    """
+    View Dishes UZ
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/uz/booking_table/index.html'
+
+    def get(self, request):
+        events = Events.objects.all()
+        events_serializer = EventsSerializer(events, many=True)
+
+        dishes = Dishes.objects.all()
+        dishes_serializer = DishesSerializer(dishes, many=True)
+
+        categories = Categories.objects.all()
+        categories_serializer = CategoriesSerializer(categories, many=True)
+
+        return Response({
+            'events': events_serializer.data,
+            'dishes': dishes_serializer.data,
+            'categories': categories_serializer.data,
+        })
+
+
+class EventsBookingTableViewUZ(APIView):
+    """
+    View for Events 
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/uz/booking_table/events.html'
+
+    def get(self, request):
+        events = Events.objects.all()
+        events_serializer = EventsSerializer(events, many=True)
+
+        return Response({
+            'events': events_serializer.data,
+        })
+
+
+class CategoriesBookingTableViewUZ(APIView):
+    """
+    View for categories UZ
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/uz/booking_table/index.html'
+
+    def get(self, request, category):
+        events = Events.objects.all()
+        events_serializer = EventsSerializer(events, many=True)
+
+        dishes = Dishes.objects.filter(
+            category=category
+        )
+        dishes_serializer = DishesSerializer(dishes, many=True)
+
+        categories = Categories.objects.all()
+        categories_serializer = CategoriesSerializer(categories, many=True)
+
+        return Response({
+            'events': events_serializer.data,
+            'dishes': dishes_serializer.data,
+            'categories': categories_serializer.data,
+        })
+
+
+class SelectTimeForOrderBookingTableViewUZ(APIView):
+    """
+    Select DateTime for order UZ
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/uz/booking_table/select_time.html'
+
+    def get(self, request):  
+        return Response({})
+
+
+class SelectPlaceForOrderBookingTableViewUZ(APIView):
     """
     Select Place for order UZ
     """
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'frontend/uz/select_place.html'
+    template_name = 'frontend/uz/booking_table/select_place.html'
 
     def get(self, request):  
         places = Places.objects.filter(
@@ -238,24 +456,208 @@ class SelectPlaceForOrderViewUZ(APIView):
         return Response({
             'places': places_serializer.data,
         })
+        
 
-class CartViewUZ(APIView):
+class CartBookingTableViewUZ(APIView):
     """
     Cart view UZ
     """
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'frontend/uz/cart.html'
+    template_name = 'frontend/uz/booking_table/cart.html'
 
     def get(self, request):  
         return Response({})
- 
 
-class SelectQuantityOfPeopleForOrderViewUZ(APIView):
+
+class SelectQuantityOfPeopleBookingTableViewUZ(APIView):
     """
     Select quantity of people for order UZ
     """
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'frontend/uz/select_quantity_of_people.html'
+    template_name = 'frontend/uz/booking_table/select_quantity_of_people.html'
 
     def get(self, request):  
         return Response({})
+
+
+# Pickup
+
+
+class MainPickupViewUZ(APIView):
+    """
+    View Dishes UZ
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/uz/pickup/index.html'
+
+    def get(self, request):
+        events = Events.objects.all()
+        events_serializer = EventsSerializer(events, many=True)
+
+        dishes = Dishes.objects.all()
+        dishes_serializer = DishesSerializer(dishes, many=True)
+
+        categories = Categories.objects.all()
+        categories_serializer = CategoriesSerializer(categories, many=True)
+
+        return Response({
+            'events': events_serializer.data,
+            'dishes': dishes_serializer.data,
+            'categories': categories_serializer.data,
+        })
+
+
+class EventsPickupViewUZ(APIView):
+    """
+    View for Events 
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/uz/pickup/events.html'
+
+    def get(self, request):
+        events = Events.objects.all()
+        events_serializer = EventsSerializer(events, many=True)
+
+        return Response({
+            'events': events_serializer.data,
+        })
+
+
+class CategoriesPickupViewUZ(APIView):
+    """
+    View for categories UZ
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/uz/pickup/index.html'
+
+    def get(self, request, category):
+        events = Events.objects.all()
+        events_serializer = EventsSerializer(events, many=True)
+
+        dishes = Dishes.objects.filter(
+            category=category
+        )
+        dishes_serializer = DishesSerializer(dishes, many=True)
+
+        categories = Categories.objects.all()
+        categories_serializer = CategoriesSerializer(categories, many=True)
+
+        return Response({
+            'events': events_serializer.data,
+            'dishes': dishes_serializer.data,
+            'categories': categories_serializer.data,
+        })
+
+
+class SelectTimeForOrderPickupViewUZ(APIView):
+    """
+    Select DateTime for order UZ
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/uz/pickup/select_time.html'
+
+    def get(self, request):  
+        return Response({})
+
+
+class CartPickupViewUZ(APIView):
+    """
+    Cart view UZ
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/uz/pickup/cart.html'
+
+    def get(self, request):  
+        return Response({})
+
+
+# Delivery
+
+
+class MainDeliveryViewUZ(APIView):
+    """
+    View Dishes UZ
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/uz/delivery/index.html'
+
+    def get(self, request):
+        events = Events.objects.all()
+        events_serializer = EventsSerializer(events, many=True)
+
+        dishes = Dishes.objects.all()
+        dishes_serializer = DishesSerializer(dishes, many=True)
+
+        categories = Categories.objects.all()
+        categories_serializer = CategoriesSerializer(categories, many=True)
+
+        return Response({
+            'events': events_serializer.data,
+            'dishes': dishes_serializer.data,
+            'categories': categories_serializer.data,
+        })
+
+
+class EventsDeliveryViewUZ(APIView):
+    """
+    View for Events 
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/uz/delivery/events.html'
+
+    def get(self, request):
+        events = Events.objects.all()
+        events_serializer = EventsSerializer(events, many=True)
+
+        return Response({
+            'events': events_serializer.data,
+        })
+
+
+class CategoriesDeliveryViewUZ(APIView):
+    """
+    View for categories UZ
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/uz/delivery/index.html'
+
+    def get(self, request, category):
+        events = Events.objects.all()
+        events_serializer = EventsSerializer(events, many=True)
+
+        dishes = Dishes.objects.filter(
+            category=category
+        )
+        dishes_serializer = DishesSerializer(dishes, many=True)
+
+        categories = Categories.objects.all()
+        categories_serializer = CategoriesSerializer(categories, many=True)
+
+        return Response({
+            'events': events_serializer.data,
+            'dishes': dishes_serializer.data,
+            'categories': categories_serializer.data,
+        })
+
+
+class GetGeolocationDeliveryViewUZ(APIView):
+    """
+    Select DateTime for order UZ
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/uz/delivery/get_geolocation.html'
+
+    def get(self, request):  
+        return Response({})
+
+
+class CartDeliveryViewUZ(APIView):
+    """
+    Cart view UZ
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'frontend/uz/delivery/cart.html'
+
+    def get(self, request):  
+        return Response({})
+

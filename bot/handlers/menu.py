@@ -17,6 +17,8 @@ START_ORDER = ["🛒 Начать заказ", "🛒 Buyurtmani boshlang"]
 
 TYPE_ORDER_PICKUP = ["🚶 Olib ketish", "🚶 Самовывоз"] 
 
+TYPE_ORDER_DELIAVERY = ["🚚 Yetkazib berish", "🚚 Доставка еды"] 
+
 TYPE_ORDER_BOOKING = ["🍽️ Бронирование стола", "🍽️ Jadvalni bron qilish"] 
 
 BACK_TO_MAIN = ["⬅️ Главное меню", "⬅️ Asosiy menyu"] 
@@ -47,9 +49,27 @@ async def pickup_order_handler(message: Message, state: FSMContext) -> None:
     
     lang: str = await get_lang(chat_id=chat_id, state=state)
     
+    data: dict = await state.get_data()
+    
     await message.answer(
         text=get_text(lang, 'pickup_text'),
+        reply_markup=back_to_main_menu_kb(lang)
+    )
     
+    total_sum_cart: int = data.get('total_price', 0) 
+    
+    categories_menu = await message.answer(
+        text=get_text(lang, 'choose_category'),
+        reply_markup=categories_menu_kb(lang, total_sum_cart)
+    )
+    
+    menu_mesages_ids: list = []
+    
+    menu_mesages_ids.append(categories_menu.message_id)
+    
+    await state.update_data(
+        menu_mesages_ids=menu_mesages_ids,
+        type_order='pickup'
     )
 
 
@@ -83,6 +103,39 @@ async def booking_order_handler(message: Message, state: FSMContext) -> None:
     await state.update_data(
         menu_mesages_ids=menu_mesages_ids,
         type_order='booking'
+    )
+
+
+@router_menu.message(F.text.in_(TYPE_ORDER_DELIAVERY))
+async def delivery_order_handler(message: Message, state: FSMContext) -> None:
+    """
+    Deliavery Order Handler
+    """
+    chat_id: int = message.chat.id
+    
+    lang: str = await get_lang(chat_id=chat_id, state=state)
+    
+    data: dict = await state.get_data()
+    
+    await message.answer(
+        text=get_text(lang, 'delivery_text'),
+        reply_markup=back_to_main_menu_kb(lang)
+    )
+    
+    total_sum_cart: int = data.get('total_price', 0) 
+    
+    categories_menu = await message.answer(
+        text=get_text(lang, 'choose_category'),
+        reply_markup=categories_menu_kb(lang, total_sum_cart)
+    )
+    
+    menu_mesages_ids: list = []
+    
+    menu_mesages_ids.append(categories_menu.message_id)
+    
+    await state.update_data(
+        menu_mesages_ids=menu_mesages_ids,
+        type_order='delivery'
     )
 
 

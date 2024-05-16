@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load static %} 
+{% block title %} 
+{{ title }} 
+{% endblock title %}
+
+{% block main %}
+
+<div class="HeaderWrapper">
+	<button class="BackButton" style="background: transparent; top: 40px; left: 20px; box-shadow: none;">
+		<span style="box-sizing: border-box; display: inline-block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: relative; max-width: 100%;">
+			<span style="box-sizing: border-box; display: block; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; max-width: 100%;">
+			</span>
+			<a href="{% url 'frontend:carts_pickup_view_ru'  %}"><i class="fa-solid fa-chevron-left fa-lg"></i></a>
+		</span>
+	</button>   
+	<h1>Выбор времени</h1>
+	<div class="HeaderNone"><div style="width: 48px; height: 48px;"></div></div>
+</div>
+
+<div class="TimePicker">
+	<div class="form-floating">
+		<input type="time" class="form-control" id="floatingInputTime" placeholder="22:22" aria-describedby="TimeBlock">
+		<label for="floatingInputTime">Время</label>
+	</div>
+	<div id="TimeBlock" class="form-text TextInputTime">
+		Время для самовывоза.
+</div>
+  
+<div>
+    <a href="#" class="ButtonWrapperAtable">
+      <div class="ButtonBlockWrapperQuantityPeople">
+        <button class="ButtonWrapperQuantityPeople" style="margin: 0px; width: 100%;">
+          <div class="ButtonWrapperDivQuantityPeople"><p class="TextButtonWrapperQuantityPeople TextButtonWrapperPQuantityPeople">Перейти к оплате</p></div>
+        </button>
+      </div>
+    </a>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="{% static 'frontend/create_order_pickup.js' %}"></script>
+
+
+{% endblock main %}

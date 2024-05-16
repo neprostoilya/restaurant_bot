@@ -9,14 +9,15 @@ from aiogram import Bot
 from config.configuration import URL
 from handlers import commands, register, menu, cart, order, \
     information, events, settings, commands_manager, \
-    accept_or_reject_order_manager, active_orders_manager, places_manager
+    accept_or_reject_order_manager, active_orders_manager, places_manager, \
+    order_pickup, order_delivery, my_orders
 from config.instance import bot_1, bot_2
 
 
-# async def on_startup(bot: Bot):
-#     await bot.set_chat_menu_button(
-#         menu_button=MenuButtonWebApp(text="Меню", web_app=WebAppInfo(url=URL + '/frontend/'))
-#     )
+async def on_startup(bot: Bot):
+    await bot.set_chat_menu_button(
+        menu_button=MenuButtonWebApp(text="Меню", web_app=WebAppInfo(url='https://kafe-7a-test.tw1.su/frontend/'))
+    )
 
 
 async def main():
@@ -27,21 +28,25 @@ async def main():
     
     dp_2 = Dispatcher()
     
-    # dp_1.startup.register(on_startup)
+    dp_1.startup.register(on_startup)
 
     dp_1.include_routers(commands.router_commands)
     dp_1.include_routers(register.router_register)
     dp_1.include_routers(menu.router_menu)
     dp_1.include_routers(cart.router_cart)
     dp_1.include_routers(order.router_order)
+    dp_1.include_routers(my_orders.router_my_orders)
     dp_1.include_routers(information.router_info)
     dp_1.include_routers(events.router_events)
     dp_1.include_routers(settings.router_settings)
+    dp_1.include_routers(order_pickup.router_pickup_order)
+    dp_1.include_routers(order_delivery.router_delivery_order)
 
     dp_2.include_routers(commands_manager.router_commands)
     dp_2.include_routers(active_orders_manager.router_active_orders)
     dp_2.include_routers(accept_or_reject_order_manager.router_accept_or_reject_order)
     dp_2.include_routers(places_manager.router_places)
+    
 
     await bot_1.delete_webhook(drop_pending_updates=True)
     await bot_2.delete_webhook(drop_pending_updates=True)

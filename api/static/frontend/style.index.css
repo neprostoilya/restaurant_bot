@@ -652,7 +652,7 @@ body{
   left: 0;
   right: 0;
   position: absolute;
-  bottom: 0;
+  /* bottom: 0; */
   padding: 15px 25px;
   align-items: center;
   justify-content: center;

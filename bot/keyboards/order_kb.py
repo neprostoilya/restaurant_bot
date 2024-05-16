@@ -42,6 +42,26 @@ def select_time_kb(language: str):
     return builder.as_markup(
         resize_keyboard=True
     )
+
+    
+def send_location_btn_kb(language: str):
+    """ 
+    Send Location for Delivery Order button
+    """
+    builder = ReplyKeyboardBuilder()
+    
+    builder.button(
+        text=get_text(language, 'send_location_btn'),
+        request_location=True
+    )
+    builder.button(
+        text=get_text(language, 'back_btn'),
+    )
+    builder.adjust(1, 1)
+    
+    return builder.as_markup(
+        resize_keyboard=True
+    )
     
     
 def select_place_kb(language: str):
@@ -56,13 +76,13 @@ def select_place_kb(language: str):
         for place in places:
                 builder.button(
                     text=place.get('title_ru'),
-                    callback_data=f'place_pk_{place.get('id')}'
+                    callback_data=f'place_pk_{place.get('id')}_{place.get('title_ru')}'
                 )
     else:
         for place in places:
             builder.button(
                 text=place.get('title_uz'),
-                callback_data=f'place_pk_{place.get('id')}'
+                callback_data=f'place_pk_{place.get('id')}_{place.get('title_uz')}'
             )
             
     builder.adjust(3)
@@ -173,3 +193,5 @@ def pay_order_kb(language: str, order_id: int):
     return builder.as_markup(
         resize_keyboard=True
     )
+    
+

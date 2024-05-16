@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load static %} 
+{% block title %} 
+{{ title }} 
+{% endblock title %}
+
+{% block main %}
+
+
+<div class="HeaderWrapper">
+	<button class="BackButton" style="background: transparent; top: 40px; left: 20px; box-shadow: none;">
+		<span style="box-sizing: border-box; display: inline-block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: relative; max-width: 100%;">
+			<span style="box-sizing: border-box; display: block; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; max-width: 100%;">
+			</span>
+      <a href="{% url 'frontend:events_and_dishes_delivery_view_uz'  %}"><i class="fa-solid fa-chevron-left fa-lg"></i></a>
+		</span>
+	</button>   
+	<h1>Savat</h1>
+	<div class="HeaderNone"><div style="width: 48px; height: 48px;"></div></div>
+</div>
+
+<div id="cartItemsList">
+</div>
+
+
+<div class="TextEmptyCart" style="visibility:hidden">
+	<p class="Emodgi">🛒</p>
+	Sizning savatingiz bo'sh 😅
+</div>
+
+<div>
+	<div class="TextBlockWrapper">
+		<div class="TextWrapper TextTotalPrice">
+			<p class="TextTotalPriceP"></p>
+		</div>
+	</div>
+  <a href="{% url 'frontend:get_geolocation_delivery_view_uz'  %}">
+		<div class="ButtonWrapperAcart">
+			<div class="ButtonBlockWrappercart">
+				<button class="ButtonWrappercart" style="width: 100%;height: 100%;">	
+					<div class="ButtonWrapperDivcart"><p class="TextButtonWrapper TextButtonWrapperP">Keyingi</p></div>
+				</button>
+			</div>
+		</div>
+  </a>
+</div>
+<script src	="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{% static 'frontend/update_quantity_ru.js' %}"></script>
+  
+  
+{% endblock main %}

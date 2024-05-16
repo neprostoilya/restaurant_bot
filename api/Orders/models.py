@@ -13,13 +13,21 @@ class Orders(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Покупатель',
     )
-    place = models.ForeignKey(
-        Places,
-        on_delete=models.CASCADE,
+    type_order = models.CharField(
+        null=True,
+        blank=True,
+        verbose_name='Тип'
+    )
+    place = models.CharField(
+        default='-',
+        null=True,
+        blank=True,
         verbose_name='Место'
     )
-    people_quantity = models.PositiveIntegerField(
-        default=1,
+    people_quantity = models.IntegerField(
+        default=0,
+        null=True,
+        blank=True,
         verbose_name='Кол-во людей'
     )
     datetime_created = models.DateTimeField(
@@ -27,10 +35,26 @@ class Orders(models.Model):
         verbose_name='Время создания'
     )
     datetime_selected = models.TimeField(
-        verbose_name='Указанное время'
+        verbose_name='Указанное время',
+        null=True,
+        blank=True,
     )
     status = models.CharField(
-        verbose_name='Статус'
+        verbose_name='Статус',
+        null=True,
+        blank=True
+    )
+    longitude = models.CharField(
+        verbose_name='Долгота',
+        null=True,
+        blank=True,
+        default='-'    
+    )
+    latitude = models.CharField(
+        verbose_name='Широта',
+        default='-',
+        null=True,
+        blank=True,
     )
     
     def total_price_all_dishes(self):
@@ -72,7 +96,6 @@ class Orders(models.Model):
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
-
 
 
 class DishOrder(models.Model):

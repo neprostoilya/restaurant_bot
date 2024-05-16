@@ -12,16 +12,16 @@ from keyboards.menu_kb import categories_menu_kb
 from keyboards.basic_kb import back_to_main_menu_kb, main_menu_kb
     
 from utils.basic_utils import get_text, get_lang
-from keyboards.basic_kb import back_to_main_menu_kb, main_menu_kb
 from api_requests.requests import check_user_api, create_order_api, \
     get_orders_by_user_api, update_order_status_api, get_order_by_order_id_api, \
     get_managers_api
 from keyboards.order_kb import select_time_kb, select_place_kb, select_payment_type_kb, \
-    order_approval_kb, review_order_kb, back_btn_kb
+    order_approval_kb, review_order_kb, back_btn_kb, send_location_btn_kb
 from config.configuration import CLICK, PAYME
 from config.instance import bot_2
 from utils.order_utils import get_text_for_order, \
     get_text_for_view_orders
+from handlers.order_delivery import CreateDeliveryOrder
 
 router_order = Router()
 
@@ -31,6 +31,11 @@ class CreateOrder(StatesGroup):
     time = State()
     place = State()
     quantity_people = State()
+
+
+class CreatePickupOrder(StatesGroup):
+    type_select_time = State()
+    time = State()
 
 
 class PayOrder(StatesGroup):
@@ -49,19 +54,35 @@ async def create_order_handler(call: CallbackQuery, state: FSMContext) -> None:
     data: dict = await state.get_data()
 
     messages_id_list: list = data.get('messages_id_list')    
+
     
     await call.bot.delete_messages(
         chat_id=chat_id,
         message_ids=messages_id_list,
     )
     
-    await call.message.answer(
-        text=get_text(lang, 'select_time'),
-        reply_markup=select_time_kb(lang)
-    )
+    if data.get('type_order') == 'booking':
+        await call.message.answer(
+            text=get_text(lang, 'select_time'),
+            reply_markup=select_time_kb(lang)
+        )
+        
+        await state.set_state(CreateOrder.type_select_time)
+    elif data.get('type_order') == 'pickup':
+        await call.message.answer(
+            text=get_text(lang, 'select_time'),
+            reply_markup=select_time_kb(lang)
+        )
+        
+        await state.set_state(CreatePickupOrder.type_select_time)
+    elif data.get('type_order') == 'delivery':
+        await call.message.answer(
+            text=get_text(lang, 'send_location_text'),
+            reply_markup=send_location_btn_kb(lang)
+        )
+        
+        await state.set_state(CreateDeliveryOrder.get_location)
     
-    await state.set_state(CreateOrder.type_select_time)
-
 
 BACK_TO_MENU = ['⬅️ Orqaga', '⬅️ Назад']
 
@@ -249,10 +270,13 @@ async def selected_place_handler(call: CallbackQuery, state: FSMContext) -> None
     
     lang: str = await get_lang(chat_id=chat_id, state=state)
     
-    place: int = int(call.data.split("_")[-1])
+    place: int = int(call.data.split("_")[-2])
+    
+    place_name: str = int(call.data.split("_")[-1])
     
     await state.update_data(
-        place_order=place
+        place_order=place,
+        place_name=place_name
     )
     
     await call.message.answer(
@@ -303,7 +327,7 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
             
             time_order: str = data.get('time_order')
             
-            place_order: int = data.get('place_order')
+            place_name: int = data.get('place_name')
             
             order: dict = create_order_api(
                 status='Ожидание',
@@ -311,35 +335,39 @@ async def selected_quantity_people_handler(message: Message, state: FSMContext) 
                 total_price=total_price,
                 total_quantity=total_quantity,
                 time_order=time_order,
-                place_order=place_order,
-                people_quantity=quantity
+                place_name=place_name,
+                people_quantity=quantity,
+                type_order='Бронирование'
             )
             
             managers: dict = get_managers_api()
             
             for manager in managers:
-                await bot_2.send_message(
-                    chat_id=manager.get('telegram_pk'),
-                    text=get_text_for_order(
-                        phone=user.get('phone'),
-                        carts=carts,
-                        username=username,
-                        total_price=total_price,
-                        total_quantity=total_quantity,
-                        datetime_selected=time_order,
-                        datetime_created=order.get('datetime_created'),
-                        place=place_order,
-                        order_id=order.get('pk'),
-                        people_quantity=quantity,
-                        status=order.get('status')
-                    ),
-                    reply_markup=order_approval_kb(
-                        order_id=order.get('pk'), 
-                        chat_id=chat_id,
-                    ),
-                    parse_mode='HTML'
-                )
-            
+                try:
+                    await bot_2.send_message(
+                        chat_id=manager.get('telegram_pk'),
+                        text=get_text_for_order(
+                            phone=user.get('phone'),
+                            carts=carts,
+                            username=username,
+                            total_price=total_price,
+                            total_quantity=total_quantity,
+                            datetime_selected=time_order,
+                            datetime_created=order.get('datetime_created'),
+                            place_name=place_name,
+                            order_id=order.get('pk'),
+                            people_quantity=quantity,
+                            status=order.get('status')
+                        ),
+                        reply_markup=order_approval_kb(
+                            order_id=order.get('pk'), 
+                            chat_id=chat_id,
+                        ),
+                        parse_mode='HTML'
+                    )
+                except:
+                    pass
+                
             await state.set_state(None)
         else:
             await message.answer(
@@ -483,65 +511,3 @@ async def successful_payment_handler(message: Message):
     pmnt = message.successful_payment.to_python()
     for key, val in pmnt.items():
         print(f'{key} = {val}')
-        
-
-MY_ORDERS = ['📖 Мои заказы', '📖 Mening buyurtmalarim']
-
-
-@router_order.message(F.text.in_(MY_ORDERS))
-async def get_my_orders_handler(message: Message, state: FSMContext) -> None:
-    """
-    Get my orders
-    """
-    chat_id: int = message.from_user.id 
-
-    lang: str = await get_lang(chat_id=chat_id, state=state)
-
-    user: dict = check_user_api(chat_id=chat_id)[0].get('pk')
-    
-    orders: dict = get_orders_by_user_api(user=user)
-    
-    if orders:
-        await message.answer(
-            text=get_text(lang, 'my_last_three_orders'),
-            reply_markup=back_to_main_menu_kb(lang)
-        )
-        
-        for order in orders[::4]:
-            order_id: int = order.get('pk')
-            
-            total_price_all_dishes: int = order.get('total_price_all_dishes')    
-            
-            total_quantity_all_dishes: int = order.get('total_quantity_all_dishes')  
-                       
-            datetime_selected: str = order.get('datetime_selected')    
-            
-            datetime_selected: str = order.get('datetime_selected')    
-                    
-            datetime_created: str = order.get('datetime_created')            
-                        
-            people_quantity: int = order.get('people_quantity')        
-            
-            status: str = order.get('status')
-            
-            place: int = order.get('place')
-            
-            await message.answer(
-                text=get_text_for_view_orders(
-                    lang=lang,
-                    order=order, 
-                    total_price_all_dishes=total_price_all_dishes,
-                    total_quantity_all_dishes=total_quantity_all_dishes,
-                    order_id=order_id,
-                    datetime_selected=datetime_selected,
-                    datetime_created=datetime_created,
-                    people_quantity=people_quantity,
-                    status=status,
-                    place=place
-                ),
-                reply_markup=review_order_kb(lang, order_id=order_id)
-            )
-    else:
-        await message.answer(
-            text=get_text(lang, 'empty_orders'),
-        )

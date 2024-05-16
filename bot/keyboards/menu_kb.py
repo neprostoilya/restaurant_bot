@@ -11,12 +11,12 @@ def choose_type_order_kb(lang: str):
     Choose type order keyboard
     """
     builder = ReplyKeyboardBuilder()
-
+    builder.button(text=get_text(lang, 'delivery_btn'))
     builder.button(text=get_text(lang, 'booking_btn'))
     builder.button(text=get_text(lang, 'pickup_btn'))
     builder.button(text=get_text(lang, 'back_btn'))
 
-    builder.adjust(2, 1)
+    builder.adjust(1, 2, 1)
 
     return builder.as_markup(
         resize_keyboard=True
