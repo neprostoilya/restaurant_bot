@@ -2077,42 +2077,6 @@
   },
   {
      "model":"auth.permission",
-     "pk":41,
-     "fields":{
-        "name":"Can add Заказанное блюдо",
-        "content_type":11,
-        "codename":"add_dishorder"
-     }
-  },
-  {
-     "model":"auth.permission",
-     "pk":42,
-     "fields":{
-        "name":"Can change Заказанное блюдо",
-        "content_type":11,
-        "codename":"change_dishorder"
-     }
-  },
-  {
-     "model":"auth.permission",
-     "pk":43,
-     "fields":{
-        "name":"Can delete Заказанное блюдо",
-        "content_type":11,
-        "codename":"delete_dishorder"
-     }
-  },
-  {
-     "model":"auth.permission",
-     "pk":44,
-     "fields":{
-        "name":"Can view Заказанное блюдо",
-        "content_type":11,
-        "codename":"view_dishorder"
-     }
-  },
-  {
-     "model":"auth.permission",
      "pk":45,
      "fields":{
         "name":"Can add Место",
