@@ -28,7 +28,7 @@ localization = {
         "choose_type_order": "Buyurtma turini tanlang.",
         "choose_category": "Toifani tanlang:",
         "choose_dish": "Taomni tanlang:",
-        "booking_btn": "🍽️ Jadvalni bron qilish",
+        "booking_btn": "🍽️ Zakaz stola",
         "pickup_btn": "🚶 Olib ketish",
         "back_btn": "⬅️ Orqaga",
         "into_cart_btn": "🛒 Savatga",

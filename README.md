@@ -12,8 +12,9 @@
 2. 
     mkdir /var/www/ 
     mkdir /var/www/restourant_bot/
+    cd /var/www/restourant_bot/
     git clone https://github.com/neprostoilya/reustoran_bot.git
-    cd /var/www/restourant_bot/reustoran_bot/
+    cd restourant_bot/
 3. 
     nano .env
 

@@ -1,50 +1,49 @@
-body{
-	color: var(--tg-theme-text-color);
-	background: var(--tg-theme-bg-color);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	font-size: 18px;
+body {
+  color: var(--tg-theme-text-color);
+  background: var(--tg-theme-bg-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 18px;
 }
 .container {
-	max-width: 390px;
+  max-width: 390px;
 }
 
 .inner {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .item {
-	text-align: center;
+  text-align: center;
   padding-top: 30px;
-
 }
 
 .ButtonWrapper {
   display: flex;
   flex-direction: row;
-  align-items: center; 
-  justify-content: flex-start; 
+  align-items: center;
+  justify-content: flex-start;
   width: 100%;
 }
 
 .Cardblock {
   display: flex;
   flex-direction: row;
-  align-items: flex-start; 
+  align-items: flex-start;
   justify-content: flex-start;
   background: var(--pizza-card-bg);
   box-shadow: var(--pizza-card-shadow);
   border-radius: 18px;
   width: 97%;
-  margin-bottom: 8px; 
+  margin-bottom: 8px;
   cursor: pointer;
-  transition: all .15s ease;
+  transition: all 0.15s ease;
 }
 
-.CardWrapperText {  
-	margin-left: 5px;
+.CardWrapperText {
+  margin-left: 5px;
   display: flex;
   align-items: flex-start;
   flex-direction: column;
@@ -55,7 +54,7 @@ body{
   padding-top: 8px;
   font-size: 18px;
   font-family: monospace;
-  color: var(--pizza-card-title)
+  color: var(--pizza-card-title);
 }
 
 .Description {
@@ -81,7 +80,7 @@ body{
   height: 17px;
   color: var(--pizza-card-price);
 }
- 
+
 .CardWrapperImage img {
   padding-bottom: 5px;
   padding-top: 5px;
@@ -117,7 +116,7 @@ body{
   --font-size-xl: 17px;
   --font-size-xxl: 24px;
   --font-size-xxxl: 28px;
-  --shadow-primary: 0px 3px 15px hsla(0,0%,85%,.3);
+  --shadow-primary: 0px 3px 15px hsla(0, 0%, 85%, 0.3);
   --button-primary: var(--main-black);
   --button-primary-pressed: #171a1b;
   --button-disabled: #d4d4d4;
@@ -152,7 +151,7 @@ body{
   --input-active-label-fw: 400;
   --input-active-label-height: 13px;
   --input-active-label-color: #666;
-  --input-active-shadow: 5px 2px 25px hsla(0,0%,87%,.37);
+  --input-active-shadow: 5px 2px 25px hsla(0, 0%, 87%, 0.37);
   --input-active-radius: 14px;
   --input-err-text-fs: var(--font-size-m) -1px;
   --input-err-text-fw: 400;
@@ -183,10 +182,10 @@ body{
   --modificator-block-bg: #fff;
   --people-count-block-bg: #fff1db;
   --choose-address-active-block-bg: #f1f9f6;
-  --choose-address-active-block-border: 1px solid rgba(0,111,76,.35);
+  --choose-address-active-block-border: 1px solid rgba(0, 111, 76, 0.35);
   --choose-address-active-block-color: #006f4c;
   --choose-address-block-bg: #fff2f4;
-  --choose-address-block-border: 1px solid rgba(0,30,40,.07);
+  --choose-address-block-border: 1px solid rgba(0, 30, 40, 0.07);
   --choose-address-block-color: #ff002b;
   --choose-address-block-bg-yellow: #fffbee;
   --choose-address-block-border-yellow: 1px solid var(--main-yellow);
@@ -198,11 +197,11 @@ body{
   --input-border: 1px solid #d9d9d9;
   --nav-el-wrapper: #f6f6f7;
   --nav-category-block-bg: #f4f4f4;
-  --restaurant-info-wrapper-bg: rgba(0,0,0,.02);
+  --restaurant-info-wrapper-bg: rgba(0, 0, 0, 0.02);
   --order-history-block-bg: #fff;
-  --order-history-block-shadow: 5px 2px 30px hsla(0,0%,87%,.88);
+  --order-history-block-shadow: 5px 2px 30px hsla(0, 0%, 87%, 0.88);
   --address-list-block-bg: #fff;
-  --address-list-block-shadow: 5px 2px 30px hsla(257,8%,83%,.25);
+  --address-list-block-shadow: 5px 2px 30px hsla(257, 8%, 83%, 0.25);
 }
 
 .CategoryBlock {
@@ -220,7 +219,7 @@ body{
   max-width: 0;
   overflow: hidden;
   opacity: 0;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
 
 .NavigationWrapperCategories {
@@ -234,11 +233,11 @@ body{
 }
 
 .btn-cart {
-  background-color: #f2f2f2; 
+  background-color: #f2f2f2;
   font-family: monospace;
-  color: #333; 
+  color: #333;
   border: none;
-  padding: 10px 20px; 
+  padding: 10px 20px;
   border-radius: 5px;
   font-size: 18px;
   text-align: center;
@@ -249,17 +248,17 @@ body{
 }
 
 .btn-cart:hover {
-  background-color: #ece7e7; 
+  background-color: #ece7e7;
   color: #000;
 }
 
 .btn-events {
-  background-color: #ffcc80; 
+  background-color: #ffcc80;
   font-family: monospace;
-  color: #663300; 
+  color: #663300;
   border: none;
-  padding: 10px 30px; 
-  border-radius: 5px; 
+  padding: 10px 30px;
+  border-radius: 5px;
   font-size: 18px;
   text-align: center;
   text-decoration: none;
@@ -278,18 +277,18 @@ body{
 }
 
 .NavigationLogoImage {
-    position: relative;
-    height: 35px;
-    width: 35px;
+  position: relative;
+  height: 35px;
+  width: 35px;
 }
 
 .NavigationLink {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    text-decoration: none !important;
-    color: #020101;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none !important;
+  color: #020101;
 }
 
 .NavigationTitle {
@@ -297,7 +296,7 @@ body{
   padding: 5px 15px;
   border-radius: 100px;
   background: #f4f4f4;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   margin: 10px 0;
 }
 
@@ -338,7 +337,7 @@ body{
   cursor: pointer;
   display: block;
   max-width: 400px;
-  transition: .2s ease;
+  transition: 0.2s ease;
 }
 
 .modal-title-description {
@@ -426,7 +425,7 @@ body{
   gap: 7px;
   justify-content: space-between;
   padding: 15px 25px;
-  border-bottom: 1px solid rgba(0,0,0,.08);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .CartBlockInfo {
@@ -491,7 +490,8 @@ body{
   padding-top: 15px;
 }
 
-.plus-to-cart-button, .minus-to-cart-button {
+.plus-to-cart-button,
+.minus-to-cart-button {
   position: relative;
   width: 36px;
   height: 36px;
@@ -524,7 +524,7 @@ body{
 .ButtonBlockWrapper {
   background: #ffffff;
   mix-blend-mode: normal;
-  box-shadow: 0 -7px 10px rgba(0,0,0,.06);
+  box-shadow: 0 -7px 10px rgba(0, 0, 0, 0.06);
   position: fixed;
   left: 0;
   right: 0;
@@ -548,7 +548,7 @@ body{
   cursor: pointer;
   display: block;
   max-width: 400px;
-  transition: .2s ease;
+  transition: 0.2s ease;
 }
 
 .TextTotalPrice p {
@@ -590,7 +590,7 @@ body{
 }
 
 .Table img {
-  width: 125px; 
+  width: 125px;
   height: 100px;
   padding: 2px 2px 2px 2px;
 }
@@ -606,7 +606,7 @@ body{
 .ButtonBlockWrappercart {
   background: #ffffff;
   mix-blend-mode: normal;
-  box-shadow: 0 -7px 10px rgba(0,0,0,.06);
+  box-shadow: 0 -7px 10px rgba(0, 0, 0, 0.06);
   position: fixed;
   left: 0;
   right: 0;
@@ -630,7 +630,7 @@ body{
   cursor: pointer;
   display: block;
   max-width: 400px;
-  transition: .2s ease;
+  transition: 0.2s ease;
 }
 
 .ButtonWrapperDivcart {
@@ -648,7 +648,7 @@ body{
 .ButtonBlockWrapperTable {
   background: #ffffff;
   mix-blend-mode: normal;
-  box-shadow: 0 -7px 10px rgba(0,0,0,.06);
+  box-shadow: 0 -7px 10px rgba(0, 0, 0, 0.06);
   left: 0;
   right: 0;
   position: absolute;
@@ -669,7 +669,7 @@ body{
   margin: 1em 25px;
   cursor: pointer;
   max-width: 400px;
-  transition: .2s ease;
+  transition: 0.2s ease;
 }
 
 .ButtonWrapperDivTable {
@@ -687,7 +687,7 @@ body{
 .ButtonBlockWrapperQuantityPeople {
   background: #ffffff;
   mix-blend-mode: normal;
-  box-shadow: 0 -7px 10px rgba(0,0,0,.06);
+  box-shadow: 0 -7px 10px rgba(0, 0, 0, 0.06);
   position: fixed;
   left: 0;
   right: 0;
@@ -711,10 +711,10 @@ body{
   cursor: pointer;
   display: block;
   max-width: 400px;
-  transition: .2s ease;
+  transition: 0.2s ease;
 }
 
-.ButtonWrapperDivQuantityPeople{
+.ButtonWrapperDivQuantityPeople {
   position: relative;
 }
 
@@ -729,15 +729,15 @@ body{
 .EventsBlock {
   display: flex;
   flex-direction: row;
-  align-items: flex-start; 
+  align-items: flex-start;
   justify-content: flex-start;
   background: var(--pizza-card-bg);
   box-shadow: var(--pizza-card-shadow);
   border-radius: 18px;
   width: 97%;
-  margin-bottom: 8px; 
+  margin-bottom: 8px;
   cursor: pointer;
-  transition: all .15s ease;
+  transition: all 0.15s ease;
 }
 
 .EventImageWrapper img {
@@ -764,7 +764,7 @@ body{
   cursor: pointer;
   display: block;
   max-width: 400px;
-  transition: .2s ease;
+  transition: 0.2s ease;
 }
 
 .modal-image-event img {
@@ -809,5 +809,32 @@ body{
 
 .ButtonWrapperAtable.disabled {
   background-color: grey;
-  pointer-events: none; 
+  pointer-events: none;
+}
+.circle-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  padding-bottom: 28px;
+  border-radius: 50%;
+  width: 120px; /* Ширина круглая кнопки */
+  height: 120px; /* Высота круглой кнопки */
+  color: black; /* Цвет текста и иконки */
+  font-size: 15px; /* Размер текста */
+  text-decoration: none;
+  font-weight: 450;
+  background-color: #efefef; /* Фон круглой кнопки */
+}
+
+.option p {
+  font-size: 40px;
+  padding: 5px px 5px 5px;
 }

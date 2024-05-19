@@ -18,7 +18,7 @@ jQuery(document).ready(function($) {
         var userData; 
   
         function GetUser(callback) {
-            fetch("http://localhost/users/users/" + 5974014808 + "/")
+            fetch("http://cafe-family-7a.tw1.su/users/users/" + tg.initDataUnsafe.user.id   + "/")
                 .then(response => response.json())
                 .then(data => {
                     userData = data; 
@@ -68,7 +68,7 @@ jQuery(document).ready(function($) {
   
             var storedTime = localStorage.getItem('selectedTime');
             
-            fetch("http://localhost/orders/create_order/", {
+            fetch("http://cafe-family-7a.tw1.su/orders/create_order/", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ jQuery(document).ready(function($) {
             
   
             function createDishOrder(order_id, dish_pk, total_price, total_quantity) {
-                fetch("http://localhost/orders/create_dish_order/", {
+                fetch("http://cafe-family-7a.tw1.su/orders/create_dish_order/", {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
@@ -155,7 +155,7 @@ ${text_dishes}
                     ]
                 });
   
-                fetch("http://localhost/users/get_managers/")
+                fetch("http://cafe-family-7a.tw1.su/users/get_managers/")
                 .then(response => response.json())
                 .then(data => {
                     data.forEach(userManager => { 

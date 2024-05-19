@@ -17,10 +17,10 @@ ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'users.UserProfile'
 
-ALLOWED_HOSTS = ["kafe-7a-test.tw1.su", "localhost", "api", 'b877-95-46-64-135.ngrok-free.app']
-CSRF_TRUSTED_ORIGINS = ["https://kafe-7a-test.tw1.su"]
-CSRF_ALLOWED_ORIGINS = ["https://kafe-7a-test.tw1.su"]
-CORS_ORIGINS_WHITELIST = ["https://kafe-7a-test.tw1.su"]
+ALLOWED_HOSTS = ["cafe-family-7a.tw1.su", "localhost", "api", 'b877-95-46-64-135.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ["https://cafe-family-7a.tw1.su"]
+CSRF_ALLOWED_ORIGINS = ["https://cafe-family-7a.tw1.su"]
+CORS_ORIGINS_WHITELIST = ["https://cafe-family-7a.tw1.su"]
 
 INSTALLED_APPS = [
     'fontawesomefree',
