@@ -40,7 +40,7 @@ services:
     image: nginx:latest
     ports:
       - "80:80"
-      # - "443:443"
+      - "443:443"
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
@@ -54,6 +54,6 @@ services:
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-    command: certonly --webroot -w /var/www/certbot --force-renewal --email geniumobile@gmail.com -d cafe-family-7a.su --agree-tos
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email geniumobile@gmail.com -d cafe-family-7a.tw1.su --agree-tos
 volumes:
  postgres_data:

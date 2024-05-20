@@ -25,8 +25,6 @@ class Migration(migrations.Migration):
                 ('datetime_created', models.DateTimeField(auto_now=True, verbose_name='Время создания')),
                 ('datetime_selected', models.TimeField(blank=True, null=True, verbose_name='Указанное время')),
                 ('status', models.CharField(blank=True, null=True, verbose_name='Статус')),
-                ('longitude', models.CharField(blank=True, default='-', null=True, verbose_name='Долгота')),
-                ('latitude', models.CharField(blank=True, default='-', null=True, verbose_name='Широта')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Покупатель')),
             ],
             options={

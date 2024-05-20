@@ -46,14 +46,14 @@ class Orders(models.Model):
     )
     longitude = models.CharField(
         verbose_name='Долгота',
+        default=0,
         null=True,
         blank=True,
-        default='-'    
     )
     latitude = models.CharField(
         verbose_name='Широта',
-        default='-',
         null=True,
+        default=0,
         blank=True,
     )
     

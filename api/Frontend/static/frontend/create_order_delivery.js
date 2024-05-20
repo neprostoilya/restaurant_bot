@@ -8,7 +8,7 @@ jQuery(document).ready(function($) {
     var userData;
 
     function GetUser(callback) {
-      fetch("http://cafe-family-7a.tw1.su/users/users/" + tg.initDataUnsafe.user.id  + "/")
+      fetch("https://cafe-family-7a.tw1.su/users/users/" + tg.initDataUnsafe.user.id  + "/")
         .then(response => response.json())
         .then(data => {
           userData = data;
@@ -60,7 +60,7 @@ jQuery(document).ready(function($) {
         text_dishes += `<b>Блюдо</b> <code>#${i+1}</code>\n<b>Название:</b> <code>${item.title}</code>\n<b>Колл-во:</b> <code>${item.quantity}</code>\n<b>Цена:</b> <code>${item.total_price}</code> <b>сум</b>\n\n`;
       });
 
-      fetch("http://cafe-family-7a.tw1.su/orders/create_order/", {
+      fetch("https://cafe-family-7a.tw1.su/orders/create_order/", {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ jQuery(document).ready(function($) {
 
 
       function createDishOrder(order_id, dish_pk, total_price, total_quantity) {
-        fetch("http://cafe-family-7a.tw1.su/orders/create_dish_order/", {
+        fetch("https://cafe-family-7a.tw1.su/orders/create_dish_order/", {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
@@ -147,7 +147,7 @@ ${text_dishes}
           ]
         });
 
-        fetch("http://cafe-family-7a.tw1.su/users/get_managers/")
+        fetch("https://cafe-family-7a.tw1.su/users/get_managers/")
           .then(response => response.json())
           .then(data => {
             data.forEach(userManager => {
