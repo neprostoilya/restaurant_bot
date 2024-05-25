@@ -1,4 +1,4 @@
-#  restaurant Bot
+#  Restaurant Bot
 
 Restaurant Bot is a comprehensive dining app designed to enhance your restaurant experience. 
 It offers seamless food ordering, table reservations, and pick-up options, all within a user-friendly interface. 
