@@ -1,6 +1,6 @@
-#  Restouran Bot
+#  restaurant Bot
 
-Restoran Bot is a comprehensive dining app designed to enhance your restaurant experience. 
+Restaurant Bot is a comprehensive dining app designed to enhance your restaurant experience. 
 It offers seamless food ordering, table reservations, and pick-up options, all within a user-friendly interface. 
 With Restoran Bot, enjoy real-time menu browsing, quick reservations, and hassle-free orders, making your dining experience smoother than ever.
 
@@ -28,10 +28,10 @@ Link bot in telegram: https://t.me/Cafe_7a_bot
 
 ```
     mkdir /var/www/ 
-    mkdir /var/www/restourant_bot/
-    cd /var/www/restourant_bot/
-    git clone https://github.com/neprostoilya/reustoran_bot.git
-    cd restourant_bot/
+    mkdir /var/www/restaurant_bot/
+    cd /var/www/restaurant_bot/
+    git clone https://github.com/neprostoilya/restaurant_bot.git
+    cd restaurant_bot/
 ```
 
 3. Setup in .env file
@@ -42,7 +42,7 @@ Link bot in telegram: https://t.me/Cafe_7a_bot
     
     DEBUG=1 or 0 
     
-    TOKEN_BOT_1=token_for_restouran_bot
+    TOKEN_BOT_1=token_for_restaurant_bot
     
     TOKEN_BOT_2=token_for_manager_bot
     
